@@ -9,7 +9,7 @@
     "email": "bioluminescentgames@gmail.com"
   },
   "dependencies": {
-    "com.cysharp.zlinq": "git+https://github.com/Cysharp/ZLinq.git?path=src/ZLinq.Unity/Assets/ZLinq.Unity"
+    "com.cysharp.zlinq": "git+https://github.com/Cysharp/ZLinq?path=src/ZLinq.Unity/Assets/ZLinq.Unity"
   },
   "category": "Scripting",
   "license": "ARR"
