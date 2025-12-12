@@ -1,0 +1,16 @@
+{
+    "name": "BioluminescentGames.Utils.DependencyInjection",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3f39190e3243df24b8133172556d06f7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,16 @@
+{
+    "name": "BioluminescentGames.Systems.Settings",
+    "rootNamespace": "BioluminescentGames.Systems.Settings",
+    "references": [
+        "GUID:a43b9e359b3bfe7408a0a7380e0e49c9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

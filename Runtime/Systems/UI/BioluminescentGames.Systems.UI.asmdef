@@ -1,0 +1,19 @@
+{
+    "name": "BioluminescentGames.Systems.UI",
+    "rootNamespace": "BioluminescentGames.Systems.UI",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:3f39190e3243df24b8133172556d06f7",
+        "GUID:6ac92135e5edd094f8acde8d3d6ce190"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

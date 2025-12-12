@@ -1,0 +1,16 @@
+{
+  "name": "com.bioluminescentgames.utils",
+  "version": "1.0.0",
+  "displayName": "BioluminescentGames.Utils",
+  "description": "Bioluminescent Games Utils",
+  "unity": "6000.3",
+  "author": {
+    "name": "Bioluminescent Games",
+    "email": "bioluminescentgames@gmail.com"
+  },
+  "dependencies": {
+    "com.cysharp.zlinq": "https://github.com/Cysharp/ZLinq.git?path=src/ZLinq.Unity/Assets/ZLinq.Unity"
+  },
+  "category": "Scripting",
+  "license": "ARR"
+}
