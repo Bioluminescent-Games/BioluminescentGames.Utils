@@ -1,6 +1,7 @@
 #if UNITY_NGO
 
 using BioluminescentGames.Utils;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace BioluminescentGames.Components
