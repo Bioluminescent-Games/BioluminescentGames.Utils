@@ -1,12 +1,12 @@
-using BioluminescentGames.Utils.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using BioluminescentGames.Systems.UpdateSystem;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace BioluminescentGames.Utils
 {
-    public class TimingsManager : MonoBehaviour, IDependencyProvider
+    public class TimingsManager : BioluminescentBehaviour
     {
         private readonly Dictionary<int, TickDelay> _tickDelayDictionary = new();
 
@@ -15,9 +15,9 @@ namespace BioluminescentGames.Utils
         public float TotalTimePassed { get; private set; }
         public float TotalTimePassedUnscaled { get; private set; }
 
-        private const float TICK_DURATION = 0.05f;
+        private const float k_TickDuration = 0.05f;
 
-        private void Update()
+        public override void OnUpdate()
         {
             UpdateTimings();
         }
@@ -27,7 +27,7 @@ namespace BioluminescentGames.Utils
             TotalTimePassed += Time.deltaTime;
             TotalTimePassedUnscaled += Time.unscaledDeltaTime;
 
-            int totalTicksPassed = Mathf.FloorToInt(TotalTimePassed / TICK_DURATION);
+            int totalTicksPassed = Mathf.FloorToInt(TotalTimePassed / k_TickDuration);
 
             while (totalTicksPassed < GameTicks)
             {
@@ -43,7 +43,7 @@ namespace BioluminescentGames.Utils
         private void HandleInvokeTickDelayEvent(int gameTicks)
         {
             if (!_tickDelayDictionary.TryGetValue(gameTicks, out TickDelay tickDelay)) return;
-            
+
             tickDelay.Invoke();
             _tickDelayDictionary.Remove(gameTicks);
         }
@@ -108,7 +108,5 @@ namespace BioluminescentGames.Utils
                 }
             }
         }
-
-        [Provide] private TimingsManager ProvideTimingsManager() => this;
     }
 }

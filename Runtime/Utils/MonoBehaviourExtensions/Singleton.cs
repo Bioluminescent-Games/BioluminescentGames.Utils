@@ -1,3 +1,4 @@
+using BioluminescentGames.Systems.UpdateSystem;
 using UnityEngine;
 
 #if UNITY_NGO
@@ -55,11 +56,61 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             if (Application.isPlaying)
                 instance = this as TSelf;
         }
+    }
 
-        /*[RuntimeInitializeOnLoadMethod]
-        private static void RuntimeInitializeOnLoad() {
-            instance = null;
-        }*/
+    /// <summary>
+    /// Template for creating singletons for MonoBehaviours
+    /// </summary>
+    /// <typeparam name="TSelf">The type inheriting from MonoSingleton</typeparam>
+    public abstract class BioluminescentSingleton<TSelf> : BioluminescentBehaviour where TSelf : BioluminescentSingleton<TSelf>
+    {
+        protected static TSelf instance;
+
+        public static bool HasInstance => instance != null;
+        public static TSelf TryGetInstance() => HasInstance ? instance : null;
+        public static TSelf Current => instance;
+
+        public static TSelf Instance
+        {
+            get
+            {
+                if (instance)
+                    return instance;
+
+                instance = FindFirstObjectByType<TSelf>();
+                if (instance)
+                    return instance;
+
+                Debug.LogWarning($"Auto-creating instance for {typeof(TSelf).Name}");
+
+                GameObject obj = new()
+                {
+                    name = typeof(TSelf).Name + " AutoCreated"
+                };
+                return instance = obj.AddComponent<TSelf>();
+            }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            InitializeSingleton();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            if (instance == this)
+                instance = null;
+        }
+
+        protected virtual void InitializeSingleton()
+        {
+            if (Application.isPlaying)
+                instance = this as TSelf;
+        }
     }
 
     /// <summary>
@@ -83,11 +134,6 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 return instance = new TSelf();
             }
         }
-
-        /*[RuntimeInitializeOnLoadMethod]
-        private static void RuntimeInitializeOnLoad() {
-            instance = null;
-        }*/
     }
 
     #if UNITY_NGO
@@ -135,11 +181,6 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
             instance = this as TSelf;
         }
-
-        /*[RuntimeInitializeOnLoadMethod]
-        private static void RuntimeInitializeOnLoad() {
-            instance = null;
-        }*/
     }
 
     public abstract class LocalNetworkSingleton<TSelf> : NetworkBehaviour where TSelf : LocalNetworkSingleton<TSelf>
@@ -182,11 +223,6 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             if (Application.isPlaying && IsOwner)
                 local = this as TSelf;
         }
-
-        /*[RuntimeInitializeOnLoadMethod]
-        private static void RuntimeInitializeOnLoad() {
-            local = null;
-        }*/
     }
 #endif
 
@@ -235,11 +271,6 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             if (Application.isPlaying)
                 instance = this as TSelf;
         }
-
-        /*[RuntimeInitializeOnLoadMethod]
-        private static void RuntimeInitializeOnLoad() {
-            instance = null;
-        }*/
     }
 
     /// <summary>
@@ -287,11 +318,6 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             if (Application.isPlaying)
                 instance = this as TSelf;
         }
-
-        /*[RuntimeInitializeOnLoadMethod]
-        private static void RuntimeInitializeOnLoad() {
-            instance = null;
-        }*/
     }
     // ReSharper restore InconsistentNaming
     // ReSharper restore MemberCanBePrivate.Global

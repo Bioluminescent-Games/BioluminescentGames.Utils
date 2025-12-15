@@ -2,7 +2,8 @@
     "name": "BioluminescentGames.Utils.MonoBehaviourExtensions",
     "rootNamespace": "",
     "references": [
-        "GUID:1491147abca9d7d4bb7105af628b223e"
+        "GUID:1491147abca9d7d4bb7105af628b223e",
+        "GUID:ac3941f048a5c434c8a38848429b3e09"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BioluminescentGames.Systems.UpdateSystem;
 using BioluminescentGames.Utils;
 using TMPro;
 using UnityEngine;
@@ -7,16 +8,18 @@ using UnityEngine;
 namespace BioluminescentGames.Components
 {
     [RequireComponent(typeof(TMP_Text))]
-    public class FPSView : MonoBehaviour
+    public class FPSView : BioluminescentBehaviour
     {
         private TMP_Text _text;
-        
+
         private readonly List<float> _frameTimes = new ();
-        
-        private void Awake()
+
+        protected override void Awake()
         {
+            base.Awake();
+
             _text = GetComponent<TMP_Text>();
-            
+
             TimeUtils.Instance.ExecuteRepeating(() =>
             {
                 float average = _frameTimes.Aggregate(0.0f, (current, f) => current += f) / _frameTimes.Count;
@@ -25,7 +28,7 @@ namespace BioluminescentGames.Components
             }, 0.1f, () => true);
         }
 
-        private void Update()
+        public override void OnUpdate()
         {
             _frameTimes.Add(Time.unscaledDeltaTime);
         }

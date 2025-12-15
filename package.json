@@ -8,6 +8,9 @@
     "name": "Bioluminescent Games",
     "email": "bioluminescentgames@gmail.com"
   },
+  "dependencies": {
+    "com.unity.entities": "1.4.3"
+  },
   "category": "Scripting",
   "license": "ARR"
 }

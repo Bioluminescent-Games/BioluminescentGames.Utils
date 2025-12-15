@@ -1,37 +1,36 @@
-﻿using BioluminescentGames.Utils.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils
 {
-    public class TimeUtils : MonoSingleton<TimeUtils>, IDependencyProvider
+    public class TimeUtils : BioluminescentSingleton<TimeUtils>
     {
-        public event Action OnUpdate;
-        public event Action OnLateUpdate;
-        public event Action OnFixedUpdate;
-        
+        public event Action Updated;
+        public event Action LateUpdated;
+        public event Action FixedUpdated;
+
         protected override void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            
+
             base.Awake();
         }
 
-        private void Update()
+        public override void OnUpdate()
         {
-            OnUpdate?.Invoke();
+            Updated?.Invoke();
         }
 
         private void LateUpdate()
         {
-            OnLateUpdate?.Invoke();
+            LateUpdated?.Invoke();
         }
 
         private void FixedUpdate()
         {
-            OnFixedUpdate?.Invoke();
+            FixedUpdated?.Invoke();
         }
 
         public void ExecuteOnNextFrame(Action action) => StartCoroutine(ExecuteOnNextFrameImpl(action));
@@ -78,7 +77,5 @@ namespace BioluminescentGames.Utils
                 yield return new WaitForSeconds(repeatRateSeconds);
             }
         }
-
-        [Provide] private TimeUtils ProvideTimeUtils() => this;
     }
 }

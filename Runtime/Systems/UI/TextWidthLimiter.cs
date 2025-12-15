@@ -1,23 +1,25 @@
+using BioluminescentGames.Systems.UpdateSystem;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BackroomsGame.Systems.UI
 {
     [RequireComponent(typeof(TMP_Text))]
     [ExecuteAlways]
-    public class TextWidthLimiter : MonoBehaviour
+    public class TextWidthLimiter : BioluminescentBehaviour
     {
         [SerializeField] private float maxWidth = 800f;
-        
+
         private TMP_Text _text;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             _text = GetComponent<TMP_Text>();
         }
 
-        private void Update()
+        public override void OnUpdate()
         {
             bool exceeds = _text.preferredWidth > maxWidth;
             _text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,

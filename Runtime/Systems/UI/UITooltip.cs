@@ -1,17 +1,18 @@
+using BioluminescentGames.Systems.UpdateSystem;
 using BioluminescentGames.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace BackroomsGame.Systems.UI
 {
-    public class UITooltip : MonoBehaviour
+    public class UITooltip : BioluminescentBehaviour
     {
         public string title;
         public string description;
 
         private bool _visible;
 
-        private void Update()
+        public override void OnUpdate()
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
 
@@ -30,7 +31,7 @@ namespace BackroomsGame.Systems.UI
         {
             if (_visible)
                 return;
-            
+
             _visible = true;
             TooltipMangerUI.Instance.SetTooltip(title, description);
         }
@@ -39,7 +40,7 @@ namespace BackroomsGame.Systems.UI
         {
             if (!_visible)
                 return;
-            
+
             _visible = false;
             TooltipMangerUI.Instance.ClearTooltip();
         }
