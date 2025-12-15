@@ -32,7 +32,7 @@ public class NoUnityEventFunctionSyntaxAnalyzer : DiagnosticAnalyzer
     private const string k_Category = "Performance";
 
     private static readonly DiagnosticDescriptor Rule = new(DIAGNOSTIC_ID, Title, MessageFormat, k_Category,
-        DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
+        DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
     // Keep in mind: you have to list your rules here.
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =

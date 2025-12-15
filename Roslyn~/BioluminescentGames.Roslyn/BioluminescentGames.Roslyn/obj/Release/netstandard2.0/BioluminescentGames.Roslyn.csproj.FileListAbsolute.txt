@@ -1,0 +1,13 @@
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\bin\Release\netstandard2.0\BioluminescentGames.Roslyn.deps.json
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\bin\Release\netstandard2.0\BioluminescentGames.Roslyn.dll
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\bin\Release\netstandard2.0\BioluminescentGames.Roslyn.pdb
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.csproj.AssemblyReference.cache
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.Resources.resources
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.csproj.GenerateResource.cache
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.GeneratedMSBuildEditorConfig.editorconfig
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.AssemblyInfoInputs.cache
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.AssemblyInfo.cs
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.csproj.CoreCompileInputs.cache
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.sourcelink.json
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.dll
+D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Roslyn~\BioluminescentGames.Roslyn\BioluminescentGames.Roslyn\obj\Release\netstandard2.0\BioluminescentGames.Roslyn.pdb
