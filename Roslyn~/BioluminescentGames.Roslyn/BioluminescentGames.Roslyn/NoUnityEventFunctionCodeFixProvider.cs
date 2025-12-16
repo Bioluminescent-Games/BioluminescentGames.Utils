@@ -89,7 +89,7 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
                         // Match: MonoSingleton<TSelf>
                         case INamedTypeSymbol
                         {
-                            Name: "MonoSingleton", IsGenericType: true, TypeArguments.Length: 1
+                            Name: "MonoSingleton", IsGenericType: true, Arity: 1
                         } monoSingletonSymbol:
                         {
                             string tSelf = monoSingletonSymbol.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
@@ -103,7 +103,7 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
                         // Match: NetworkSingleton<TSelf>
                         case INamedTypeSymbol
                         {
-                            Name: "NetworkSingleton", IsGenericType: true, TypeArguments.Length: 1
+                            Name: "NetworkSingleton", IsGenericType: true, Arity: 1
                         } networkSingletonSymbol:
                         {
                             string tSelf = networkSingletonSymbol.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
@@ -117,7 +117,7 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
                         // Match: NetworkBehaviour
                         case INamedTypeSymbol
                         {
-                            Name: "NetworkBehaviour", IsGenericType: true, TypeArguments.Length: 1
+                            Name: "NetworkBehaviour"
                         }:
                             bases = bases.Replace(
                                 baseType,
