@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
@@ -38,8 +40,16 @@ namespace BioluminescentGames.Systems.UpdateSystem
         {
             if (_listIsDirty)
             {
+#if UNITY_EDITOR || BUILD_DEBUG
+                Profiler.BeginSample("Sort UpdateList");
+#endif
+
                 SortUpdateList();
                 _listIsDirty = false;
+
+#if UNITY_EDITOR || BUILD_DEBUG
+                Profiler.EndSample();
+#endif
             }
 
             foreach (IUpdatable updatable in _updatables)
@@ -47,7 +57,9 @@ namespace BioluminescentGames.Systems.UpdateSystem
 #if UNITY_EDITOR || BUILD_DEBUG
                 Profiler.BeginSample(updatable.GetType().Name);
 #endif
+
                 updatable.OnUpdate();
+
 #if UNITY_EDITOR || BUILD_DEBUG
                 Profiler.EndSample();
 #endif
@@ -58,12 +70,13 @@ namespace BioluminescentGames.Systems.UpdateSystem
         {
             _updatables.Sort((updatableA, updatableB) =>
             {
-                MonoBehaviour behaviourA = updatableA as MonoBehaviour;
+                /*MonoBehaviour behaviourA = updatableA as MonoBehaviour;
                 MonoBehaviour behaviourB = updatableB as MonoBehaviour;
 
                 Debug.Assert(behaviourA != null && behaviourB != null);
 
-                return behaviourA.gameObject.GetInstanceID().CompareTo(behaviourB.gameObject.GetInstanceID());
+                return behaviourA.gameObject.GetInstanceID().CompareTo(behaviourB.gameObject.GetInstanceID());*/
+                return string.Compare(updatableA.GetType().Name, updatableB.GetType().Name, StringComparison.InvariantCulture);
             });
         }
 
