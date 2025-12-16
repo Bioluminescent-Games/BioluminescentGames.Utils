@@ -44,9 +44,13 @@ namespace BioluminescentGames.Systems.UpdateSystem
 
             foreach (IUpdatable updatable in _updatables)
             {
+#if UNITY_EDITOR || BUILD_DEBUG
                 Profiler.BeginSample(updatable.GetType().Name);
+#endif
                 updatable.OnUpdate();
+#if UNITY_EDITOR || BUILD_DEBUG
                 Profiler.EndSample();
+#endif
             }
         }
 
