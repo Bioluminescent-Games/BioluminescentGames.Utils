@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BioluminescentGames.Roslyn")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5fa30f5299fb3e3f1808a1563d71b46935e728c1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+332501e774b67500a979923d6ba185fda1d464ca")]
 [assembly: System.Reflection.AssemblyProductAttribute("BioluminescentGames.Roslyn")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BioluminescentGames.Roslyn")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -84,56 +84,59 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
 
                     ITypeSymbol? baseTypeSymbol = semanticModel.GetTypeInfo(baseTypeSyntax, cancellationToken).Type;
 
-                    switch (baseTypeSymbol)
+                    if (baseTypeSymbol is INamedTypeSymbol named)
                     {
-                        // Match: MonoSingleton<TSelf>
-                        case INamedTypeSymbol
+                        INamedTypeSymbol original = named.OriginalDefinition;
+                        string shortName = original.Name;
+                        int arity = original.Arity;
+
+                        // MonoSingleton<TSelf>
+                        if (shortName == "MonoSingleton" && arity == 1)
                         {
-                            Name: "MonoSingleton", IsGenericType: true, Arity: 1
-                        } monoSingletonSymbol:
-                        {
-                            string tSelf = monoSingletonSymbol.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+                            string tSelf = named.TypeArguments.Length > 0
+                                ? named.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
+                                : "TSelf";
 
                             bases = bases.Replace(
                                 baseType,
                                 SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName($"BioluminescentSingleton<{tSelf}>"))
                             );
-                            break;
+                            continue;
                         }
-                        // Match: NetworkSingleton<TSelf>
-                        case INamedTypeSymbol
+
+                        // NetworkSingleton<TSelf>
+                        if (shortName == "NetworkSingleton" && arity == 1)
                         {
-                            Name: "NetworkSingleton", IsGenericType: true, Arity: 1
-                        } networkSingletonSymbol:
-                        {
-                            string tSelf = networkSingletonSymbol.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+                            string tSelf = named.TypeArguments.Length > 0
+                                ? named.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
+                                : "TSelf";
 
                             bases = bases.Replace(
                                 baseType,
                                 SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName($"BioluminescentNetworkSingleton<{tSelf}>"))
                             );
-                            break;
+                            continue;
                         }
-                        // Match: NetworkBehaviour
-                        case INamedTypeSymbol
+
+                        // NetworkBehaviour (non-generic)
+                        if (shortName == "NetworkBehaviour")
                         {
-                            Name: "NetworkBehaviour"
-                        }:
                             bases = bases.Replace(
                                 baseType,
                                 SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("BioluminescentNetworkBehaviour"))
                             );
-                            break;
-                        // Match: UnityEngine.MonoBehaviour
-                        case INamedTypeSymbol
+                            continue;
+                        }
+
+                        // UnityEngine.MonoBehaviour (non-generic)
+                        if (shortName == "MonoBehaviour")
                         {
-                            Name: "MonoBehaviour"
-                        }:
                             bases = bases.Replace(
                                 baseType,
                                 SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("BioluminescentBehaviour"))
                             );
-                            break;
+                            continue;
+                        }
                     }
                 }
 
