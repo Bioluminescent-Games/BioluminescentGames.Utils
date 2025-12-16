@@ -1,5 +1,5 @@
-using BioluminescentGames.Systems.UpdateSystem;
 using BioluminescentGames.Utils;
+using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

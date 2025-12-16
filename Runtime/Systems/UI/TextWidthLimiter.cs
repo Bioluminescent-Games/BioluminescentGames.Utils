@@ -1,4 +1,4 @@
-using BioluminescentGames.Systems.UpdateSystem;
+using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using TMPro;
 using UnityEngine;
 

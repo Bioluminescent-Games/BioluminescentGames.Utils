@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using SyntaxFactory = Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
-using SyntaxKind = Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 namespace BioluminescentGames.Roslyn;
 
@@ -66,8 +65,86 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
 
         CompilationUnitSyntax updatedRoot = compilationUnit.ReplaceNode(declaration, updatedMethod);
 
+        // Update the containing class base type:
+        // - MonoBehaviour => BioluminescentBehaviour
+        // - MonoSingleton<TSelf> => BioluminescentSingleton<TSelf>
+        ClassDeclarationSyntax? containingClass = declaration.FirstAncestorOrSelf<ClassDeclarationSyntax>();
+        if (containingClass is not null && semanticModel is not null)
+        {
+            ClassDeclarationSyntax updatedClass = containingClass;
+
+            if (containingClass.BaseList is not null)
+            {
+                SeparatedSyntaxList<BaseTypeSyntax> bases = containingClass.BaseList.Types;
+
+                for (int i = 0; i < bases.Count; i++)
+                {
+                    BaseTypeSyntax baseType = bases[i];
+                    TypeSyntax baseTypeSyntax = baseType.Type;
+
+                    ITypeSymbol? baseTypeSymbol = semanticModel.GetTypeInfo(baseTypeSyntax, cancellationToken).Type;
+
+                    switch (baseTypeSymbol)
+                    {
+                        // Match: MonoSingleton<TSelf>
+                        case INamedTypeSymbol
+                        {
+                            Name: "MonoSingleton", IsGenericType: true, TypeArguments.Length: 1
+                        } monoSingletonSymbol:
+                        {
+                            string tSelf = monoSingletonSymbol.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+
+                            bases = bases.Replace(
+                                baseType,
+                                SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName($"BioluminescentSingleton<{tSelf}>"))
+                            );
+                            break;
+                        }
+                        // Match: NetworkSingleton<TSelf>
+                        case INamedTypeSymbol
+                        {
+                            Name: "NetworkSingleton", IsGenericType: true, TypeArguments.Length: 1
+                        } networkSingletonSymbol:
+                        {
+                            string tSelf = networkSingletonSymbol.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+
+                            bases = bases.Replace(
+                                baseType,
+                                SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName($"BioluminescentNetworkSingleton<{tSelf}>"))
+                            );
+                            break;
+                        }
+                        // Match: NetworkBehaviour
+                        case INamedTypeSymbol
+                        {
+                            Name: "NetworkBehaviour", IsGenericType: true, TypeArguments.Length: 1
+                        }:
+                            bases = bases.Replace(
+                                baseType,
+                                SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("BioluminescentNetworkBehaviour"))
+                            );
+                            break;
+                        // Match: UnityEngine.MonoBehaviour
+                        case INamedTypeSymbol
+                        {
+                            Name: "MonoBehaviour"
+                        }:
+                            bases = bases.Replace(
+                                baseType,
+                                SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("BioluminescentBehaviour"))
+                            );
+                            break;
+                    }
+                }
+
+                updatedClass = updatedClass.WithBaseList(containingClass.BaseList.WithTypes(bases));
+            }
+
+            updatedRoot = updatedRoot.ReplaceNode(containingClass, updatedClass);
+        }
+
         const string requiredUsing = "BioluminescentGames.Utils.MonoBehaviourExtensions";
-        bool hasUsing = updatedRoot.Usings.Any(u => u.Name.ToString() == requiredUsing);
+        bool hasUsing = updatedRoot.Usings.Any(u => u.Name?.ToString() == requiredUsing);
         if (!hasUsing)
         {
             UsingDirectiveSyntax usingDirective =

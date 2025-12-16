@@ -59,9 +59,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     }
 
     /// <summary>
-    /// Template for creating singletons for MonoBehaviours
+    /// Template for creating singletons for BioluminescentBehaviours
     /// </summary>
-    /// <typeparam name="TSelf">The type inheriting from MonoSingleton</typeparam>
+    /// <typeparam name="TSelf">The type inheriting from BioluminescentBehaviours</typeparam>
     public abstract class BioluminescentSingleton<TSelf> : BioluminescentBehaviour where TSelf : BioluminescentSingleton<TSelf>
     {
         protected static TSelf instance;
@@ -222,6 +222,57 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         {
             if (Application.isPlaying && IsOwner)
                 local = this as TSelf;
+        }
+    }
+
+    /// <summary>
+    /// Template for creating singletons for BioluminescentNetworkBehaviour
+    /// </summary>
+    /// <typeparam name="TSelf">The type inheriting from BioluminescentNetworkSingleton</typeparam>
+    public abstract class BioluminescentNetworkSingleton<TSelf> : BioluminescentNetworkBehaviour where TSelf : BioluminescentNetworkSingleton<TSelf>
+    {
+        protected static TSelf instance;
+        public static bool HasInstance => instance != null;
+        public static TSelf TryGetInstance() => HasInstance ? instance : null;
+        public static TSelf Current => instance;
+
+        public static TSelf Instance
+        {
+            get
+            {
+                if (instance)
+                    return instance;
+
+                instance = FindFirstObjectByType<TSelf>();
+                if (instance)
+                    return instance;
+
+                Debug.LogError($"FATAL ERROR - {nameof(TSelf)} DOESNT HAVE AN INSTANCE!");
+
+                return null;
+            }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            InitializeSingleton();
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            if (instance == this)
+                instance = null;
+        }
+
+        protected virtual void InitializeSingleton()
+        {
+            if (!Application.isPlaying) return;
+
+            instance = this as TSelf;
         }
     }
 #endif
