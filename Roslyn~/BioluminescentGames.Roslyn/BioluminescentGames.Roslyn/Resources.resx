@@ -27,4 +27,7 @@
     <data name="BG0001Title" xml:space="preserve">
         <value>MonoBehaviour uses a disallowed Unity Event Function</value><comment>The title of the diagnostic.</comment>
     </data>
+    <data name="BG0001CodeFixTitle" xml:space="preserve">
+        <value>Use custom Update system</value>
+    </data>
 </root>

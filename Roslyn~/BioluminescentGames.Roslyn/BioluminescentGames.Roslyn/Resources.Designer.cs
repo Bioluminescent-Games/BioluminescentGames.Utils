@@ -60,6 +60,15 @@ namespace BioluminescentGames.Roslyn {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use custom Update system.
+        /// </summary>
+        internal static string BG0001CodeFixTitle {
+            get {
+                return ResourceManager.GetString("BG0001CodeFixTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not use Unity Event Functions that run often. It causes Unity to ask C# for the function every frame (which is slow)..
         /// </summary>
         internal static string BG0001Description {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BioluminescentGames.Systems.UpdateSystem
+namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 {
     public abstract class BioluminescentBehaviour : MonoBehaviour, IUpdatable
     {

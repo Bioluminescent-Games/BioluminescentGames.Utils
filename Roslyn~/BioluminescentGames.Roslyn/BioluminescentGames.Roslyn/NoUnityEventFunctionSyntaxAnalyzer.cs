@@ -31,7 +31,7 @@ public class NoUnityEventFunctionSyntaxAnalyzer : DiagnosticAnalyzer
 
     private const string k_Category = "Performance";
 
-    private static readonly DiagnosticDescriptor Rule = new(DIAGNOSTIC_ID, Title, MessageFormat, k_Category,
+    public static readonly DiagnosticDescriptor Rule = new(DIAGNOSTIC_ID, Title, MessageFormat, k_Category,
         DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
     // Keep in mind: you have to list your rules here.
@@ -48,7 +48,7 @@ public class NoUnityEventFunctionSyntaxAnalyzer : DiagnosticAnalyzer
 
         // Subscribe to the Syntax Node with the appropriate 'SyntaxKind' (ClassDeclaration) action.
         // To figure out which Syntax Nodes you should choose, consider installing the Roslyn syntax tree viewer plugin Rossynt: https://plugins.jetbrains.com/plugin/16902-rossynt/
-        context.RegisterSyntaxNodeAction(AnalyzeSyntax, SyntaxKind.MethodDeclaration);
+        context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.MethodDeclaration);
 
         // Check other 'context.Register...' methods that might be helpful for your purposes.
     }
@@ -57,7 +57,7 @@ public class NoUnityEventFunctionSyntaxAnalyzer : DiagnosticAnalyzer
     /// Executed for each Syntax Node with 'SyntaxKind' is 'ClassDeclaration'.
     /// </summary>
     /// <param name="context">Operation context.</param>
-    private void AnalyzeSyntax(SyntaxNodeAnalysisContext context)
+    private void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
         // The Roslyn architecture is based on inheritance.
         // To get the required metadata, we should match the 'Node' object to the particular type: 'ClassDeclarationSyntax'.
