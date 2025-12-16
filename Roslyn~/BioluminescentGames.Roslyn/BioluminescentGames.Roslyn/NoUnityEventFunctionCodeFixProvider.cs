@@ -65,6 +65,8 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
 
         CompilationUnitSyntax updatedRoot = compilationUnit.ReplaceNode(declaration, updatedMethod);
 
+        bool requiresUsing = false;
+
         // Update the containing class base type:
         // - MonoBehaviour => BioluminescentBehaviour
         // - MonoSingleton<TSelf> => BioluminescentSingleton<TSelf>
@@ -101,6 +103,7 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
                                 baseType,
                                 SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName($"BioluminescentSingleton<{tSelf}>"))
                             );
+                            requiresUsing = true;
                             continue;
                         }
 
@@ -115,6 +118,7 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
                                 baseType,
                                 SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName($"BioluminescentNetworkSingleton<{tSelf}>"))
                             );
+                            requiresUsing = true;
                             continue;
                         }
 
@@ -125,6 +129,7 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
                                 baseType,
                                 SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("BioluminescentNetworkBehaviour"))
                             );
+                            requiresUsing = true;
                             continue;
                         }
 
@@ -135,6 +140,7 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
                                 baseType,
                                 SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("BioluminescentBehaviour"))
                             );
+                            requiresUsing = true;
                             continue;
                         }
                     }
@@ -146,14 +152,17 @@ public class NoUnityEventFunctionCodeFixProvider : CodeFixProvider
             updatedRoot = updatedRoot.ReplaceNode(containingClass, updatedClass);
         }
 
-        const string requiredUsing = "BioluminescentGames.Utils.MonoBehaviourExtensions";
-        bool hasUsing = updatedRoot.Usings.Any(u => u.Name?.ToString() == requiredUsing);
-        if (!hasUsing)
+        if (requiresUsing)
         {
-            UsingDirectiveSyntax usingDirective =
-                SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(requiredUsing));
+            const string requiredUsing = "BioluminescentGames.Utils.MonoBehaviourExtensions";
+            bool hasUsing = updatedRoot.Usings.Any(u => u.Name?.ToString() == requiredUsing);
+            if (!hasUsing)
+            {
+                UsingDirectiveSyntax usingDirective =
+                    SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(requiredUsing));
 
-            updatedRoot = updatedRoot.AddUsings(usingDirective);
+                updatedRoot = updatedRoot.AddUsings(usingDirective);
+            }
         }
 
         Document updatedDocument = contextDocument.WithSyntaxRoot(updatedRoot);
