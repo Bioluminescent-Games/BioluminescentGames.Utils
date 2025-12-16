@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace BioluminescentGames.Systems.UpdateSystem
 {
@@ -43,7 +44,9 @@ namespace BioluminescentGames.Systems.UpdateSystem
 
             foreach (IUpdatable updatable in _updatables)
             {
+                Profiler.BeginSample(updatable.GetType().Name);
                 updatable.OnUpdate();
+                Profiler.EndSample();
             }
         }
 
