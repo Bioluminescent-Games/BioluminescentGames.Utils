@@ -1,4 +1,3 @@
-using BioluminescentGames.Systems.UpdateSystem;
 using UnityEngine;
 
 #if UNITY_NGO
@@ -311,7 +310,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         protected virtual void Awake() => InitializeSingleton();
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (instance == this)
                 instance = null;
@@ -358,7 +357,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         protected virtual void Awake() => InitializeSingleton();
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (instance == this)
                 instance = null;
@@ -370,6 +369,115 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 instance = this as TSelf;
         }
     }
+
+    /// <summary>
+    /// Template for creating singletons for UI
+    /// </summary>
+    /// <typeparam name="TSelf">The type inheriting from UISingleton</typeparam>
+    public abstract class BioluminescentUISingleton<TSelf> : BioluminescentUIBehaviour where TSelf : BioluminescentUISingleton<TSelf>
+    {
+        protected static TSelf instance;
+        public static bool HasInstance => instance != null;
+        public static TSelf TryGetInstance() => HasInstance ? instance : null;
+        public static TSelf Current => instance;
+
+        public static TSelf Instance
+        {
+            get
+            {
+                if (instance)
+                    return instance;
+
+                instance = FindFirstObjectByType<TSelf>();
+                if (instance)
+                    return instance;
+
+                Debug.LogWarning($"Auto-creating instance for {typeof(TSelf).Name}");
+
+                GameObject obj = new()
+                {
+                    name = typeof(TSelf).Name + " AutoCreated"
+                };
+                return instance = obj.AddComponent<TSelf>();
+            }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            InitializeSingleton();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            if (instance == this)
+                instance = null;
+        }
+
+        protected virtual void InitializeSingleton()
+        {
+            if (Application.isPlaying)
+                instance = this as TSelf;
+        }
+    }
+
+    /// <summary>
+    /// Template for creating singletons for PublicUI
+    /// </summary>
+    /// <typeparam name="TSelf">The type inheriting from PublicUISingleton</typeparam>
+    public abstract class BioluminescentPublicUISingleton<TSelf> : BioluminescentPublicUIBehaviour where TSelf : BioluminescentPublicUISingleton<TSelf>
+    {
+        protected static TSelf instance;
+        public static bool HasInstance => instance != null;
+        public static TSelf TryGetInstance() => HasInstance ? instance : null;
+        public static TSelf Current => instance;
+
+        public static TSelf Instance
+        {
+            get
+            {
+                if (instance)
+                    return instance;
+
+                instance = FindFirstObjectByType<TSelf>();
+                if (instance)
+                    return instance;
+
+                Debug.LogWarning($"Auto-creating instance for {typeof(TSelf).Name}");
+
+                GameObject obj = new()
+                {
+                    name = typeof(TSelf).Name + " AutoCreated"
+                };
+                return instance = obj.AddComponent<TSelf>();
+            }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            InitializeSingleton();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            if (instance == this)
+                instance = null;
+        }
+
+        protected virtual void InitializeSingleton()
+        {
+            if (Application.isPlaying)
+                instance = this as TSelf;
+        }
+    }
+
     // ReSharper restore InconsistentNaming
     // ReSharper restore MemberCanBePrivate.Global
 }
