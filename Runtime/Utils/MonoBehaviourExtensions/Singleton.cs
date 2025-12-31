@@ -90,12 +90,12 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             InitializeSingleton();
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (instance == this)
                 instance = null;
@@ -248,7 +248,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             InitializeSingleton();
         }
@@ -396,12 +396,12 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             InitializeSingleton();
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (instance == this)
                 instance = null;
@@ -446,12 +446,12 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             InitializeSingleton();
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (instance == this)
                 instance = null;
