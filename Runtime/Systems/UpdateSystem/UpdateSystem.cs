@@ -1,6 +1,9 @@
+#if UNITY_EDITOR || BUILD_DEBUG
+#define ENABLE_UPDATESYSTEM_PROFILING
+#endif
+
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
@@ -17,6 +20,11 @@ namespace BioluminescentGames.Systems.UpdateSystem
         private readonly List<IUpdatable> _updatables = new();
 
         private bool _listIsDirty;
+
+        #if ENABLE_UPDATESYSTEM_PROFILING
+        private readonly Dictionary<Type, string> _typenameCache = new();
+        #endif
+
 
         public void Register(IUpdatable updatable)
         {
@@ -40,27 +48,34 @@ namespace BioluminescentGames.Systems.UpdateSystem
         {
             if (_listIsDirty)
             {
-#if UNITY_EDITOR || BUILD_DEBUG
+#if ENABLE_UPDATESYSTEM_PROFILING
                 Profiler.BeginSample("Sort UpdateList");
 #endif
 
                 SortUpdateList();
                 _listIsDirty = false;
 
-#if UNITY_EDITOR || BUILD_DEBUG
+#if ENABLE_UPDATESYSTEM_PROFILING
                 Profiler.EndSample();
 #endif
             }
 
             foreach (IUpdatable updatable in _updatables)
             {
-#if UNITY_EDITOR || BUILD_DEBUG
-                Profiler.BeginSample(updatable.GetType().Name);
+#if ENABLE_UPDATESYSTEM_PROFILING
+                Type type = updatable.GetType();
+                if (!_typenameCache.TryGetValue(type, out string sampleName))
+                {
+                    // failure to get typename from cache.
+                    sampleName = type.Name;
+                    _typenameCache[type] = sampleName;
+                }
+                Profiler.BeginSample(sampleName);
 #endif
 
                 updatable.OnUpdate();
 
-#if UNITY_EDITOR || BUILD_DEBUG
+#if ENABLE_UPDATESYSTEM_PROFILING
                 Profiler.EndSample();
 #endif
             }
