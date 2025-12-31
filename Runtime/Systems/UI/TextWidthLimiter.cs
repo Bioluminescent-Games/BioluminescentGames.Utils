@@ -12,10 +12,8 @@ namespace BackroomsGame.Systems.UI
 
         private TMP_Text _text;
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-
             _text = GetComponent<TMP_Text>();
         }
 

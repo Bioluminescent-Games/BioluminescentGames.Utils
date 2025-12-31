@@ -14,10 +14,8 @@ namespace BioluminescentGames.Components
 
         private readonly List<float> _frameTimes = new ();
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-
             _text = GetComponent<TMP_Text>();
 
             TimeUtils.Instance.ExecuteRepeating(() =>

@@ -6,12 +6,12 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 {
     public abstract class BioluminescentBehaviour : MonoBehaviour, IUpdatable
     {
-        protected virtual void Awake()
+        protected virtual void OnEnable()
         {
             UpdateSystem.Instance.Register(this);
         }
 
-        protected virtual void OnDestroy()
+        protected virtual void OnDisable()
         {
             if (UpdateSystem.HasInstance)
                 UpdateSystem.Instance.Unregister(this);
@@ -20,23 +20,21 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         public virtual void OnUpdate() {}
     }
 
-//#if UNITY_NGO
+#if UNITY_NGO
     public abstract class BioluminescentNetworkBehaviour : NetworkBehaviour, IUpdatable
     {
-        protected virtual void Awake()
+        protected virtual void OnEnable()
         {
             UpdateSystem.Instance.Register(this);
         }
 
-        public override void OnDestroy()
+        protected virtual void OnDisable()
         {
             if (UpdateSystem.HasInstance)
                 UpdateSystem.Instance.Unregister(this);
-
-            base.OnDestroy();
         }
 
         public virtual void OnUpdate() {}
     }
-//#endif
+#endif
 }

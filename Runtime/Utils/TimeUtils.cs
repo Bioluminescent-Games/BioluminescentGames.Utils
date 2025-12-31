@@ -11,11 +11,9 @@ namespace BioluminescentGames.Utils
         public event Action LateUpdated;
         public event Action FixedUpdated;
 
-        protected override void Awake()
+        private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-
-            base.Awake();
         }
 
         public override void OnUpdate()

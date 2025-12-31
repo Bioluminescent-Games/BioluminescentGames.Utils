@@ -90,17 +90,13 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             }
         }
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-
             InitializeSingleton();
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-
             if (instance == this)
                 instance = null;
         }
@@ -252,10 +248,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             }
         }
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-
             InitializeSingleton();
         }
 
@@ -371,9 +365,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     }
 
     /// <summary>
-    /// Template for creating singletons for UI
+    /// Template for creating singletons for BioluminescentUIBehaviour
     /// </summary>
-    /// <typeparam name="TSelf">The type inheriting from UISingleton</typeparam>
+    /// <typeparam name="TSelf">The type inheriting from BioluminescentUISingleton</typeparam>
     public abstract class BioluminescentUISingleton<TSelf> : BioluminescentUIBehaviour where TSelf : BioluminescentUISingleton<TSelf>
     {
         protected static TSelf instance;
@@ -402,17 +396,13 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             }
         }
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-
             InitializeSingleton();
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-
             if (instance == this)
                 instance = null;
         }
@@ -425,9 +415,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     }
 
     /// <summary>
-    /// Template for creating singletons for PublicUI
+    /// Template for creating singletons for BioluminescentPublicUI
     /// </summary>
-    /// <typeparam name="TSelf">The type inheriting from PublicUISingleton</typeparam>
+    /// <typeparam name="TSelf">The type inheriting from BioluminescentPublicUISingleton</typeparam>
     public abstract class BioluminescentPublicUISingleton<TSelf> : BioluminescentPublicUIBehaviour where TSelf : BioluminescentPublicUISingleton<TSelf>
     {
         protected static TSelf instance;
@@ -456,17 +446,13 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             }
         }
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-
             InitializeSingleton();
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-
             if (instance == this)
                 instance = null;
         }
