@@ -44,7 +44,9 @@ namespace BioluminescentGames.Systems.UpdateSystem
 
         private void RemoveUpdatable(IUpdatable updatable)
         {
-            Debug.Assert(_updatables.Contains(updatable), $"Tried to remove updatable {updatable} that was not registered.", updatable as Object);
+            if (!_updatables.Contains(updatable))
+                // Some objects may spawn disabled.
+                return;
 
             _updatables.RemoveSwapBack(updatable);
         }
