@@ -19,7 +19,8 @@ namespace BioluminescentGames.Systems.UpdateSystem
 
         private readonly List<IUpdatable> _updatables = new();
 
-        private bool _listIsDirty;
+        private readonly Queue<IUpdatable> _updatablesToAdd = new();
+        private readonly Queue<IUpdatable> _updatablesToRemove = new();
 
         #if ENABLE_UPDATESYSTEM_PROFILING
         private readonly Dictionary<Type, string> _typenameCache = new();
@@ -28,32 +29,45 @@ namespace BioluminescentGames.Systems.UpdateSystem
 
         public void Register(IUpdatable updatable)
         {
-            Debug.Assert(!_updatables.Contains(updatable));
-
-            _listIsDirty = true;
-
-            _updatables.Add(updatable);
+            _updatablesToAdd.Enqueue(updatable);
         }
 
         public void Unregister(IUpdatable updatable)
         {
-            Debug.Assert(_updatables.Contains(updatable));
+            _updatablesToRemove.Enqueue(updatable);
+        }
 
-            _listIsDirty = true;
+        private void AddUpdatable(IUpdatable updatable)
+        {
+            Debug.Assert(!_updatables.Contains(updatable));
+
+            _updatables.Add(updatable);
+        }
+
+        private void RemoveUpdatable(IUpdatable updatable)
+        {
+            Debug.Assert(_updatables.Contains(updatable));
 
             _updatables.RemoveSwapBack(updatable);
         }
 
         protected override void OnUpdate()
         {
-            if (_listIsDirty)
+            bool shouldSortList = _updatablesToAdd.Count > 0;
+
+            while (_updatablesToAdd.TryDequeue(out IUpdatable updatableToAdd))
+                _updatables.Add(updatableToAdd);
+
+            while (_updatablesToRemove.TryDequeue(out IUpdatable updatableToRemove))
+                _updatables.RemoveSwapBack(updatableToRemove);
+
+            if (shouldSortList)
             {
 #if ENABLE_UPDATESYSTEM_PROFILING
                 Profiler.BeginSample("Sort UpdateList");
 #endif
 
                 SortUpdateList();
-                _listIsDirty = false;
 
 #if ENABLE_UPDATESYSTEM_PROFILING
                 Profiler.EndSample();
@@ -66,7 +80,7 @@ namespace BioluminescentGames.Systems.UpdateSystem
                 Type type = updatable.GetType();
                 if (!_typenameCache.TryGetValue(type, out string sampleName))
                 {
-                    // failure to get typename from cache.
+                    // failure to get typename from the cache.
                     sampleName = type.Name;
                     _typenameCache[type] = sampleName;
                 }
