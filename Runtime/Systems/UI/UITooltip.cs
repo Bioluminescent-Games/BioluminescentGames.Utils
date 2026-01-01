@@ -22,8 +22,10 @@ namespace BackroomsGame.Systems.UI
                 HideTooltip();
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
+
             HideTooltip();
         }
 

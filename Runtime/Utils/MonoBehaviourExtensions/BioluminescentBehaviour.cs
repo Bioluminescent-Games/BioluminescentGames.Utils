@@ -8,7 +8,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     {
         protected virtual void OnEnable()
         {
-            UpdateSystem.Instance.Register(this);
+            if (UpdateSystem.HasInstance)
+                UpdateSystem.Instance.Register(this);
         }
 
         protected virtual void OnDisable()
