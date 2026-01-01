@@ -8,6 +8,7 @@ using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Profiling;
+using Object = UnityEngine.Object;
 
 namespace BioluminescentGames.Systems.UpdateSystem
 {
@@ -22,10 +23,7 @@ namespace BioluminescentGames.Systems.UpdateSystem
         private readonly Queue<IUpdatable> _updatablesToAdd = new();
         private readonly Queue<IUpdatable> _updatablesToRemove = new();
 
-        #if ENABLE_UPDATESYSTEM_PROFILING
         private readonly Dictionary<Type, string> _typenameCache = new();
-        #endif
-
 
         public void Register(IUpdatable updatable)
         {
@@ -39,14 +37,14 @@ namespace BioluminescentGames.Systems.UpdateSystem
 
         private void AddUpdatable(IUpdatable updatable)
         {
-            Debug.Assert(!_updatables.Contains(updatable));
+            Debug.Assert(!_updatables.Contains(updatable), $"Tried to add updatable {updatable} that was already registered.", updatable as Object);
 
             _updatables.Add(updatable);
         }
 
         private void RemoveUpdatable(IUpdatable updatable)
         {
-            Debug.Assert(_updatables.Contains(updatable));
+            Debug.Assert(_updatables.Contains(updatable), $"Tried to remove updatable {updatable} that was not registered.", updatable as Object);
 
             _updatables.RemoveSwapBack(updatable);
         }
@@ -56,10 +54,10 @@ namespace BioluminescentGames.Systems.UpdateSystem
             bool shouldSortList = _updatablesToAdd.Count > 0;
 
             while (_updatablesToAdd.TryDequeue(out IUpdatable updatableToAdd))
-                _updatables.Add(updatableToAdd);
+                AddUpdatable(updatableToAdd);
 
             while (_updatablesToRemove.TryDequeue(out IUpdatable updatableToRemove))
-                _updatables.RemoveSwapBack(updatableToRemove);
+                RemoveUpdatable(updatableToRemove);
 
             if (shouldSortList)
             {
@@ -77,14 +75,8 @@ namespace BioluminescentGames.Systems.UpdateSystem
             foreach (IUpdatable updatable in _updatables)
             {
 #if ENABLE_UPDATESYSTEM_PROFILING
-                Type type = updatable.GetType();
-                if (!_typenameCache.TryGetValue(type, out string sampleName))
-                {
-                    // failure to get typename from the cache.
-                    sampleName = type.Name;
-                    _typenameCache[type] = sampleName;
-                }
-                Profiler.BeginSample(sampleName);
+
+                Profiler.BeginSample(GetTypeName(updatable.GetType()));
 #endif
 
                 updatable.OnUpdate();
@@ -105,8 +97,21 @@ namespace BioluminescentGames.Systems.UpdateSystem
                 Debug.Assert(behaviourA != null && behaviourB != null);
 
                 return behaviourA.gameObject.GetInstanceID().CompareTo(behaviourB.gameObject.GetInstanceID());*/
-                return string.Compare(updatableA.GetType().Name, updatableB.GetType().Name, StringComparison.InvariantCulture);
+
+                // ReSharper disable once ConvertToLambdaExpression
+                return string.Compare(GetTypeName(updatableA.GetType()), GetTypeName(updatableB.GetType()), StringComparison.InvariantCulture);
             });
+        }
+
+        private string GetTypeName(Type type)
+        {
+            if (_typenameCache.TryGetValue(type, out string typeName)) return typeName;
+
+            // failure to get typename from the cache.
+            typeName = type.Name;
+            _typenameCache[type] = typeName;
+
+            return typeName;
         }
 
 #if UNITY_EDITOR
