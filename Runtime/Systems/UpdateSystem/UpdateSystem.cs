@@ -79,7 +79,14 @@ namespace BioluminescentGames.Systems.UpdateSystem
                 Profiler.BeginSample(GetTypeName(updatable.GetType()));
 #endif
 
-                updatable.OnUpdate();
+                try
+                {
+                    updatable.OnUpdate();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                }
 
 #if ENABLE_UPDATESYSTEM_PROFILING
                 Profiler.EndSample();
