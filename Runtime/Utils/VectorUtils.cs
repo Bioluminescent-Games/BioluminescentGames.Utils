@@ -31,5 +31,27 @@ namespace BioluminescentGames.Utils
         {
             return sqrDst < threshold * threshold;
         }
+
+        /// <summary>
+        /// Calculates the squared distance between two vectors, avoiding the overhead of a square root calculation.
+        /// </summary>
+        /// <param name="a">The first vector.</param>
+        /// <param name="b">The second vector.</param>
+        /// <returns>The squared distance between the two vectors.</returns>
+        public static float SqrDistance(Vector3 a, Vector3 b)
+        {
+            return (a - b).sqrMagnitude;
+        }
+
+        /// <summary>
+        /// This is slower than <see cref="SqrDistance"/>.
+        /// </summary>
+        /// <param name="a">The first vector</param>
+        /// <param name="b">The second vector</param>
+        /// <returns>The distance between the two vectors</returns>
+        public static float Distance(Vector3 a, Vector3 b)
+        {
+            return (a - b).magnitude;
+        }
     }
 }
