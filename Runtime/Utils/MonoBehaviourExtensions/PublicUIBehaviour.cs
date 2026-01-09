@@ -1,4 +1,4 @@
-namespace BioluminescentGames.Utils
+namespace BioluminescentGames.Utils.Utilities
 {
     public class PublicUIBehaviour : UIBehaviour
     {

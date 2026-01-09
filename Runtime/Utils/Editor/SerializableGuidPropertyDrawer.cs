@@ -1,8 +1,9 @@
 using System;
+using BioluminescentGames.Utils.Utilities;
 using UnityEditor;
 using UnityEngine;
 
-namespace BioluminescentGames.Utils
+namespace BioluminescentGames.Utils.Editor
 {
 
     /// <summary>

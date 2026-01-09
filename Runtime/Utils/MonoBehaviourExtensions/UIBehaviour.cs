@@ -1,7 +1,7 @@
-﻿using BioluminescentGames.Utils.MonoBehaviourExtensions;
+﻿using BioluminescentGames.Utils.Utilities.MonoBehaviourExtensions;
 using UnityEngine;
 
-namespace BioluminescentGames.Utils
+namespace BioluminescentGames.Utils.Utilities
 {
     /// <summary>
     /// Base UI class, contains common methods used for UI.

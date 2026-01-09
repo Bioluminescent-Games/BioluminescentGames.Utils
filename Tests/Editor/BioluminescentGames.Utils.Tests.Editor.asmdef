@@ -1,0 +1,25 @@
+{
+    "name": "BioluminescentGames.Utils.Tests.Editor",
+    "rootNamespace": "BioluminescentGames.Utils.Tests.Editor",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "BioluminescentGames.Utils.Utilities",
+        "BioluminescentGames.Utils.MonoBehaviourExtensions"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -112,7 +112,7 @@ namespace BioluminescentGames.Utils.Editor
             string assetPath = AssetDatabase.GetAssetPath(tex);
             TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
             if (importer == null || importer.isReadable) return tex;
-            
+
             importer.isReadable = true;
             importer.SaveAndReimport();
 

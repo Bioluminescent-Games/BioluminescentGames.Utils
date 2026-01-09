@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 #endif
 
-namespace BioluminescentGames.Utils.MonoBehaviourExtensions
+namespace BioluminescentGames.Utils.Utilities.MonoBehaviourExtensions
 {
     // ReSharper disable InconsistentNaming
     // ReSharper disable MemberCanBePrivate.Global

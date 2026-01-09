@@ -1,8 +1,8 @@
-using BioluminescentGames.Systems.UpdateSystem;
+using BioluminescentGames.Utils.Systems.UpdateSystem;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace BioluminescentGames.Utils.MonoBehaviourExtensions
+namespace BioluminescentGames.Utils.Utilities.MonoBehaviourExtensions
 {
     public abstract class BioluminescentBehaviour : MonoBehaviour, IUpdatable
     {
