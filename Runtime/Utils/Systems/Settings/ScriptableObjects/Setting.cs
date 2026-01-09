@@ -6,7 +6,7 @@ using UnityEngine;
 
 #endregion
 
-namespace BackroomsGame.Systems.Settings.ScriptableObjects
+namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 {
     /// <summary>
     /// Abstract base class for settings, inheriting from ScriptableObject and implementing ISetting.

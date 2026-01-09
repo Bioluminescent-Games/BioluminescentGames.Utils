@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using BioluminescentGames.Utils.Utilities.MonoBehaviourExtensions;
+using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using UnityEngine;
 using UnityEngine.Events;
 

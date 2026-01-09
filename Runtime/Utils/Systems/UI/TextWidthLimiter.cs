@@ -1,8 +1,8 @@
-using BioluminescentGames.Utils.Utilities.MonoBehaviourExtensions;
+using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using TMPro;
 using UnityEngine;
 
-namespace BackroomsGame.Systems.UI
+namespace BioluminescentGames.Utils.Systems.UI
 {
     [RequireComponent(typeof(TMP_Text))]
     [ExecuteAlways]

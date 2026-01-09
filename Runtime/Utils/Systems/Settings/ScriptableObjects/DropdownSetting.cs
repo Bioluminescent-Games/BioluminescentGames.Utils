@@ -3,7 +3,7 @@ using BioluminescentGames.Utils.Utilities;
 using TMPro;
 using UnityEngine;
 
-namespace BackroomsGame.Systems.Settings.ScriptableObjects
+namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "New Dropdown Setting", menuName = "Scriptable Objects/Settings/Dropdown Setting")]
     public class DropdownSetting : ValueSetting<uint>

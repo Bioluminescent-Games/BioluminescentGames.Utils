@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BackroomsGame.Systems.Settings.ScriptableObjects
+namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "New Button Setting",
         menuName = "Scriptable Objects/Settings/Button Setting")]

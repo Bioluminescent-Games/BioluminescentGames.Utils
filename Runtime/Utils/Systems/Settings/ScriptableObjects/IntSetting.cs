@@ -1,7 +1,7 @@
 using BioluminescentGames.Utils.Utilities;
 using UnityEngine;
 
-namespace BackroomsGame.Systems.Settings.ScriptableObjects
+namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "New Whole Number Setting", menuName = "Scriptable Objects/Settings/Whole Number Setting")]
     public class IntSetting : ValueSetting<int>

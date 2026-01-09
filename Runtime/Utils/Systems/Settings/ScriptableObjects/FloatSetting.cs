@@ -1,7 +1,7 @@
 using BioluminescentGames.Utils.Utilities;
 using UnityEngine;
 
-namespace BackroomsGame.Systems.Settings.ScriptableObjects
+namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "New Decimal Number Setting",
         menuName = "Scriptable Objects/Settings/Decimal Number Setting")]

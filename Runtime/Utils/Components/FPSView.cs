@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BioluminescentGames.Utils.Utilities;
-using BioluminescentGames.Utils.Utilities.MonoBehaviourExtensions;
+using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using TMPro;
 using UnityEngine;
 

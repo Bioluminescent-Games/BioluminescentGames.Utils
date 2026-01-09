@@ -1,6 +1,6 @@
 using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
 
-namespace BackroomsGame.Systems.Settings
+namespace BioluminescentGames.Utils.Systems.Settings
 {
     public interface ISetting
     {

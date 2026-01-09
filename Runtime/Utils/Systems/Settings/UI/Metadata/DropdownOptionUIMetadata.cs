@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace BackroomsGame.Systems.Settings.UI.Metadata
+namespace BioluminescentGames.Utils.Systems.Settings.UI.Metadata
 {
     public class DropdownOptionUIMetadata : OptionUIMetadata
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace BackroomsGame.Systems.Settings.ScriptableObjects
+namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 {
     public abstract class ValueSetting<T> : Setting
     {

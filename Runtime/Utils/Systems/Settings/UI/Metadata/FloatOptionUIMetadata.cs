@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BackroomsGame.Systems.Settings.UI.Metadata
+namespace BioluminescentGames.Utils.Systems.Settings.UI.Metadata
 {
     public class FloatOptionUIMetadata : OptionUIMetadata
     {

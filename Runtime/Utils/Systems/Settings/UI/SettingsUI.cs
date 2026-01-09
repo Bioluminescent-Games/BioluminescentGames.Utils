@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
+using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using ZLinq;
-using BackroomsGame.Systems.Settings.ScriptableObjects;
-using BackroomsGame.Systems.Settings.UI.Metadata;
-using BackroomsGame.Systems.UI;
+using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
+using BioluminescentGames.Utils.Systems.Settings.UI.Metadata;
+using BioluminescentGames.Utils.Systems.UI;
 using BioluminescentGames.Utils.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BackroomsGame.Systems.Settings
+namespace BioluminescentGames.Utils.Systems.Settings
 {
     public class SettingsUI : UIBehaviour
     {

@@ -1,7 +1,7 @@
-using BackroomsGame.Systems.Settings.ScriptableObjects;
+using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
 using UnityEngine;
 
-namespace BackroomsGame.Systems.Settings
+namespace BioluminescentGames.Utils.Systems.Settings
 {
     public static class Settings
     {

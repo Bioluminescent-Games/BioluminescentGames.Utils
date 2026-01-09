@@ -1,9 +1,9 @@
 using BioluminescentGames.Utils.Utilities;
-using BioluminescentGames.Utils.Utilities.MonoBehaviourExtensions;
+using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace BackroomsGame.Systems.UI
+namespace BioluminescentGames.Utils.Systems.UI
 {
     public class UITooltip : BioluminescentBehaviour
     {
