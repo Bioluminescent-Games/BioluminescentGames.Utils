@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using BioluminescentGames.Utils.StaticUtilities;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
@@ -22,8 +23,6 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
 
         private readonly Queue<IUpdatable> _updatablesToAdd = new();
         private readonly Queue<IUpdatable> _updatablesToRemove = new();
-
-        private readonly Dictionary<Type, string> _typenameCache = new();
 
         public void Register(IUpdatable updatable)
         {
@@ -78,7 +77,7 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
             {
 #if ENABLE_UPDATESYSTEM_PROFILING
 
-                Profiler.BeginSample(GetTypeName(updatable.GetType()));
+                Profiler.BeginSample(TypeDictionary.GetNameForType(updatable.GetType()));
 #endif
 
                 try
@@ -108,19 +107,8 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
                 return behaviourA.gameObject.GetInstanceID().CompareTo(behaviourB.gameObject.GetInstanceID());*/
 
                 // ReSharper disable once ConvertToLambdaExpression
-                return string.Compare(GetTypeName(updatableA.GetType()), GetTypeName(updatableB.GetType()), StringComparison.InvariantCulture);
+                return string.Compare(TypeDictionary.GetNameForType(updatableA.GetType()), TypeDictionary.GetNameForType(updatableB.GetType()), StringComparison.InvariantCulture);
             });
-        }
-
-        private string GetTypeName(Type type)
-        {
-            if (_typenameCache.TryGetValue(type, out string typeName)) return typeName;
-
-            // failure to get typename from the cache.
-            typeName = type.Name;
-            _typenameCache[type] = typeName;
-
-            return typeName;
         }
 
 #if UNITY_EDITOR

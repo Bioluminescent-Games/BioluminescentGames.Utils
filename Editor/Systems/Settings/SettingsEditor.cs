@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 
 #endregion
 
-namespace BioluminescentGames.Utils.Systems.Settings.Editor
+namespace BioluminescentGames.Utils.Editor.Systems.Settings
 {
     public class SettingsEditor : EditorWindow
     {
@@ -28,7 +28,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.Editor
         [SerializeField, HideInInspector] private int settingsSelectedIndex = -1;
 
         [MenuItem("Tools/" + k_ToolName)]
-        public static void ShowExample()
+        public static void CreateWindow()
         {
             SettingsEditor window = GetWindow<SettingsEditor>();
             window.titleContent = new GUIContent(k_ToolName);

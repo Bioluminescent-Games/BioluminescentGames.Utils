@@ -1,10 +1,7 @@
 {
-    "name": "BioluminescentGames.Utils.Systems.Settings.Editor",
-    "rootNamespace": "BioluminescentGames.Utils.Systems.Settings.Editor",
-    "references": [
-        "GUID:a43b9e359b3bfe7408a0a7380e0e49c9",
-        "GUID:78b658cb6a4925046b71358a87a81811"
-    ],
+    "name": "BioluminescentGames.Utils.Editor.Utilities",
+    "rootNamespace": "BioluminescentGames.Utils.Editor.Utilities",
+    "references": ["GUID:b6bc177028ae3254bb2780011f1882ae","GUID:6ac92135e5edd094f8acde8d3d6ce190"],
     "includePlatforms": [
         "Editor"
     ],

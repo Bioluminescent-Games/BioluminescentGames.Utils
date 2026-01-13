@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <uie:Toolbar style="width: 100%;">
+        <uie:ToolbarSearchField name="SearchField" style="width: 323px;"/>
+        <uie:ToolbarButton text="Search" name="SearchButton" style="width: 62px;"/>
+        <uie:ToolbarSpacer style="width: 48px;"/>
+        <uie:ToolbarToggle label="Search in Assets" name="SearchInAssetsToggle" value="true"/>
+        <uie:ToolbarToggle label="Search in Scenes" name="SearchInScenesToggle" value="true" text=""/>
+    </uie:Toolbar>
+    <ui:ListView name="ComponentList" style="height: 100%; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px;"/>
+</ui:UXML>
