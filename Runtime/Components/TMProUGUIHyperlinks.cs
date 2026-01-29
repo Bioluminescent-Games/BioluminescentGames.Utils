@@ -17,6 +17,7 @@ namespace BioluminescentGames.Utils.Components
     /// </summary>
     [DisallowMultipleComponent()]
     [RequireComponent(typeof(TextMeshProUGUI))]
+    [ExecuteAlways]
     public class TMProUGUIHyperlinks : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private Color32 hoveredColor = new(0x00, 0x59, 0xFF, 0xFF);
