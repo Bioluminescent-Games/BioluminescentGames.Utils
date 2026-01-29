@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 // https://github.com/EpsilonD3lta/UnityCollection/blob/master/Scripts/Runtime/TMProUGUIHyperlinks.cs
 // MIT License - remember to include!
@@ -125,7 +126,8 @@ namespace BioluminescentGames.Utils.Components
 
         private int GetLinkIndex()
         {
-            return TMP_TextUtilities.FindIntersectingLink(textMeshPro, Input.mousePosition, mainCamera);
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            return TMP_TextUtilities.FindIntersectingLink(textMeshPro, mousePosition, mainCamera);
         }
 
         private List<Color32[]> SetLinkColor(int linkIndex, Color32 color)
