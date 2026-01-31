@@ -2,7 +2,7 @@
 
 using Unity.Services.Core;
 
-namespace BioluminescentGames.Utils
+namespace BioluminescentGames.Utils.Utilities
 {
     public static class ServiceUtils
     {

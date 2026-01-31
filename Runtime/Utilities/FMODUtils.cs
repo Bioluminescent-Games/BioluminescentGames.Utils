@@ -2,7 +2,7 @@
 
 using FMOD;
 
-namespace BioluminescentGames.Utils
+namespace BioluminescentGames.Utils.Utilities
 {
     public static class FMODUtils
     {

@@ -11,7 +11,7 @@ using UnityEngine;
 
 #endregion
 
-namespace BioluminescentGames.Utils
+namespace BioluminescentGames.Utils.Utilities
 {
     [Serializable]
     public class SceneDictionary<T>
