@@ -104,7 +104,7 @@ namespace BioluminescentGames.Utils.Utilities
         /// <param name="component">The component found</param>
         /// <typeparam name="T">The component type</typeparam>
         /// <returns>True if it found the object</returns>
-        public static bool TryGetComponentInAncestry<T>(this GameObject obj, out T component) where T : Component
+        public static bool TryGetComponentInAncestry<T>(this GameObject obj, out T component)
         {
             while (true)
             {
@@ -116,7 +116,7 @@ namespace BioluminescentGames.Utils.Utilities
         }
 
         /// <inheritdoc cref="TryGetComponentInAncestry{T}(UnityEngine.GameObject,out T)" />
-        public static bool TryGetComponentInAncestry<T>(this Component obj, out T component) where T : Component
+        public static bool TryGetComponentInAncestry<T>(this Component obj, out T component)
         {
             return obj.gameObject.TryGetComponentInAncestry(out component);
         }
@@ -127,14 +127,14 @@ namespace BioluminescentGames.Utils.Utilities
         /// <param name="obj">The base object to get the components from.</param>
         /// <typeparam name="T">The component type</typeparam>
         /// <returns>The first component found in the tree.</returns>
-        public static T GetComponentInAncestry<T>(this GameObject obj) where T : Component
+        public static T GetComponentInAncestry<T>(this GameObject obj)
         {
             obj.TryGetComponentInAncestry(out T component);
             return component;
         }
 
         /// <inheritdoc cref="GetComponentInAncestry{T}(UnityEngine.GameObject)" />
-        public static T GetComponentInAncestry<T>(this Component obj) where T : Component
+        public static T GetComponentInAncestry<T>(this Component obj)
         {
             return obj.gameObject.GetComponentInAncestry<T>();
         }
