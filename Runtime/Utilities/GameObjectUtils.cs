@@ -77,7 +77,6 @@ namespace BioluminescentGames.Utils.Utilities
         /// <returns>The object itself if it exists and not destroyed, null otherwise.</returns>
         public static T OrNull<T>(this T obj) where T : Object => obj ? obj : null;
 
-
         /// <summary>
         /// Destroys the specified GameObject.
         /// </summary>
@@ -96,6 +95,48 @@ namespace BioluminescentGames.Utils.Utilities
             #else
             Object.Destroy(obj);
             #endif
+        }
+
+        /// <summary>
+        /// Tries to get a component from the ancestry tree. Also returns the component if it's on the current object.
+        /// </summary>
+        /// <param name="obj">The base object to get the components from.</param>
+        /// <param name="component">The component found</param>
+        /// <typeparam name="T">The component type</typeparam>
+        /// <returns>True if it found the object</returns>
+        public static bool TryGetComponentInAncestry<T>(this GameObject obj, out T component) where T : Component
+        {
+            while (true)
+            {
+                if (obj.TryGetComponent(out component)) return true;
+                if (obj.transform.parent != null) continue;
+
+                return false;
+            }
+        }
+
+        /// <inheritdoc cref="TryGetComponentInAncestry{T}(UnityEngine.GameObject,out T)" />
+        public static bool TryGetComponentInAncestry<T>(this Component obj, out T component) where T : Component
+        {
+            return obj.gameObject.TryGetComponentInAncestry(out component);
+        }
+
+        /// <summary>
+        /// Get a component from the ancestry tree. Also returns the component if it's on the current object.
+        /// </summary>
+        /// <param name="obj">The base object to get the components from.</param>
+        /// <typeparam name="T">The component type</typeparam>
+        /// <returns>The first component found in the tree.</returns>
+        public static T GetComponentInAncestry<T>(this GameObject obj) where T : Component
+        {
+            obj.TryGetComponentInAncestry(out T component);
+            return component;
+        }
+
+        /// <inheritdoc cref="GetComponentInAncestry{T}(UnityEngine.GameObject)" />
+        public static T GetComponentInAncestry<T>(this Component obj) where T : Component
+        {
+            return obj.gameObject.GetComponentInAncestry<T>();
         }
     }
 }
