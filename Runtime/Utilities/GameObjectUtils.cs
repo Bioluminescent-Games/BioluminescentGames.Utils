@@ -106,13 +106,13 @@ namespace BioluminescentGames.Utils.Utilities
         /// <returns>True if it found the object</returns>
         public static bool TryGetComponentInAncestry<T>(this GameObject obj, out T component)
         {
-            while (true)
-            {
-                if (obj.TryGetComponent(out component)) return true;
-                if (obj.transform.parent != null) continue;
+            if (obj.TryGetComponent(out component)) return true;
 
-                return false;
-            }
+            Transform parent = obj.transform.parent;
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (!parent) return false;
+
+            return parent.TryGetComponentInAncestry(out component);
         }
 
         /// <inheritdoc cref="TryGetComponentInAncestry{T}(UnityEngine.GameObject, out T)" />
