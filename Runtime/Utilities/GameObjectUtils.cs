@@ -115,7 +115,7 @@ namespace BioluminescentGames.Utils.Utilities
             }
         }
 
-        /// <inheritdoc cref="TryGetComponentInAncestry{T}(UnityEngine.GameObject,out T)" />
+        /// <inheritdoc cref="TryGetComponentInAncestry{T}(UnityEngine.GameObject, out T)" />
         public static bool TryGetComponentInAncestry<T>(this Component obj, out T component)
         {
             return obj.gameObject.TryGetComponentInAncestry(out component);
@@ -137,6 +137,26 @@ namespace BioluminescentGames.Utils.Utilities
         public static T GetComponentInAncestry<T>(this Component obj)
         {
             return obj.gameObject.GetComponentInAncestry<T>();
+        }
+
+        /// <summary>
+        /// Tries to get a component from any of its children (and itself).
+        /// </summary>
+        /// <param name="obj">The base object to get the component from</param>
+        /// <param name="component">The component if found</param>
+        /// <param name="includeInactive">Whether to include inactive objects in the search</param>
+        /// <typeparam name="T">The component type</typeparam>
+        /// <returns>True if it found the component.</returns>
+        public static bool TryGetComponentInChildren<T>(this GameObject obj, out T component, bool includeInactive = false)
+        {
+            component = obj.GetComponentInChildren<T>(includeInactive);
+            return component != null;
+        }
+
+        /// <inheritdoc cref="TryGetComponentInChildren{T}(UnityEngine.GameObject, out T, bool)" />
+        public static bool TryGetComponentInChildren<T>(this Component obj, out T component, bool includeInactive = false)
+        {
+            return obj.gameObject.TryGetComponentInChildren(out component, includeInactive);
         }
     }
 }
