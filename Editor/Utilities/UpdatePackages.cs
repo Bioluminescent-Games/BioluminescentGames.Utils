@@ -37,13 +37,13 @@ namespace BioluminescentGames.Utils.Editor.Utilities
 
                     if (string.IsNullOrWhiteSpace(package.versions.recommended))
                     {
-                        Debug.Log($"Package GitHash: {package.git.hash}");
+                        //Debug.Log($"Package GitHash: {package.git.hash}");
                         if (string.IsNullOrWhiteSpace(package.git.hash))
                             continue;
 
-                        Debug.Log($"Package Repo URL: {package.repository.url}, Repo Type: {package.repository.type}");
+                        //Debug.Log($"Package Repo URL: {package.repository.url}, Repo Type: {package.repository.type}");
 
-                        //packagesToUpdate.Add(package.repository.url);
+                        packagesToUpdate.Add(package.name); // no idea if this works
 
                         continue;
                     }
