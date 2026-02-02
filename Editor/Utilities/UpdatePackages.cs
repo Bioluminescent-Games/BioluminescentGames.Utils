@@ -33,6 +33,21 @@ namespace BioluminescentGames.Utils.Editor.Utilities
                 List<string> packagesToUpdate = new();
                 foreach (PackageInfo package in packages)
                 {
+                    Debug.Log($"Package Type: {package.type}");
+
+                    if (string.IsNullOrWhiteSpace(package.versions.recommended))
+                    {
+                        Debug.Log($"Package GitHash: {package.git.hash}");
+                        if (string.IsNullOrWhiteSpace(package.git.hash))
+                            continue;
+
+                        Debug.Log($"Package Repo URL: {package.repository.url}, Repo Type: {package.repository.type}");
+
+                        //packagesToUpdate.Add(package.repository.url);
+
+                        continue;
+                    }
+
                     if (package.versions.recommended == package.version)
                         continue;
 
