@@ -37,7 +37,18 @@ namespace BioluminescentGames.Utils.Editor.Utilities
             /*Dictionary<string, PackageInfo> gitPackages = gitPackageList
                 .ToDictionary(GitUriFromPackage, x => x);*/
 
-            Client.AddAndRemove(gitPackageList.Select(x => x.packageId).ToArray());
+            AddAndRemoveRequest request = Client.AddAndRemove(gitPackageList.Select(x => x.packageId).ToArray());
+
+            while (!request.IsCompleted)
+                await Task.Yield();
+
+            if (request.Status != StatusCode.Success)
+            {
+                string error = $"Error updating packages: {request.Error.errorCode} - {request.Error.message}";
+                Debug.LogError(error);
+                EditorUtility.DisplayDialog(title, error, "Ok");
+                return;
+            }
 
             /*IOrderedEnumerable<KeyValuePair<string, PackageInfo>> orderedPackages = gitPackages.OrderBy(x =>
             {
