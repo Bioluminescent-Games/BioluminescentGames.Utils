@@ -33,7 +33,6 @@ public class ComponentFinder : EditorWindow
         public readonly string AssetPath;
         public readonly string PathInAsset;
         public readonly string TypeName;
-        public readonly string GameObjectName;
         public readonly bool IsPrefab;
 
         public ComponentProperties(Component component, string assetPath, bool isPrefab)
@@ -44,11 +43,10 @@ public class ComponentFinder : EditorWindow
 
             PathInAsset = GeneratePath(component.transform);
             TypeName = TypeDictionary.GetNameForType(component.GetType());
-            GameObjectName = component.gameObject.name;
         }
     }
 
-    [MenuItem("Tools/" + k_ToolName)]
+    [MenuItem("Tools/Bioluminescent Games/" + k_ToolName)]
     public static void CreateWindow()
     {
         ComponentFinder window = GetWindow<ComponentFinder>();
@@ -75,7 +73,7 @@ public class ComponentFinder : EditorWindow
         _searchButton.clicked += SearchButtonOnClicked;
     }
 
-    private void ComponentListOnSelectionChanged(IEnumerable<object> selectedItems)
+    private static void ComponentListOnSelectionChanged(IEnumerable<object> selectedItems)
     {
         using IEnumerator<object> enumerator = selectedItems.GetEnumerator();
         if (!enumerator.MoveNext()) return;
@@ -106,11 +104,11 @@ public class ComponentFinder : EditorWindow
 
     }
 
-    private static string GeneratePath(Transform componentTransform, string currentPath = "", int depth = 0)
+    private static string GeneratePath(Transform componentTransform, string currentPath = "")
     {
         Transform parent = componentTransform.parent;
         if (parent != null)
-            currentPath += GeneratePath(parent, currentPath, depth);
+            currentPath += GeneratePath(parent, currentPath);
 
         return currentPath + "/" + componentTransform.gameObject.name;
     }

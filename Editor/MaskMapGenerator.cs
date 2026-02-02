@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
@@ -7,7 +8,7 @@ namespace BioluminescentGames.Utils.Editor
 {
     public class MaskMapGenerator : EditorWindow
     {
-        [MenuItem("Tools/Mask Map Generator")]
+        [MenuItem("Tools/Bioluminescent Games/Mask Map Generator")]
         public static void ShowWindow()
         {
             GetWindow<MaskMapGenerator>("Mask Map Generator");
@@ -17,19 +18,19 @@ namespace BioluminescentGames.Utils.Editor
         private string _roughnessPath = "";
         private string _aoPath = "";
         private string _detailPath = "";
-        private string _savePath = "Assets/generated_maskmap.png";
+        private string _savePath = "Assets/UnityMaskMap.png";
 
         private void OnGUI()
         {
             GUILayout.Label("Select Texture Maps (All Optional)", EditorStyles.boldLabel);
 
-            _metallicPath = DrawPathSelector("Metallic Map (R)", _metallicPath);
-            _aoPath = DrawPathSelector("AO Map (G)", _aoPath);
-            _detailPath = DrawPathSelector("Detail Mask (B)", _detailPath);
-            _roughnessPath = DrawPathSelector("Roughness Map (A - Inverted)", _roughnessPath);
+            _metallicPath = DrawOpenFilePathSelector("Metallic Map (R)", _metallicPath);
+            _aoPath = DrawOpenFilePathSelector("AO Map (G)", _aoPath);
+            _detailPath = DrawOpenFilePathSelector("Detail Mask (B)", _detailPath);
+            _roughnessPath = DrawOpenFilePathSelector("Roughness Map (A - Inverted)", _roughnessPath);
 
             GUILayout.Space(10);
-            _savePath = EditorGUILayout.TextField("Save As", _savePath);
+            _savePath = DrawSaveFilePathSelector("Save As", _savePath, "UnityMaskMap.png");
 
             if (GUILayout.Button("Generate Mask Map"))
             {
@@ -37,20 +38,24 @@ namespace BioluminescentGames.Utils.Editor
             }
         }
 
-        private static string DrawPathSelector(string label, string path)
+        private static string DrawOpenFilePathSelector(string label, string path) => DrawPathSelector(label, path, () => EditorUtility.OpenFilePanel(label, "Assets", "png,jpg,tga"));
+
+        private static string DrawSaveFilePathSelector(string label, string path, string defaultName) => DrawPathSelector(label, path, () => EditorUtility.SaveFilePanel(label, "Assets", defaultName, "png"));
+
+        private static string DrawPathSelector(string label, string path, Func<string> pathFunction)
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label(label, GUILayout.Width(150));
             path = GUILayout.TextField(path);
             if (GUILayout.Button("Browse", GUILayout.Width(70)))
             {
-                string file = EditorUtility.OpenFilePanel(label, "Assets", "png,jpg,tga");
+                string file = pathFunction();
                 if (!string.IsNullOrEmpty(file))
                 {
                     if (file.StartsWith(Application.dataPath))
                         path = "Assets" + file[Application.dataPath.Length..];
                     else
-                        Debug.LogWarning("Selected file must be inside Assets folder.");
+                        Debug.LogWarning($"Selected file must be inside Assets folder. (Found {path})");
                 }
             }
             GUILayout.EndHorizontal();

@@ -12,6 +12,7 @@ using UnityEngine.UIElements;
 
 namespace BioluminescentGames.Utils.Editor.Systems.Settings
 {
+    // TODO: Add category/setting
     public class SettingsEditor : EditorWindow
     {
         private const string k_ToolName = "Settings Editor";
@@ -27,8 +28,8 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
         [SerializeField, HideInInspector] private int categoriesSelectedIndex = -1;
         [SerializeField, HideInInspector] private int settingsSelectedIndex = -1;
 
-        [MenuItem("Tools/" + k_ToolName)]
-        public static void CreateWindow()
+        [MenuItem("Tools/Bioluminescent Games/" + k_ToolName)]
+        private static void CreateWindow()
         {
             SettingsEditor window = GetWindow<SettingsEditor>();
             window.titleContent = new GUIContent(k_ToolName);
