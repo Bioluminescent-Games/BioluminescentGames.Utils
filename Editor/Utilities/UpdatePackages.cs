@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.PackageManager;
@@ -9,69 +10,64 @@ using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace BioluminescentGames.Utils.Editor.Utilities
 {
-    // TODO: Update git packages
     public static class UpdatePackages
     {
-        [MenuItem("Tools/Bioluminescent Games/Update Packages")]
-        private static async void PerformUpdate()
+        [MenuItem("Tools/Bioluminescent Games/Update All Git Packages")]
+        private static async void UpdateGitPackages()
         {
-            try
+            const string title = "Updating Git Packages";
+
+            ListRequest listRequest = Client.List();
+
+            while (!listRequest.IsCompleted)
+                await Task.Yield();
+
+            if (listRequest.Status != StatusCode.Success)
             {
-                ListRequest listRequest = Client.List();
-
-                while (!listRequest.IsCompleted)
-                    await Task.Yield();
-
-                if (listRequest.Status != StatusCode.Success)
-                {
-                    Debug.LogError($"Error, Code: {listRequest.Error.errorCode}, Message: {listRequest.Error.message}");
-                    return;
-                }
-
-                PackageCollection packages = listRequest.Result;
-
-                List<string> packagesToUpdate = new();
-                foreach (PackageInfo package in packages)
-                {
-                    Debug.Log($"Package Type: {package.type}");
-
-                    if (string.IsNullOrWhiteSpace(package.versions.recommended))
-                    {
-                        //Debug.Log($"Package GitHash: {package.git.hash}");
-                        if (string.IsNullOrWhiteSpace(package.git.hash))
-                            continue;
-
-                        //Debug.Log($"Package Repo URL: {package.repository.url}, Repo Type: {package.repository.type}");
-
-                        packagesToUpdate.Add(package.name); // no idea if this works
-
-                        continue;
-                    }
-
-                    if (package.versions.recommended == package.version)
-                        continue;
-
-                    Debug.Log($"Updating {package.displayName} ({package.name}) from {package.version} to {package.versions.recommended}");
-                    packagesToUpdate.Add($"{package.name}@{package.versions.recommended}");
-                }
-
-                AddAndRemoveRequest updateRequest = Client.AddAndRemove(packagesToUpdate.ToArray());
-
-                while (!updateRequest.IsCompleted)
-                    await Task.Yield();
-
-                if (updateRequest.Status != StatusCode.Success)
-                {
-                    Debug.LogError($"Error, Code: {updateRequest.Error.errorCode}, Message: {updateRequest.Error.message}");
-                    return;
-                }
-
-                Debug.Log("Successfully updated packages.");
+                string error = $"Error listing packages: {listRequest.Error.errorCode} - {listRequest.Error.message}";
+                Debug.LogError(error);
+                EditorUtility.DisplayDialog(title, error, "Ok");
+                return;
             }
-            catch (Exception e)
+
+            //int currentGitCount = 0;
+
+            PackageInfo[] gitPackageList = listRequest.Result
+                .Where(x => x.source == PackageSource.Git).ToArray();
+            /*Dictionary<string, PackageInfo> gitPackages = gitPackageList
+                .ToDictionary(GitUriFromPackage, x => x);*/
+
+            Client.AddAndRemove(gitPackageList.Select(x => x.packageId).ToArray());
+
+            /*IOrderedEnumerable<KeyValuePair<string, PackageInfo>> orderedPackages = gitPackages.OrderBy(x =>
             {
-                Debug.LogException(e);
-            }
+                PackageInfo packageInfo = x.Value;
+                return packageInfo.dependencies.Sum(dep => gitPackageList.Count(p => p.name == dep.name));
+            });
+
+            foreach ((string gitUri, PackageInfo package) in orderedPackages)
+            {
+                string fullPackageId = package.packageId;
+
+                Client.AddAndRemove()
+            }*/
+
+            return;
+
+            //float GetProgress() => currentGitCount / (float) gitPackages.Count;
+
+            // packageId is formatted as "com.author.package@git@github.com:author/package.git"
+            /*string GitUriFromPackage(PackageInfo package)
+            {
+                try
+                {
+                    return package.packageId.Split('@', 2)[1];
+                }
+                catch (IndexOutOfRangeException) // future-proofing?
+                {
+                    return package.packageId;
+                }
+            }*/
         }
     }
 }
