@@ -46,6 +46,18 @@ namespace BioluminescentGames.Utils.Utilities {
         {
             return Math.Abs(b - a) < Math.Max(1E-06f * Math.Max(Math.Abs(a), Math.Abs(b)), Mathf.Epsilon * 8f); // Yoink from Mathf.Approximately.
         }
+
+        public static float RoundToDecimals(float value, uint decimals)
+        {
+            float powerOfTen = Mathf.Pow(10, decimals);
+            return Mathf.Round(value * powerOfTen) / powerOfTen;
+        }
+
+        public static double RoundToDecimals(double value, uint decimals)
+        {
+            double powerOfTen = Math.Pow(10, decimals);
+            return Math.Round(value * powerOfTen) / powerOfTen;
+        }
     }
 
 }

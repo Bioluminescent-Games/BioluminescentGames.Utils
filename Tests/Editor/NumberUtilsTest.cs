@@ -7,6 +7,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
     [TestOf(typeof(NumberUtils))]
     public class NumberUtilsTest
     {
+        [Test]
         [TestCase(5f, 0f, 10f, 0f, 100f, ExpectedResult = 50f)]
         [TestCase(0f, 0f, 10f, 0f, 100f, ExpectedResult = 0f)]
         [TestCase(10f, 0f, 10f, 0f, 100f, ExpectedResult = 100f)]
@@ -19,6 +20,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
             return NumberUtils.Map(value, from1, to1, from2, to2);
         }
 
+        [Test]
         [TestCase(5, 0, 10, 0, 100, ExpectedResult = 50)]
         [TestCase(0, 0, 10, 0, 100, ExpectedResult = 0)]
         [TestCase(10, 0, 10, 0, 100, ExpectedResult = 100)]
@@ -30,6 +32,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
             return NumberUtils.Map(value, from1, to1, from2, to2);
         }
 
+        [Test]
         [TestCase(5d, 0d, 10d, 0d, 100d, ExpectedResult = 50d)]
         [TestCase(0d, 0d, 10d, 0d, 100d, ExpectedResult = 0d)]
         [TestCase(10d, 0d, 10d, 0d, 100d, ExpectedResult = 100d)]
@@ -67,6 +70,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
             Assert.Throws<System.ArgumentException>(() => NumberUtils.Map(value, from1, to1, from2, to2));
         }
 
+        [Test]
         [TestCase(1.0, 1.0, ExpectedResult = true)]
         [TestCase(0.0, 0.0, ExpectedResult = true)]
         [TestCase(-1.0, -1.0, ExpectedResult = true)]
@@ -79,6 +83,32 @@ namespace BioluminescentGames.Utils.Tests.Editor
         public bool Approximately_ValidInputs_ReturnsExpectedResult(double a, double b)
         {
             return NumberUtils.Approximately(a, b);
+        }
+
+        [Test]
+        [TestCase(0f, 0u, ExpectedResult = 0f)]
+        [TestCase(0f, 1u, ExpectedResult = 0f)]
+        [TestCase(5.5123f, 2u, ExpectedResult = 5.51f)]
+        [TestCase(5.5123f, 0u, ExpectedResult = 6f)]
+        [TestCase(-5.5123f, 2u, ExpectedResult = -5.51f)]
+        [TestCase(-5.5123f, 0u, ExpectedResult = -6f)]
+        [TestCase(4.1251f, 0u, ExpectedResult = 4f)]
+        public float RoundToDecimals_Float_ReturnsExpectedResult(float value, uint decimals)
+        {
+            return NumberUtils.RoundToDecimals(value, decimals);
+        }
+
+        [Test]
+        [TestCase(0, 0u, ExpectedResult = 0)]
+        [TestCase(0, 1u, ExpectedResult = 0)]
+        [TestCase(5.5123, 2u, ExpectedResult = 5.51)]
+        [TestCase(5.5123, 0u, ExpectedResult = 6)]
+        [TestCase(-5.5123, 2u, ExpectedResult = -5.51)]
+        [TestCase(-5.5123, 0u, ExpectedResult = -6)]
+        [TestCase(4.1251, 0u, ExpectedResult = 4)]
+        public double RoundToDecimals_Double_ReturnsExpectedResult(double value, uint decimals)
+        {
+            return NumberUtils.RoundToDecimals(value, decimals);
         }
     }
 }
