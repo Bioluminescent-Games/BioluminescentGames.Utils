@@ -2,9 +2,11 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using BioluminescentGames.Utils.Utilities;
 using UnityEngine;
 using EditorAttributes;
+using Debug = UnityEngine.Debug;
 
 namespace BioluminescentGames.Utils.Components
 {
@@ -73,9 +75,26 @@ namespace BioluminescentGames.Utils.Components
             switch (type)
             {
                 case Type.File:
-                    Process.Start(path);
+                    if (!File.Exists(path))
+                    {
+                        Debug.LogError("File not found: " + path);
+                        return;
+                    }
+
+                    ProcessStartInfo startInfo = new()
+                    {
+                        FileName = System.IO.Path.GetFullPath(path),
+                        UseShellExecute = true
+                    };
+                    Process.Start(startInfo);
                     break;
                 case Type.Folder:
+                    if (!Directory.Exists(path))
+                    {
+                        Debug.LogError("Directory not found: " + path);
+                        return;
+                    }
+
                     Application.OpenURL($"file:///{path}");
                     break;
                 default:
