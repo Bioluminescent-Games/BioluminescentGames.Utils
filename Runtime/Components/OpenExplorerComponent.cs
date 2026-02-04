@@ -1,6 +1,7 @@
 #if EDITOR_ATTRIBUTES
 
 using System;
+using System.Diagnostics;
 using BioluminescentGames.Utils.Utilities;
 using UnityEngine;
 using EditorAttributes;
@@ -13,17 +14,26 @@ namespace BioluminescentGames.Utils.Components
         [SerializeField] private ScriptableEvent scriptableEvent;
         [SerializeField] private ScriptableEvent<string> scriptableEventWithPath;
 
+        private enum Type
+        {
+            File,
+            Folder
+        }
+
+        [SerializeField] private Type type;
+
         private enum Path
         {
             InstallLocation,
             PersistentDataPath,
+            StreamingAssets,
             CustomWithPlaceholders,
         }
 
         [SerializeField] private Path pathPreset;
 
         [ShowField(nameof(pathPreset), Path.CustomWithPlaceholders)]
-        [HelpBox("Valid Placeholders:\n[InstallLocation] = Install Location\n[PDP] = PersistentDataPath")]
+        [HelpBox("Valid Placeholders:\n[InstallLocation] = Install Location\n[PDP] = PersistentDataPath\n[SA] = StreamingAssets")]
         [SerializeField] private string pathToOpen = "";
 
         private void Awake()
@@ -45,8 +55,12 @@ namespace BioluminescentGames.Utils.Components
                 case Path.PersistentDataPath:
                     OpenExplorerToPath(Application.persistentDataPath);
                     break;
+                case Path.StreamingAssets:
+                    OpenExplorerToPath(Application.streamingAssetsPath);
+                    break;
                 case Path.CustomWithPlaceholders:
-                    string path = pathToOpen.Replace("[InstallLocation]", Application.dataPath).Replace("[PDP]", Application.persistentDataPath);
+                    string path = pathToOpen.Replace("[InstallLocation]", Application.dataPath).Replace("[PDP]", Application.persistentDataPath)
+                        .Replace("[SA]", Application.streamingAssetsPath);
                     OpenExplorerToPath(path);
                     break;
                 default:
@@ -56,7 +70,17 @@ namespace BioluminescentGames.Utils.Components
 
         public void OpenExplorerToPath(string path)
         {
-            Application.OpenURL($"file:///{path}");
+            switch (type)
+            {
+                case Type.File:
+                    Process.Start(path);
+                    break;
+                case Type.Folder:
+                    Application.OpenURL($"file:///{path}");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }
