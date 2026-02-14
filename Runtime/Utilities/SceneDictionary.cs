@@ -27,6 +27,7 @@ namespace BioluminescentGames.Utils.Utilities
             {
                 if (!_init)
                     _sceneNameDictionary = new Dictionary<string, T>(dictionary.Select(kv => new KeyValuePair<string, T>(kv.Key.Name, kv.Value)));
+                _init = true;
                 return _sceneNameDictionary;
             }
         }
