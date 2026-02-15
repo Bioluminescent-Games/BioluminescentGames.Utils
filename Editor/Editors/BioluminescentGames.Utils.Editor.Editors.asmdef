@@ -1,0 +1,20 @@
+{
+    "name": "BioluminescentGames.Utils.Editor.Editors",
+    "rootNamespace": "BioluminescentGames.Utils.Editor.Editors",
+    "references": [
+        "GUID:6ac92135e5edd094f8acde8d3d6ce190",
+        "GUID:9f4f5bf029cebb64f983b7bdc29f62a1",
+        "GUID:1491147abca9d7d4bb7105af628b223e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -2,7 +2,7 @@ using BioluminescentGames.Utils.Utilities;
 using UnityEditor;
 using UnityEngine;
 
-namespace BioluminescentGames.Utils.Editor
+namespace BioluminescentGames.Utils.Editor.Editors
 {
     [CustomEditor(typeof(ScriptableEvent))]
     public class ScriptableEventEditor : UnityEditor.Editor
