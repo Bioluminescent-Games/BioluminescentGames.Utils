@@ -57,7 +57,7 @@ namespace BioluminescentGames.Utils.Utilities
         public static Result<T> FromFlag(bool flag, T value, string error) => flag ? Success(value) : Failure(error);
 
         /// <summary>
-        /// Returns true if the request was a success. Otherwise prints the error and returns false.
+        /// Returns true if the request was a success. Otherwise, prints the error and returns false.
         /// </summary>
         /// <returns>Was the request a success?</returns>
         public bool Check()
@@ -69,6 +69,12 @@ namespace BioluminescentGames.Utils.Utilities
             return false;
         }
 
+        /// <summary>
+        /// Removes the <see cref="Result{T}"/> container and returns the value if exists,
+        /// otherwise an exception.
+        /// </summary>
+        /// <returns>The value if it exists, otherwise NullReferenceException</returns>
+        /// <exception cref="NullReferenceException">If the result didn't succeed.</exception>
         public T Unwrap()
         {
             return Succeeded ? Value : throw new NullReferenceException(Error);
