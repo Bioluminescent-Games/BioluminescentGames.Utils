@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Utilities
@@ -66,6 +67,11 @@ namespace BioluminescentGames.Utils.Utilities
 
             Debug.LogError(Error);
             return false;
+        }
+
+        public T Unwrap()
+        {
+            return Succeeded ? Value : throw new NullReferenceException(Error);
         }
 
         /// <summary>
