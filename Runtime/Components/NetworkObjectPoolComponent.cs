@@ -30,7 +30,8 @@ namespace BioluminescentGames.Utils.Components
         {
             foreach (NetworkObject prefab in _registeredPrefabs)
             {
-                NetworkManager.Singleton.PrefabHandler.RemoveHandler(prefab);
+                if (NetworkManager.Singleton)
+                    NetworkManager.Singleton.PrefabHandler.RemoveHandler(prefab);
                 _pools[prefab].Clear();
             }
 
