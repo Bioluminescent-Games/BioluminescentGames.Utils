@@ -184,18 +184,20 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// </summary>
     public abstract class BioluminescentUIBehaviour : BioluminescentBehaviour
     {
+        private const float k_DefaultDuration = 0.2f;
+
         [Header("UI Behaviour")]
         [SerializeField] protected bool shouldAnimate = true;
 
         [Space(2)]
         [SerializeField] protected CanvasGroup darkenCanvasGroup;
-        [SerializeField] protected TweenSettings<float> darkenTweenSettings;
-        [SerializeField] protected TweenSettings<float> brightenTweenSettings;
+        [SerializeField] protected TweenSettings<float> darkenTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
+        [SerializeField] protected TweenSettings<float> brightenTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
 
         [Space(2)]
         [SerializeField] protected RectTransform[] containers;
-        [SerializeField] protected TweenSettings<float> scaleInTweenSettings;
-        [SerializeField] protected TweenSettings<float> scaleOutTweenSettings;
+        [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
+        [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
 
         [Space(4)]
         [Header("Custom Fields")]
@@ -251,6 +253,11 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         }
 
         /// <summary>
+        /// Shows the UI with animation
+        /// </summary>
+        protected virtual void Show() => Show(true);
+
+        /// <summary>
         /// OnShowing is called when the UI is showing.
         /// </summary>
         protected virtual void OnShowing() {}
@@ -290,6 +297,11 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 OnVisibilityChanged(false);
             }
         }
+
+        /// <summary>
+        /// Hides the UI with animation
+        /// </summary>
+        protected virtual void Hide() => Hide(true);
 
         /// <summary>
         /// OnHiding is called when the UI is hiding.
