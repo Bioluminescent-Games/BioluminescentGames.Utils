@@ -1,23 +1,84 @@
-﻿using UnityEngine;
+﻿using EditorAttributes;
+using PrimeTween;
+using UnityEngine;
 
 namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 {
     /// <summary>
-    /// Base UI class, contains common methods used for UI.
+    /// Base UI class contains common methods used for UI.
     /// </summary>
     public abstract class UIBehaviour : MonoBehaviour
     {
+        [Header("UI Behaviour")]
+        [SerializeField] protected bool shouldAnimate = true;
+
+        [Space(2)]
+        [SerializeField] protected CanvasGroup darkenCanvasGroup;
+        [SerializeField] protected TweenSettings<float> darkenTweenSettings;
+        [SerializeField] protected TweenSettings<float> brightenTweenSettings;
+
+        [Space(2)]
+        [SerializeField] protected RectTransform[] containers;
+        [SerializeField] protected TweenSettings<float> scaleInTweenSettings;
+        [SerializeField] protected TweenSettings<float> scaleOutTweenSettings;
+
+        [Space(4)]
+        [Header("Custom Fields")]
+        [SerializeField] private Void _;
+
+        private Sequence _currentTween;
+
+        /// <summary>
+        /// Animate the UI showing/hiding.
+        /// NOTE: This does NOT change the GameObject's active state!
+        /// </summary>
+        /// <param name="showing">Should we play the show or the hide animation?</param>
+        /// <returns>The sequence containing the Tween.</returns>
+        protected virtual Sequence Animate(bool showing)
+        {
+            Sequence sequence = Sequence.Create(Tween.Alpha(darkenCanvasGroup, showing ? darkenTweenSettings : brightenTweenSettings));
+
+            foreach (RectTransform container in containers)
+                sequence.Group(Tween.Scale(container, showing ? scaleInTweenSettings : scaleOutTweenSettings));
+
+            return sequence;
+        }
+
         /// <summary>
         /// Shows the UI
         /// </summary>
-        protected virtual void Show()
+        protected virtual void Show(bool animate = true)
         {
             if (gameObject.activeSelf) return; // Bail out if already visible
 
+            _currentTween.Stop();
+
             gameObject.SetActive(true);
-            OnShown();
-            OnVisibilityChanged(true);
+
+            OnShowing();
+            OnVisibilityChanging(true);
+
+            if (animate && shouldAnimate)
+            {
+                _currentTween = Animate(true);
+
+                _currentTween.OnComplete(() =>
+                {
+                    OnShown();
+                    OnVisibilityChanged(true);
+                });
+            }
+            else
+            {
+                OnShown();
+                OnVisibilityChanged(true);
+            }
         }
+
+        /// <summary>
+        /// OnShowing is called when the UI is showing.
+        /// </summary>
+        protected virtual void OnShowing() {}
 
         /// <summary>
         /// OnShown is called when the UI is shown.
@@ -27,14 +88,38 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <summary>
         /// Hides the UI
         /// </summary>
-        protected virtual void Hide()
+        protected virtual void Hide(bool animate = true)
         {
             if (!gameObject.activeSelf) return; // Bail out if already hidden
 
+            _currentTween.Stop();
+
             gameObject.SetActive(false);
-            OnHidden();
-            OnVisibilityChanged(false);
+
+            OnHiding();
+            OnVisibilityChanging(false);
+
+            if (animate && shouldAnimate)
+            {
+                _currentTween = Animate(false);
+
+                _currentTween.OnComplete(() =>
+                {
+                    OnHidden();
+                    OnVisibilityChanged(false);
+                });
+            }
+            else
+            {
+                OnHidden();
+                OnVisibilityChanged(false);
+            }
         }
+
+        /// <summary>
+        /// OnHiding is called when the UI is hiding.
+        /// </summary>
+        protected virtual void OnHiding() {}
 
         /// <summary>
         /// OnHidden is called when the UI is hidden.
@@ -55,12 +140,13 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// Sets the UI's visibility.
         /// </summary>
         /// <param name="visible">If the UI should be visible</param>
-        protected virtual void SetVisibility(bool visible)
+        /// <param name="animate">Should the UI play the tween when changing the visibility?</param>
+        protected virtual void SetVisibility(bool visible, bool animate = true)
         {
             if (visible)
-                Show();
+                Show(animate);
             else
-                Hide();
+                Hide(animate);
         }
 
         /// <summary>
@@ -70,27 +156,92 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         protected virtual void OnVisibilityChanged(bool newVisibility) {}
 
         /// <summary>
+        /// Called when the visibility of the UI is changing.
+        /// </summary>
+        /// <param name="newVisibility">The new visibility state of the UI.</param>
+        protected virtual void OnVisibilityChanging(bool newVisibility) {}
+
+        /// <summary>
         /// Toggle the visibility of the current object.
         /// </summary>
-        protected virtual void ToggleVisibility() => SetVisibility(!IsVisible());
+        protected virtual void ToggleVisibility(bool animate = true) => SetVisibility(!IsVisible(), animate);
     }
 
     /// <summary>
-    /// Base UI class, contains common methods used for UI.
+    /// Base UI class contains common methods used for UI. But Bioluminescerized.
     /// </summary>
     public abstract class BioluminescentUIBehaviour : BioluminescentBehaviour
     {
+        [Header("UI Behaviour")]
+        [SerializeField] protected bool shouldAnimate = true;
+
+        [Space(2)]
+        [SerializeField] protected CanvasGroup darkenCanvasGroup;
+        [SerializeField] protected TweenSettings<float> darkenTweenSettings;
+        [SerializeField] protected TweenSettings<float> brightenTweenSettings;
+
+        [Space(2)]
+        [SerializeField] protected RectTransform[] containers;
+        [SerializeField] protected TweenSettings<float> scaleInTweenSettings;
+        [SerializeField] protected TweenSettings<float> scaleOutTweenSettings;
+
+        [Space(4)]
+        [Header("Custom Fields")]
+        [SerializeField] private Void _;
+
+        private Sequence _currentTween;
+
+        /// <summary>
+        /// Animate the UI showing/hiding.
+        /// NOTE: This does NOT change the GameObject's active state!
+        /// </summary>
+        /// <param name="showing">Should we play the show or the hide animation?</param>
+        /// <returns>The sequence containing the Tween.</returns>
+        protected virtual Sequence Animate(bool showing)
+        {
+            Sequence sequence = Sequence.Create(Tween.Alpha(darkenCanvasGroup, showing ? darkenTweenSettings : brightenTweenSettings));
+
+            foreach (RectTransform container in containers)
+                sequence.Group(Tween.Scale(container, showing ? scaleInTweenSettings : scaleOutTweenSettings));
+
+            return sequence;
+        }
+
         /// <summary>
         /// Shows the UI
         /// </summary>
-        protected virtual void Show()
+        protected virtual void Show(bool animate = true)
         {
             if (gameObject.activeSelf) return; // Bail out if already visible
 
+            _currentTween.Stop();
+
             gameObject.SetActive(true);
-            OnShown();
-            OnVisibilityChanged(true);
+
+            OnShowing();
+            OnVisibilityChanging(true);
+
+            if (animate && shouldAnimate)
+            {
+                _currentTween = Animate(true);
+
+                _currentTween.OnComplete(() =>
+                {
+                    OnShown();
+                    OnVisibilityChanged(true);
+                });
+            }
+            else
+            {
+                OnShown();
+                OnVisibilityChanged(true);
+            }
         }
+
+        /// <summary>
+        /// OnShowing is called when the UI is showing.
+        /// </summary>
+        protected virtual void OnShowing() {}
 
         /// <summary>
         /// OnShown is called when the UI is shown.
@@ -100,14 +251,38 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <summary>
         /// Hides the UI
         /// </summary>
-        protected virtual void Hide()
+        protected virtual void Hide(bool animate = true)
         {
             if (!gameObject.activeSelf) return; // Bail out if already hidden
 
+            _currentTween.Stop();
+
             gameObject.SetActive(false);
-            OnHidden();
-            OnVisibilityChanged(false);
+
+            OnHiding();
+            OnVisibilityChanging(false);
+
+            if (animate && shouldAnimate)
+            {
+                _currentTween = Animate(false);
+
+                _currentTween.OnComplete(() =>
+                {
+                    OnHidden();
+                    OnVisibilityChanged(false);
+                });
+            }
+            else
+            {
+                OnHidden();
+                OnVisibilityChanged(false);
+            }
         }
+
+        /// <summary>
+        /// OnHiding is called when the UI is hiding.
+        /// </summary>
+        protected virtual void OnHiding() {}
 
         /// <summary>
         /// OnHidden is called when the UI is hidden.
@@ -128,12 +303,13 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// Sets the UI's visibility.
         /// </summary>
         /// <param name="visible">If the UI should be visible</param>
-        protected virtual void SetVisibility(bool visible)
+        /// <param name="animate">Should the UI play the tween when changing the visibility?</param>
+        protected virtual void SetVisibility(bool visible, bool animate = true)
         {
             if (visible)
-                Show();
+                Show(animate);
             else
-                Hide();
+                Hide(animate);
         }
 
         /// <summary>
@@ -143,8 +319,14 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         protected virtual void OnVisibilityChanged(bool newVisibility) {}
 
         /// <summary>
+        /// Called when the visibility of the UI is changing.
+        /// </summary>
+        /// <param name="newVisibility">The new visibility state of the UI.</param>
+        protected virtual void OnVisibilityChanging(bool newVisibility) {}
+
+        /// <summary>
         /// Toggle the visibility of the current object.
         /// </summary>
-        protected virtual void ToggleVisibility() => SetVisibility(!IsVisible());
+        protected virtual void ToggleVisibility(bool animate = true) => SetVisibility(!IsVisible(), animate);
     }
 }
