@@ -78,6 +78,11 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         }
 
         /// <summary>
+        /// Shows the UI with animation
+        /// </summary>
+        protected virtual void Show() => Show(true);
+
+        /// <summary>
         /// OnShowing is called when the UI is showing.
         /// </summary>
         protected virtual void OnShowing() {}
@@ -117,6 +122,11 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 OnVisibilityChanged(false);
             }
         }
+
+        /// <summary>
+        /// Hides the UI with animation
+        /// </summary>
+        protected virtual void Hide() => Hide(true);
 
         /// <summary>
         /// OnHiding is called when the UI is hiding.
