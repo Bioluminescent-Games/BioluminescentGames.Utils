@@ -53,7 +53,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <summary>
         /// Shows the UI
         /// </summary>
-        protected virtual void Show(bool animate = true)
+        protected virtual void Show(bool animate)
         {
             if (gameObject.activeSelf) return; // Bail out if already visible
 
@@ -99,7 +99,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <summary>
         /// Hides the UI
         /// </summary>
-        protected virtual void Hide(bool animate = true)
+        protected virtual void Hide(bool animate)
         {
             if (!gameObject.activeSelf) return; // Bail out if already hidden
 
@@ -232,7 +232,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <summary>
         /// Shows the UI
         /// </summary>
-        protected virtual void Show(bool animate = true)
+        protected virtual void Show(bool animate)
         {
             if (gameObject.activeSelf) return; // Bail out if already visible
 
@@ -278,7 +278,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <summary>
         /// Hides the UI
         /// </summary>
-        protected virtual void Hide(bool animate = true)
+        protected virtual void Hide(bool animate)
         {
             if (!gameObject.activeSelf) return; // Bail out if already hidden
 

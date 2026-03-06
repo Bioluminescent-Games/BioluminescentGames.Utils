@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace BioluminescentGames.Utils.Systems.Settings
 {
-    public class SettingsUI : UIBehaviour
+    public class SettingsUI : PublicUIBehaviour
     {
         [Header("Generic")]
         [SerializeField] private Button applyButton;
