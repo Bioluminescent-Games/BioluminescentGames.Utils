@@ -9,7 +9,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// </summary>
     public abstract class UIBehaviour : MonoBehaviour
     {
-        private const float k_DefaultDuration = 0.2f;
+        private const float k_DefaultDuration = 0.15f;
 
         [Header("UI Behaviour")]
         [SerializeField] protected bool shouldAnimate = true;
@@ -188,7 +188,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// </summary>
     public abstract class BioluminescentUIBehaviour : BioluminescentBehaviour
     {
-        private const float k_DefaultDuration = 0.2f;
+        private const float k_DefaultDuration = 0.15f;
 
         [Header("UI Behaviour")]
         [SerializeField] protected bool shouldAnimate = true;
