@@ -246,14 +246,14 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             if (animate && shouldAnimate)
             {
                 _currentTween = Animate(true);
-
-                _currentTween.OnComplete(() =>
-                {
-                    OnShown();
-                    OnVisibilityChanged(true);
-                });
+                _currentTween.OnComplete(ShowComplete);
             }
             else
+                ShowComplete();
+
+            return;
+
+            void ShowComplete()
             {
                 OnShown();
                 OnVisibilityChanged(true);
@@ -284,25 +284,25 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
             _currentTween.Stop();
 
-            gameObject.SetActive(false);
-
             OnHiding();
             OnVisibilityChanging(false);
 
             if (animate && shouldAnimate)
             {
                 _currentTween = Animate(false);
-
-                _currentTween.OnComplete(() =>
-                {
-                    OnHidden();
-                    OnVisibilityChanged(false);
-                });
+                _currentTween.OnComplete(HideComplete);
             }
             else
+                HideComplete();
+
+            return;
+
+            void HideComplete()
             {
                 OnHidden();
                 OnVisibilityChanged(false);
+
+                gameObject.SetActive(false);
             }
         }
 
