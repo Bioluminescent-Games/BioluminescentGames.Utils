@@ -38,10 +38,14 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <returns>The sequence containing the Tween.</returns>
         protected virtual Sequence Animate(bool showing)
         {
-            Sequence sequence = Sequence.Create(Tween.Alpha(darkenCanvasGroup, showing ? darkenTweenSettings : brightenTweenSettings));
+            Sequence sequence = Sequence.Create();
+
+            if (darkenCanvasGroup)
+                sequence.Group(Tween.Alpha(darkenCanvasGroup, showing ? darkenTweenSettings : brightenTweenSettings));
 
             foreach (RectTransform container in containers)
-                sequence.Group(Tween.Scale(container, showing ? scaleInTweenSettings : scaleOutTweenSettings));
+                if (container)
+                    sequence.Group(Tween.Scale(container, showing ? scaleInTweenSettings : scaleOutTweenSettings));
 
             return sequence;
         }
@@ -213,10 +217,14 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <returns>The sequence containing the Tween.</returns>
         protected virtual Sequence Animate(bool showing)
         {
-            Sequence sequence = Sequence.Create(Tween.Alpha(darkenCanvasGroup, showing ? darkenTweenSettings : brightenTweenSettings));
+            Sequence sequence = Sequence.Create();
+
+            if (darkenCanvasGroup)
+                sequence.Group(Tween.Alpha(darkenCanvasGroup, showing ? darkenTweenSettings : brightenTweenSettings));
 
             foreach (RectTransform container in containers)
-                sequence.Group(Tween.Scale(container, showing ? scaleInTweenSettings : scaleOutTweenSettings));
+                if (container)
+                    sequence.Group(Tween.Scale(container, showing ? scaleInTweenSettings : scaleOutTweenSettings));
 
             return sequence;
         }
