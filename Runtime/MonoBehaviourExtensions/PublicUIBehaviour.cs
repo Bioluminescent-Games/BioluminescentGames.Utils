@@ -11,6 +11,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         public void HideObject() => Hide();
         public void ToggleObjectVisibility() => ToggleVisibility();
         public void SetObjectVisibility(bool visibility) => SetVisibility(visibility);
+
+        public bool IsObjectVisible() => IsVisible();
+        public bool IsObjectInVisible() => IsInvisible();
     }
 
     public class BioluminescentPublicUIBehaviour : BioluminescentUIBehaviour
@@ -24,5 +27,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         public void HideObject() => Hide();
         public void ToggleObjectVisibility() => ToggleVisibility();
         public void SetObjectVisibility(bool visibility) => SetVisibility(visibility);
+
+        public bool IsObjectVisible() => IsVisible();
+        public bool IsObjectInVisible() => IsInvisible();
     }
 }
