@@ -18,7 +18,12 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 UpdateSystem.Instance.Unregister(this);
         }
 
-        public virtual void OnUpdate() {}
+        public virtual void OnUpdate()
+        {
+#if UNITY_EDITOR || BUILD_DEBUG
+            Debug.LogWarning($"OnUpdate method on {gameObject.name} is empty or you're calling base.OnUpdate()!");
+#endif
+        }
     }
 
 #if UNITY_NGO
@@ -35,7 +40,12 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 UpdateSystem.Instance.Unregister(this);
         }
 
-        public virtual void OnUpdate() {}
+        public virtual void OnUpdate()
+        {
+#if UNITY_EDITOR || BUILD_DEBUG
+            Debug.LogWarning($"OnUpdate method on {gameObject.name} is empty or you're calling base.OnUpdate()!");
+#endif
+        }
     }
 #endif
 }

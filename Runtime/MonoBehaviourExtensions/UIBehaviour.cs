@@ -57,7 +57,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         {
             if (gameObject.activeSelf) return; // Bail out if already visible
 
-            _currentTween.Stop();
+            _currentTween.Complete();
 
             gameObject.SetActive(true);
 
@@ -103,7 +103,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         {
             if (!gameObject.activeSelf) return; // Bail out if already hidden
 
-            _currentTween.Stop();
+            _currentTween.Complete();
 
             OnHiding();
             OnVisibilityChanging(false);
@@ -181,6 +181,11 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// Toggle the visibility of the current object.
         /// </summary>
         protected virtual void ToggleVisibility(bool animate = true) => SetVisibility(!IsVisible(), animate);
+
+        protected virtual void OnDestroy()
+        {
+            _currentTween.Complete();
+        }
     }
 
     /// <summary>
@@ -236,7 +241,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         {
             if (gameObject.activeSelf) return; // Bail out if already visible
 
-            _currentTween.Stop();
+            _currentTween.Complete();
 
             gameObject.SetActive(true);
 
@@ -282,7 +287,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         {
             if (!gameObject.activeSelf) return; // Bail out if already hidden
 
-            _currentTween.Stop();
+            _currentTween.Complete();
 
             OnHiding();
             OnVisibilityChanging(false);
@@ -360,5 +365,10 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// Toggle the visibility of the current object.
         /// </summary>
         protected virtual void ToggleVisibility(bool animate = true) => SetVisibility(!IsVisible(), animate);
+
+        protected virtual void OnDestroy()
+        {
+            _currentTween.Complete();
+        }
     }
 }

@@ -50,6 +50,7 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
             _updatables.RemoveSwapBack(updatable);
         }
 
+        [HideInCallstack]
         protected override void OnUpdate()
         {
             bool shouldSortList = _updatablesToAdd.Count > 0;
@@ -76,7 +77,6 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
             foreach (IUpdatable updatable in _updatables)
             {
 #if ENABLE_UPDATESYSTEM_PROFILING
-
                 Profiler.BeginSample(TypeDictionary.GetNameForType(updatable.GetType()));
 #endif
 
