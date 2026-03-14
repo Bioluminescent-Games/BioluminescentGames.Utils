@@ -21,7 +21,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         public virtual void OnUpdate()
         {
 #if UNITY_EDITOR || BUILD_DEBUG
-            Debug.LogWarning($"OnUpdate method on {gameObject.name} is empty or you're calling base.OnUpdate()!");
+            Debug.LogWarning($"OnUpdate method on {GetType().Name} is empty or you're calling base.OnUpdate()!");
 #endif
         }
     }
@@ -43,7 +43,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         public virtual void OnUpdate()
         {
 #if UNITY_EDITOR || BUILD_DEBUG
-            Debug.LogWarning($"OnUpdate method on {gameObject.name} is empty or you're calling base.OnUpdate()!");
+            Debug.LogWarning($"OnUpdate method on {GetType().Name} is empty or you're calling base.OnUpdate()!");
 #endif
         }
     }
