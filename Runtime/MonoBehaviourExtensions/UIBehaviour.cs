@@ -67,7 +67,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             if (animate && shouldAnimate)
             {
                 _currentTween = Animate(true);
-                _currentTween.OnComplete(ShowComplete);
+                _currentTween.OnComplete(ShowComplete, false);
             }
             else
                 ShowComplete();
@@ -111,7 +111,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             if (animate && shouldAnimate)
             {
                 _currentTween = Animate(false);
-                _currentTween.OnComplete(HideComplete);
+                _currentTween.OnComplete(HideComplete, false);
             }
             else
                 HideComplete();
