@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace BioluminescentGames.Utils.Systems.Settings
 {
-    public class SettingsUI : PublicUIBehaviour
+    public class SettingsUI : BioluminescentPublicUIBehaviour
     {
         [Header("Generic")]
         [SerializeField] private Button applyButton;
@@ -55,21 +55,21 @@ namespace BioluminescentGames.Utils.Systems.Settings
             Debug.Log("Settings > Loading Categories...");
 
             // Collect Categories
-            List<string> categories = new List<string>();
+            List<CategoryDefinition> categories = new List<CategoryDefinition>();
             categories.AddRange(CollectCategories());
             categories = categories.AsValueEnumerable().OrderBy(category => category).ToList(); // Sort Alphabetically so it isn't random order.
 
-            foreach (string category in categories)
+            foreach (CategoryDefinition category in categories)
             {
                 Button categoryButton = Instantiate(categoryPrefab, categoryParent);
-                categoryButton.GetComponentInChildren<TMP_Text>().text = category;
+                categoryButton.GetComponentInChildren<TMP_Text>().text = category.name;
                 categoryButton.onClick.AddListener(() => InstantiateSettingsInCategory(category));
             }
 
             InstantiateSettingsInCategory(categories[0]);
         }
 
-        private void InstantiateSettingsInCategory(string category)
+        private void InstantiateSettingsInCategory(CategoryDefinition category)
         {
             Debug.Log($"Settings > Instantiating Settings inside {category}...");
 
@@ -146,19 +146,25 @@ namespace BioluminescentGames.Utils.Systems.Settings
             Debug.Log("Settings > Instantiated Settings!");
         }
 
-        private static string[] CollectCategories()
+        private static CategoryDefinition[] CollectCategories()
         {
-            List<string> categories = new List<string>();
+            List<CategoryDefinition> categories = new();
 
             foreach (ISetting setting in Settings.GetAll())
             {
-                if (!categories.Contains(setting.Category.name))
-                    categories.Add(setting.Category.name);
+                if (!categories.Contains(setting.Category))
+                    categories.Add(setting.Category);
             }
 
+            categories.Sort();
             return categories.ToArray();
         }
 
-        private static ISetting[] GetSettingsInCategory(string category) => Settings.GetAll().AsValueEnumerable().Where(s => s.Category.name == category).ToArray();
+        public override void OnUpdate()
+        {
+            applyButton.gameObject.SetActive(_settingsModified.Count > 0);
+        }
+
+        private static ISetting[] GetSettingsInCategory(CategoryDefinition category) => Settings.GetAll().AsValueEnumerable().Where(s => s.Category == category).ToArray();
     }
 }
