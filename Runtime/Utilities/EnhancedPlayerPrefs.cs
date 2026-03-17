@@ -35,5 +35,15 @@ namespace BioluminescentGames.Utils.Utilities
         {
             return PlayerPrefs.GetInt(key, defaultValue ? 1 : 0) > 0;
         }
+
+        public static void SetString(string key, string value)
+        {
+            PlayerPrefs.SetString(key, value);
+        }
+
+        public static string GetString(string key, string defaultValue = "")
+        {
+            return PlayerPrefs.GetString(key, defaultValue);
+        }
     }
 }

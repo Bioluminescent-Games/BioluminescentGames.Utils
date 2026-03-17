@@ -8,6 +8,7 @@ using BioluminescentGames.Utils.Systems.UI;
 using BioluminescentGames.Utils.Utilities;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace BioluminescentGames.Utils.Systems.Settings.UI
@@ -31,7 +32,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
         [SerializeField] private FloatOptionUIMetadata floatPrefab;
         [SerializeField] private DropdownOptionUIMetadata dropdownPrefab;
         [SerializeField] private ButtonOptionUIMetadata buttonPrefab;
+        [SerializeField] private KeybindOptionUIMetadata keybindPrefab;
         [SerializeField] private OptionUIMetadata dividerPrefab;
+
+        [Header("Keybinds")]
+        [SerializeField] private PublicUIBehaviour rebindingScreen;
 
         private readonly HashSet<string> _settingsModified = new HashSet<string>();
 
@@ -136,6 +141,34 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
                         tooltip = buttonOption.GetComponent<UITooltip>();
                         break;
+                    case KeybindSetting keybindSetting:
+                        KeybindOptionUIMetadata keybindOption = Instantiate(keybindPrefab, settingsParent);
+                        keybindOption.Title.text = keybindSetting.NameInMenu;
+                        keybindOption.Button.onClick.AddListener(() =>
+                        {
+                            rebindingScreen.ShowObject();
+                            keybindSetting.InputAction.action.PerformInteractiveRebinding()
+                                .WithControlsExcluding("Mouse")
+                                .OnMatchWaitForAnother(0.1f)
+                                .OnComplete(o =>
+                                {
+                                    UpdateText();
+                                    rebindingScreen.HideObject();
+                                    keybindSetting.OnApply();
+                                })
+                                .Start();
+                        });
+
+                        UpdateText();
+
+                        tooltip = keybindOption.GetComponent<UITooltip>();
+                        break;
+
+                        void UpdateText()
+                        {
+                            keybindOption.ButtonText.text = keybindSetting.InputAction.action.GetBindingDisplayString();
+                        }
+
                     case SettingDivider settingDivider:
                         OptionUIMetadata dividerOption = Instantiate(dividerPrefab, settingsParent);
                         dividerOption.Title.text = settingDivider.NameInMenu;

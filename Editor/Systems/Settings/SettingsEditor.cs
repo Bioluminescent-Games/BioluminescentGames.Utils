@@ -300,6 +300,7 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
                     AddSettingToMenu<DropdownSetting>(menu, "Dropdown Setting");
                     AddSettingToMenu<FloatSetting>(menu, "Decimal Number Setting");
                     AddSettingToMenu<IntSetting>(menu, "Whole Number Setting");
+                    AddSettingToMenu<KeybindSetting>(menu, "Keybind Setting");
                     AddSettingToMenu<SettingDivider>(menu, "Divider");
 
                     menu.DropDown(addButton.worldBound, addButton, DropdownMenuSizeMode.Content);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 {
-    public abstract class ValueSetting<T> : Setting
+    public abstract class ValueSetting<T> : SavableSetting
     {
         [field: SerializeField] public T DefaultValue { get; private set; }
         [field: SerializeField] public bool AutoApply { get; private set; }
@@ -30,10 +30,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         public override void OnApply()
         {
             ApplyValues();
-            SaveToPlayerPrefs();
+
+            base.OnApply();
         }
 
-        private void ApplyValues()
+        protected virtual void ApplyValues()
         {
             _currentValue = InternalValue;
             OnChanged?.Invoke(InternalValue);
@@ -41,11 +42,9 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         public override void Init()
         {
-            LoadFromPlayerPrefs();
+            base.Init();
+
             ApplyValues();
         }
-
-        protected abstract void LoadFromPlayerPrefs();
-        protected abstract void SaveToPlayerPrefs();
     }
 }
