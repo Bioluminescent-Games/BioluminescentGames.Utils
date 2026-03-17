@@ -34,6 +34,9 @@ namespace BioluminescentGames.Utils.Systems.UI
             if (_visible)
                 return;
 
+            if (string.IsNullOrWhiteSpace(title) && string.IsNullOrWhiteSpace(description))
+                return;
+
             _visible = true;
             TooltipMangerUI.Instance.SetTooltip(title, description);
         }

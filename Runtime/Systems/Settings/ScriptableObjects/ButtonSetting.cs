@@ -11,10 +11,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         /// When the button is pressed.
         /// </summary>
         public event Action OnButtonPressed;
-        
-        /// <summary>
-        /// NOT PUBLIC API - DO NOT CALL.
-        /// </summary>
-        public void ButtonPressed() => OnButtonPressed?.Invoke();
+
+        internal void ButtonPressed() => OnButtonPressed?.Invoke();
     }
 }

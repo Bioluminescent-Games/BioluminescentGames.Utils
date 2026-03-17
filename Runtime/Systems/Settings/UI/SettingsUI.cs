@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BioluminescentGames.Utils.Systems.Settings
+namespace BioluminescentGames.Utils.Systems.Settings.UI
 {
     public class SettingsUI : BioluminescentPublicUIBehaviour
     {
@@ -31,6 +31,7 @@ namespace BioluminescentGames.Utils.Systems.Settings
         [SerializeField] private FloatOptionUIMetadata floatPrefab;
         [SerializeField] private DropdownOptionUIMetadata dropdownPrefab;
         [SerializeField] private ButtonOptionUIMetadata buttonPrefab;
+        [SerializeField] private OptionUIMetadata dividerPrefab;
 
         private readonly HashSet<string> _settingsModified = new HashSet<string>();
 
@@ -134,6 +135,12 @@ namespace BioluminescentGames.Utils.Systems.Settings
                         buttonOption.Button.onClick.AddListener(buttonSetting.ButtonPressed);
 
                         tooltip = buttonOption.GetComponent<UITooltip>();
+                        break;
+                    case SettingDivider settingDivider:
+                        OptionUIMetadata dividerOption = Instantiate(dividerPrefab, settingsParent);
+                        dividerOption.Title.text = settingDivider.NameInMenu;
+
+                        tooltip = dividerOption.GetComponent<UITooltip>();
                         break;
                     default:
                         throw new IndexOutOfRangeException("Invalid setting type");

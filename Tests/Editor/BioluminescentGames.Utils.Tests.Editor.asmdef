@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "BioluminescentGames.Utils.Utilities",
-        "BioluminescentGames.Utils.MonoBehaviourExtensions"
+        "BioluminescentGames.Utils.MonoBehaviourExtensions",
+        "BioluminescentGames.Utils.Editor.Utilities"
     ],
     "includePlatforms": [
         "Editor"

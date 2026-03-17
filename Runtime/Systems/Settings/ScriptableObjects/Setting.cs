@@ -73,6 +73,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
 #if UNITY_EDITOR
         public void EDITOR_SetOrderIndex(int orderIndex) => OrderIndex = orderIndex;
+
+        public void EDITOR_SetCategory(CategoryDefinition category) => Category = category;
 #endif
     }
 }
