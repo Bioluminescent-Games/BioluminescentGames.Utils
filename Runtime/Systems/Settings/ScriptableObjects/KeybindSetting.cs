@@ -13,6 +13,9 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         [field: SerializeField] public InputActionReference InputAction { get; private set; }
 
+        [field: BindingIndex(nameof(InputAction))]
+        [field: SerializeField] public int BindingIndex { get; private set; }
+
         protected override void LoadFromPlayerPrefs()
         {
             InputAction.action.LoadBindingOverridesFromJson(EnhancedPlayerPrefs.GetString(ID));

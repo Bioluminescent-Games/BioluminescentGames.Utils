@@ -147,9 +147,14 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                         keybindOption.Button.onClick.AddListener(() =>
                         {
                             rebindingScreen.ShowObject();
-                            keybindSetting.InputAction.action.PerformInteractiveRebinding()
+                            keybindSetting.InputAction.action.PerformInteractiveRebinding(keybindSetting.BindingIndex)
+                                .WithCancelingThrough(Keyboard.current.escapeKey)
                                 .WithControlsExcluding("Mouse")
                                 .OnMatchWaitForAnother(0.1f)
+                                .OnCancel(o =>
+                                {
+                                    rebindingScreen.HideObject();
+                                })
                                 .OnComplete(o =>
                                 {
                                     UpdateText();
