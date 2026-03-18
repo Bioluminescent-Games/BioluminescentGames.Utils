@@ -166,6 +166,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
                         UpdateText();
 
+                        keybindOption.ResetButton.onClick.AddListener(() =>
+                        {
+                            keybindSetting.InputAction.action.LoadBindingOverridesFromJson("");
+                            keybindSetting.OnApply();
+                        });
+
                         tooltip = keybindOption.GetComponent<UITooltip>();
                         break;
 
