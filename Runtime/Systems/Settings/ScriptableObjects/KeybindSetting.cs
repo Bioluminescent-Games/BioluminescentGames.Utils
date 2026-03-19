@@ -24,7 +24,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         protected override void LoadFromPlayerPrefs()
         {
-            InputAction.LoadBindingOverridesFromJson(EnhancedPlayerPrefs.GetString(ID));
+            InputAction.LoadBindingOverridesFromJson(EnhancedPlayerPrefs.GetString(ID), false);
         }
 
         protected override void SaveToPlayerPrefs()
