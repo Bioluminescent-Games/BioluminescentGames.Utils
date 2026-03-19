@@ -146,6 +146,9 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                         keybindOption.Title.text = keybindSetting.NameInMenu;
                         keybindOption.Button.onClick.AddListener(() =>
                         {
+                            bool enabled = keybindSetting.InputAction.action.enabled;
+                            keybindSetting.InputAction.action.Disable();
+
                             rebindingScreen.ShowObject();
                             keybindSetting.InputAction.action.PerformInteractiveRebinding(keybindSetting.BindingIndex)
                                 .WithCancelingThrough(Keyboard.current.escapeKey)
@@ -154,12 +157,16 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                                 .OnCancel(o =>
                                 {
                                     rebindingScreen.HideObject();
+                                    if (enabled)
+                                        keybindSetting.InputAction.action.Enable();
                                 })
                                 .OnComplete(o =>
                                 {
                                     UpdateText();
                                     rebindingScreen.HideObject();
                                     keybindSetting.OnApply();
+                                    if (enabled)
+                                        keybindSetting.InputAction.action.Enable();
                                 })
                                 .Start();
                         });
