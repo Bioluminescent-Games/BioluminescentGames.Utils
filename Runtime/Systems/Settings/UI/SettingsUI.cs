@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BioluminescentGames.Utils.Core;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using ZLinq;
 using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
@@ -144,29 +145,35 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                     case KeybindSetting keybindSetting:
                         KeybindOptionUIMetadata keybindOption = Instantiate(keybindPrefab, settingsParent);
                         keybindOption.Title.text = keybindSetting.NameInMenu;
+
+                        InputAction runtimeAction = GameInterface.Instance.GetInputHandler().InputActionAsset
+                            .FindAction(keybindSetting.InputAction.action.id);
+
                         keybindOption.Button.onClick.AddListener(() =>
                         {
-                            bool actionEnabled = keybindSetting.InputAction.action.enabled;
-                            keybindSetting.InputAction.action.Disable();
+                            bool actionEnabled = runtimeAction.enabled;
+                            runtimeAction.Disable();
 
                             rebindingScreen.ShowObject();
-                            keybindSetting.InputAction.action.PerformInteractiveRebinding(keybindSetting.BindingIndex)
+                            runtimeAction.PerformInteractiveRebinding(keybindSetting.BindingIndex)
                                 .WithCancelingThrough(Keyboard.current.escapeKey)
                                 .WithControlsExcluding("Mouse")
                                 .OnMatchWaitForAnother(0.1f)
                                 .OnCancel(o =>
                                 {
+                                    o.Dispose();
                                     rebindingScreen.HideObject();
                                     if (actionEnabled)
-                                        keybindSetting.InputAction.action.Enable();
+                                        runtimeAction.Enable();
                                 })
                                 .OnComplete(o =>
                                 {
+                                    o.Dispose();
                                     UpdateText();
                                     rebindingScreen.HideObject();
                                     keybindSetting.OnApply();
                                     if (actionEnabled)
-                                        keybindSetting.InputAction.action.Enable();
+                                        runtimeAction.Enable();
                                 })
                                 .Start();
                         });
@@ -175,7 +182,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
                         keybindOption.ResetButton.onClick.AddListener(() =>
                         {
-                            keybindSetting.InputAction.action.LoadBindingOverridesFromJson("");
+                            runtimeAction.RemoveBindingOverride(keybindSetting.BindingIndex);
                             keybindSetting.OnApply();
                             UpdateText();
                         });
@@ -185,7 +192,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
                         void UpdateText()
                         {
-                            keybindOption.ButtonText.text = keybindSetting.InputAction.action.GetBindingDisplayString(keybindSetting.BindingIndex);
+                            keybindOption.ButtonText.text = runtimeAction.GetBindingDisplayString(keybindSetting.BindingIndex);
                         }
 
                     case SettingDivider settingDivider:
@@ -198,8 +205,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                         throw new IndexOutOfRangeException("Invalid setting type");
                 }
 
-                tooltip.title = setting.NameInMenu;
-                tooltip.description = setting.TooltipDescription;
+                if (!string.IsNullOrWhiteSpace(setting.NameInMenu) ||
+                    !string.IsNullOrWhiteSpace(setting.TooltipDescription))
+                {
+                    tooltip.title = setting.NameInMenu;
+                    tooltip.description = setting.TooltipDescription;
+                }
             }
 
             Debug.Log("Settings > Instantiated Settings!");
