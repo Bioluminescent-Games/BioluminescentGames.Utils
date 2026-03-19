@@ -10,6 +10,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
     [CreateAssetMenu(fileName = "New Keybind Setting", menuName = "Scriptable Objects/Settings/Keybind")]
     public class KeybindSetting : SavableSetting
     {
+        private const string k_PlayerPrefsPrefix = "keybind_guid_";
+
         [HelpBox("Do not edit the \"Default Value\" field.")]
         private Void _;
 
@@ -24,12 +26,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         protected override void LoadFromPlayerPrefs()
         {
-            InputAction.LoadBindingOverridesFromJson(EnhancedPlayerPrefs.GetString(ID), false);
+            InputAction.LoadBindingOverridesFromJson(EnhancedPlayerPrefs.GetString(k_PlayerPrefsPrefix + InputAction.id), false);
         }
 
         protected override void SaveToPlayerPrefs()
         {
-            EnhancedPlayerPrefs.SetString(ID, InputAction.SaveBindingOverridesAsJson());
+            EnhancedPlayerPrefs.SetString(k_PlayerPrefsPrefix + InputAction.id, InputAction.SaveBindingOverridesAsJson());
         }
     }
 }
