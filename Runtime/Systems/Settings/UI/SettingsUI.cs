@@ -146,16 +146,13 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                         KeybindOptionUIMetadata keybindOption = Instantiate(keybindPrefab, settingsParent);
                         keybindOption.Title.text = keybindSetting.NameInMenu;
 
-                        InputAction runtimeAction = GameInterface.Instance.GetInputHandler().InputActionAsset
-                            .FindAction(keybindSetting.InputAction.action.id);
-
                         keybindOption.Button.onClick.AddListener(() =>
                         {
-                            bool actionEnabled = runtimeAction.enabled;
-                            runtimeAction.Disable();
+                            bool actionEnabled = keybindSetting.InputAction.enabled;
+                            keybindSetting.InputAction.Disable();
 
                             rebindingScreen.ShowObject();
-                            runtimeAction.PerformInteractiveRebinding(keybindSetting.BindingIndex)
+                            keybindSetting.InputAction.PerformInteractiveRebinding(keybindSetting.BindingIndex)
                                 .WithCancelingThrough(Keyboard.current.escapeKey)
                                 .WithControlsExcluding("Mouse")
                                 .OnMatchWaitForAnother(0.1f)
@@ -164,7 +161,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                                     o.Dispose();
                                     rebindingScreen.HideObject();
                                     if (actionEnabled)
-                                        runtimeAction.Enable();
+                                        keybindSetting.InputAction.Enable();
                                 })
                                 .OnComplete(o =>
                                 {
@@ -173,7 +170,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                                     rebindingScreen.HideObject();
                                     keybindSetting.OnApply();
                                     if (actionEnabled)
-                                        runtimeAction.Enable();
+                                        keybindSetting.InputAction.Enable();
                                 })
                                 .Start();
                         });
@@ -182,7 +179,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
                         keybindOption.ResetButton.onClick.AddListener(() =>
                         {
-                            runtimeAction.RemoveBindingOverride(keybindSetting.BindingIndex);
+                            keybindSetting.InputAction.RemoveBindingOverride(keybindSetting.BindingIndex);
                             keybindSetting.OnApply();
                             UpdateText();
                         });
@@ -192,7 +189,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
                         void UpdateText()
                         {
-                            keybindOption.ButtonText.text = runtimeAction.GetBindingDisplayString(keybindSetting.BindingIndex) + " [Rebind]";
+                            keybindOption.ButtonText.text = keybindSetting.InputAction.GetBindingDisplayString(keybindSetting.BindingIndex) + " [Rebind]";
                         }
 
                     case SettingDivider settingDivider:

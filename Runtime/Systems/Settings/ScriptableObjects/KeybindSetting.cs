@@ -1,7 +1,9 @@
+using BioluminescentGames.Utils.Core;
 using BioluminescentGames.Utils.Utilities;
 using EditorAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 {
@@ -11,19 +13,23 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         [HelpBox("Do not edit the \"Default Value\" field.")]
         private Void _;
 
-        [field: SerializeField] public InputActionReference InputAction { get; private set; }
+        [field: FormerlySerializedAs("<InputAction>k__BackingField")]
+        [field: SerializeField] public InputActionReference InputActionReference { get; private set; }
 
-        [field: BindingIndex(nameof(InputAction))]
+        public InputAction InputAction => GameInterface.Instance.GetInputHandler().InputActionAsset.FindAction(InputActionReference.action.id);
+
+
+        [field: BindingIndex(nameof(InputActionReference))]
         [field: SerializeField] public int BindingIndex { get; private set; }
 
         protected override void LoadFromPlayerPrefs()
         {
-            InputAction.action.LoadBindingOverridesFromJson(EnhancedPlayerPrefs.GetString(ID));
+            InputAction.LoadBindingOverridesFromJson(EnhancedPlayerPrefs.GetString(ID));
         }
 
         protected override void SaveToPlayerPrefs()
         {
-            EnhancedPlayerPrefs.SetString(ID, InputAction.action.SaveBindingOverridesAsJson());
+            EnhancedPlayerPrefs.SetString(ID, InputAction.SaveBindingOverridesAsJson());
         }
     }
 }
