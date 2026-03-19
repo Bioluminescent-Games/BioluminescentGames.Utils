@@ -192,7 +192,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
                         void UpdateText()
                         {
-                            keybindOption.ButtonText.text = runtimeAction.GetBindingDisplayString(keybindSetting.BindingIndex);
+                            keybindOption.ButtonText.text = runtimeAction.GetBindingDisplayString(keybindSetting.BindingIndex) + " [Rebind]";
                         }
 
                     case SettingDivider settingDivider:
@@ -205,11 +205,15 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                         throw new IndexOutOfRangeException("Invalid setting type");
                 }
 
-                if (!string.IsNullOrWhiteSpace(setting.NameInMenu) ||
-                    !string.IsNullOrWhiteSpace(setting.TooltipDescription))
+                if (!string.IsNullOrWhiteSpace(setting.TooltipDescription))
                 {
                     tooltip.title = setting.NameInMenu;
                     tooltip.description = setting.TooltipDescription;
+                }
+                else
+                {
+                    tooltip.title = string.Empty;
+                    tooltip.description = string.Empty;
                 }
             }
 
