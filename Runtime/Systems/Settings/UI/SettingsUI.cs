@@ -146,7 +146,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                         keybindOption.Title.text = keybindSetting.NameInMenu;
                         keybindOption.Button.onClick.AddListener(() =>
                         {
-                            bool enabled = keybindSetting.InputAction.action.enabled;
+                            bool actionEnabled = keybindSetting.InputAction.action.enabled;
                             keybindSetting.InputAction.action.Disable();
 
                             rebindingScreen.ShowObject();
@@ -157,7 +157,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                                 .OnCancel(o =>
                                 {
                                     rebindingScreen.HideObject();
-                                    if (enabled)
+                                    if (actionEnabled)
                                         keybindSetting.InputAction.action.Enable();
                                 })
                                 .OnComplete(o =>
@@ -165,7 +165,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                                     UpdateText();
                                     rebindingScreen.HideObject();
                                     keybindSetting.OnApply();
-                                    if (enabled)
+                                    if (actionEnabled)
                                         keybindSetting.InputAction.action.Enable();
                                 })
                                 .Start();
@@ -177,6 +177,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                         {
                             keybindSetting.InputAction.action.LoadBindingOverridesFromJson("");
                             keybindSetting.OnApply();
+                            UpdateText();
                         });
 
                         tooltip = keybindOption.GetComponent<UITooltip>();
@@ -184,7 +185,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
                         void UpdateText()
                         {
-                            keybindOption.ButtonText.text = keybindSetting.InputAction.action.GetBindingDisplayString();
+                            keybindOption.ButtonText.text = keybindSetting.InputAction.action.GetBindingDisplayString(keybindSetting.BindingIndex);
                         }
 
                     case SettingDivider settingDivider:
