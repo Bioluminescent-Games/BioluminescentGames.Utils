@@ -1,6 +1,8 @@
 using BioluminescentGames.Utils.Core;
 using BioluminescentGames.Utils.Utilities;
+#if EDITOR_ATTRIBUTES
 using EditorAttributes;
+#endif
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -12,8 +14,10 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
     {
         private const string k_PlayerPrefsPrefix = "keybind_guid_";
 
-        [HelpBox("Do not edit the \"Default Value\" field.")]
+        #if EDITOR_ATTRIBUTES
+        [HelpBox("Do not edit the \"Default Value\" field. It is useless for KeybindSettings.")]
         private Void _;
+        #endif
 
         [field: FormerlySerializedAs("<InputAction>k__BackingField")]
         [field: SerializeField] public InputActionReference InputActionReference { get; private set; }

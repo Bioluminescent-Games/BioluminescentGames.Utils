@@ -14,6 +14,11 @@ namespace BioluminescentGames.Utils.Utilities
         /// Did the request succeed?
         /// </summary>
         public bool Succeeded { get; }
+        
+        /// <summary>
+        /// Did the result fail?
+        /// </summary>
+        public bool Failed => !Succeeded;
 
         /// <summary>
         /// Error message

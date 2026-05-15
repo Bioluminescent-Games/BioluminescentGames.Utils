@@ -7,8 +7,8 @@ using UnityEngine;
 namespace BioluminescentGames.Utils.Tests.Editor
 {
     [TestFixture]
-    [TestOf(typeof(GenericUtils))]
-    public class GenericUtilsTest
+    [TestOf(typeof(GeneralUtils))]
+    public class GeneralUtilsTest
     {
         [Test]
         public void PlayerPrefsGetBool_ReturnsCorrectValue_WhenKeyExists()
@@ -19,7 +19,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
             PlayerPrefs.SetInt(key, 1);
 
             // Act
-            bool result = GenericUtils.PlayerPrefsGetBool(key);
+            bool result = GeneralUtils.PlayerPrefsGetBool(key);
 
             // Assert
             Assert.AreEqual(expectedValue, result);
@@ -36,7 +36,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
             const bool fallback = true;
 
             // Act
-            bool result = GenericUtils.PlayerPrefsGetBool(key, fallback);
+            bool result = GeneralUtils.PlayerPrefsGetBool(key, fallback);
 
             // Assert
             Assert.AreEqual(fallback, result);
@@ -50,7 +50,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
             const bool value = true;
 
             // Act
-            GenericUtils.PlayerPrefsSetBool(key, value);
+            GeneralUtils.PlayerPrefsSetBool(key, value);
             bool storedValue = PlayerPrefs.GetInt(key) != 0;
 
             // Assert
@@ -81,10 +81,10 @@ namespace BioluminescentGames.Utils.Tests.Editor
         {
             // Arrange
             const string input = "testString";
-            ushort expectedHash = GenericUtils.Get16BitHash(input);
+            ushort expectedHash = GeneralUtils.Get16BitHash(input);
 
             // Act
-            ushort result = GenericUtils.Get16BitHash(input);
+            ushort result = GeneralUtils.Get16BitHash(input);
 
             // Assert
             Assert.AreEqual(expectedHash, result);
@@ -98,8 +98,8 @@ namespace BioluminescentGames.Utils.Tests.Editor
             const string input2 = "stringTwo";
 
             // Act
-            ushort hash1 = GenericUtils.Get16BitHash(input1);
-            ushort hash2 = GenericUtils.Get16BitHash(input2);
+            ushort hash1 = GeneralUtils.Get16BitHash(input1);
+            ushort hash2 = GeneralUtils.Get16BitHash(input2);
 
             // Assert
             Assert.AreNotEqual(hash1, hash2);

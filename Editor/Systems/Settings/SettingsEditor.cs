@@ -1,15 +1,14 @@
 #region
 
 using System.Collections.Generic;
-using System.Linq;
 using BioluminescentGames.Utils.Editor.Utilities;
 using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
 using JetBrains.Annotations;
 using UnityEditor;
-using UnityEditor.Toolbars;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ZLinq;
 
 #endregion
 
@@ -165,9 +164,10 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
             _mainContainer.Clear();
 
             string[] categoryGuids = AssetDatabase.FindAssets("t:" + nameof(CategoryDefinition));
-            _categories = categoryGuids.Select(guid =>
-                AssetDatabase.LoadAssetAtPath<CategoryDefinition>(AssetDatabase.GUIDToAssetPath(guid))).ToList();
-            _categories.Sort((a, b) => a.OrderIndex.CompareTo(b.OrderIndex));
+            _categories = categoryGuids.AsValueEnumerable()
+                .Select(guid => AssetDatabase.LoadAssetAtPath<CategoryDefinition>(AssetDatabase.GUIDToAssetPath(guid)))
+                .OrderBy(category => category.OrderIndex)
+                .ToList();
 
             for (int i = 0; i < _categories.Count; i++)
                 _categories[i].EDITOR_SetOrderIndex(i);
@@ -363,10 +363,12 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
         {
             if (!selectedCategory) return;
             string[] settingGuids = AssetDatabase.FindAssets("t:" + nameof(Setting));
-            List<Setting> settings = settingGuids.Select(guid =>
-                AssetDatabase.LoadAssetAtPath<Setting>(AssetDatabase.GUIDToAssetPath(guid))).ToList();
-            _settingsToShow = settings.Where(s => s.Category == selectedCategory).ToList();
-            _settingsToShow.Sort((a, b) => a.OrderIndex.CompareTo(b.OrderIndex));
+            List<Setting> settingsToShow = settingGuids.AsValueEnumerable()
+                .Select(guid => AssetDatabase.LoadAssetAtPath<Setting>(AssetDatabase.GUIDToAssetPath(guid)))
+                .Where(s => s.Category == selectedCategory)
+                .OrderBy(setting => setting.OrderIndex)
+                .ToList();
+            _settingsToShow = settingsToShow;
             for (int i = 0; i < _settingsToShow.Count; i++)
                 _settingsToShow[i].EDITOR_SetOrderIndex(i);
             _rightPaneTopPane.itemsSource = _settingsToShow;

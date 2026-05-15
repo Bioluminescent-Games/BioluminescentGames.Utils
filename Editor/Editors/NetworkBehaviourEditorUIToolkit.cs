@@ -1,3 +1,5 @@
+#if UNITY_NGO
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -181,3 +183,5 @@ namespace BioluminescentGames.Utils.Editor.Editors
         }
     }
 }
+
+#endif

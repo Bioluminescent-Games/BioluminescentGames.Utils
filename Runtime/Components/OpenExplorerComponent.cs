@@ -1,11 +1,11 @@
-#if EDITOR_ATTRIBUTES
-
 using System;
 using System.Diagnostics;
 using System.IO;
 using BioluminescentGames.Utils.Utilities;
 using UnityEngine;
+#if EDITOR_ATTRIBUTES
 using EditorAttributes;
+#endif
 using Debug = UnityEngine.Debug;
 
 namespace BioluminescentGames.Utils.Components
@@ -26,8 +26,10 @@ namespace BioluminescentGames.Utils.Components
             Folder
         }
 
+#if EDITOR_ATTRIBUTES
         [HelpBox("Supplies 2 UnityEvent compatible functions. You can also use ScriptableEvents")]
         [SerializeField] private EditorAttributes.Void helpBoxVoid;
+#endif
         [SerializeField] private ScriptableEvent scriptableEvent;
         [SerializeField] private ScriptableEvent<string> scriptableEventWithPath;
 
@@ -36,10 +38,13 @@ namespace BioluminescentGames.Utils.Components
         [SerializeField] private Path pathPreset;
 
         [Space(2)]
+        
+#if EDITOR_ATTRIBUTES
         [ShowField(nameof(pathPreset), Path.CustomWithPlaceholders)]
         [HelpBox("Valid Placeholders:\n[InstallLocation] = Install Location\n[DP] = DataPath\n[PDP] = PersistentDataPath\n[SA] = StreamingAssets")]
         [SerializeField] private EditorAttributes.Void placeholdersVoid;
         [ShowField(nameof(pathPreset), Path.CustomWithPlaceholders)]
+#endif
         [SerializeField] private string pathToOpen = "";
 
         private string InstallDirectory => Directory.GetParent(Application.dataPath)!.FullName;
@@ -112,4 +117,3 @@ namespace BioluminescentGames.Utils.Components
         }
     }
 }
-#endif

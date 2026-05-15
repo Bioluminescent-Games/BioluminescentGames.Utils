@@ -46,7 +46,7 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
             if (!_updatables.Contains(updatable))
                 // Some objects may spawn disabled.
                 return;
-
+            
             _updatables.RemoveSwapBack(updatable);
         }
 

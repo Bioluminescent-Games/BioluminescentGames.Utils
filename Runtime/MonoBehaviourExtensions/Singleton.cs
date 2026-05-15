@@ -28,7 +28,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                instance = FindFirstObjectByType<TSelf>();
+                instance = FindAnyObjectByType<TSelf>();
                 if (instance)
                     return instance;
 
@@ -76,7 +76,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                instance = FindFirstObjectByType<TSelf>();
+                instance = FindAnyObjectByType<TSelf>();
                 if (instance)
                     return instance;
 
@@ -131,7 +131,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         }
     }
 
-    #if UNITY_NGO
+#if UNITY_NGO
     /// <summary>
     /// Template for creating singletons for NetworkObjects
     /// </summary>
@@ -150,7 +150,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                instance = FindFirstObjectByType<TSelf>();
+                instance = FindAnyObjectByType<TSelf>();
                 if (instance)
                     return instance;
 
@@ -201,11 +201,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         public override void OnNetworkSpawn()
         {
             InitializeSingleton();
-
-            NetworkSpawn();
         }
-
-        protected virtual void NetworkSpawn() {}
 
         public override void OnDestroy()
         {
@@ -238,7 +234,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                instance = FindFirstObjectByType<TSelf>();
+                instance = FindAnyObjectByType<TSelf>();
                 if (instance)
                     return instance;
 
@@ -288,7 +284,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                instance = FindFirstObjectByType<TSelf>();
+                instance = FindAnyObjectByType<TSelf>();
                 if (instance)
                     return instance;
 
@@ -304,8 +300,10 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         protected virtual void Awake() => InitializeSingleton();
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             if (instance == this)
                 instance = null;
         }
@@ -335,7 +333,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                instance = FindFirstObjectByType<TSelf>();
+                instance = FindAnyObjectByType<TSelf>();
                 if (instance)
                     return instance;
 
@@ -351,8 +349,10 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         protected virtual void Awake() => InitializeSingleton();
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             if (instance == this)
                 instance = null;
         }
@@ -382,7 +382,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                instance = FindFirstObjectByType<TSelf>();
+                instance = FindAnyObjectByType<TSelf>();
                 if (instance)
                     return instance;
 
@@ -401,8 +401,10 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             InitializeSingleton();
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             if (instance == this)
                 instance = null;
         }
@@ -432,7 +434,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                instance = FindFirstObjectByType<TSelf>();
+                instance = FindAnyObjectByType<TSelf>();
                 if (instance)
                     return instance;
 
@@ -451,8 +453,10 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
             InitializeSingleton();
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             if (instance == this)
                 instance = null;
         }

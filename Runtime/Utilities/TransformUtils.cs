@@ -4,10 +4,6 @@ using System.Linq;
 using UnityEngine;
 using ZLinq;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 namespace BioluminescentGames.Utils.Utilities
 {
     public static class TransformUtils

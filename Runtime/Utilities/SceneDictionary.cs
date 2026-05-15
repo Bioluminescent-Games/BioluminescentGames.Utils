@@ -1,13 +1,13 @@
-#if AYELLOWPAPER_SERIALIZED_COLLECTIONS_INSTALLED && EFLATUN_SCENE_REFERENCE_INSTALLED
+#if SERIALIZED_COLLECTIONS && SCENE_REFERENCE
 
 #region
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Eflatun.SceneReference;
 using UnityEngine;
+using ZLinq;
 
 #endregion
 
@@ -26,7 +26,10 @@ namespace BioluminescentGames.Utils.Utilities
             get
             {
                 if (!_init)
-                    _sceneNameDictionary = new Dictionary<string, T>(dictionary.Select(kv => new KeyValuePair<string, T>(kv.Key.Name, kv.Value)));
+                    _sceneNameDictionary = new Dictionary<string, T>(
+                        dictionary
+                            .AsValueEnumerable()
+                            .ToDictionary(x => x.Key.Name, x => x.Value));
                 _init = true;
                 return _sceneNameDictionary;
             }

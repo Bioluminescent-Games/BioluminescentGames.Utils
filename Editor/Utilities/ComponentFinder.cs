@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using BioluminescentGames.Utils.StaticUtilities;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -192,7 +191,9 @@ public class ComponentFinder : EditorWindow
 
     private void AddComponentsToList(Component[] components, string path, bool isPrefab)
     {
-        _allComponents.AddRange(components.Select(component => new ComponentProperties(component, path, isPrefab)));
+        _allComponents.AddRange(components.AsValueEnumerable()
+            .Select(component => new ComponentProperties(component, path, isPrefab))
+            .ToArray());
     }
 
     private static bool IsPartOfPackage(string path) => path.StartsWith("Packages/");

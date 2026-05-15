@@ -1,5 +1,11 @@
-﻿using EditorAttributes;
+﻿#if EDITOR_ATTRIBUTES
+using EditorAttributes;
+#endif
+
+#if PRIMETWEEN
 using PrimeTween;
+#endif
+
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.MonoBehaviourExtensions
@@ -9,24 +15,29 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// </summary>
     public abstract class UIBehaviour : MonoBehaviour
     {
+#if PRIMETWEEN
         private const float k_DefaultDuration = 0.2f;
-
+    
         [Header("UI Behaviour")]
         [SerializeField] protected bool shouldAnimate = true;
-
+    
         [Space(2)]
         [SerializeField] protected CanvasGroup darkenCanvasGroup;
+            
         [SerializeField] protected TweenSettings<float> darkenTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
         [SerializeField] protected TweenSettings<float> brightenTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
-
+    
         [Space(2)]
         [SerializeField] protected RectTransform[] containers;
+            
         [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
         [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
 
+#if EDITOR_ATTRIBUTES
         [Space(4)]
         [Header("Custom Fields")]
         [SerializeField] private Void _;
+#endif
 
         private Sequence _currentTween;
 
@@ -49,6 +60,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
             return sequence;
         }
+#endif
 
         /// <summary>
         /// Shows the UI
@@ -57,19 +69,23 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         {
             if (gameObject.activeSelf) return; // Bail out if already visible
 
+#if PRIMETWEEN
             _currentTween.Complete();
+#endif
 
             gameObject.SetActive(true);
 
             OnShowing();
             OnVisibilityChanging(true);
 
+#if PRIMETWEEN
             if (animate && shouldAnimate)
             {
                 _currentTween = Animate(true);
                 _currentTween.OnComplete(ShowComplete, false);
             }
             else
+#endif
                 ShowComplete();
 
             return;
@@ -103,17 +119,21 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         {
             if (!gameObject.activeSelf) return; // Bail out if already hidden
 
+#if PRIMETWEEN
             _currentTween.Complete();
+#endif
 
             OnHiding();
             OnVisibilityChanging(false);
 
+#if PRIMETWEEN
             if (animate && shouldAnimate)
             {
                 _currentTween = Animate(false);
                 _currentTween.OnComplete(HideComplete, false);
             }
             else
+#endif
                 HideComplete();
 
             return;
@@ -184,7 +204,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         protected virtual void OnDestroy()
         {
+#if PRIMETWEEN
             _currentTween.Complete();
+#endif
         }
     }
 
@@ -193,6 +215,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// </summary>
     public abstract class BioluminescentUIBehaviour : BioluminescentBehaviour
     {
+#if PRIMETWEEN
         private const float k_DefaultDuration = 0.2f;
 
         [Header("UI Behaviour")]
@@ -200,17 +223,21 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         [Space(2)]
         [SerializeField] protected CanvasGroup darkenCanvasGroup;
+        
         [SerializeField] protected TweenSettings<float> darkenTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
         [SerializeField] protected TweenSettings<float> brightenTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
 
         [Space(2)]
         [SerializeField] protected RectTransform[] containers;
+        
         [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
         [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
 
+#if EDITOR_ATTRIBUTES
         [Space(4)]
         [Header("Custom Fields")]
         [SerializeField] private Void _;
+#endif
 
         private Sequence _currentTween;
 
@@ -233,6 +260,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
             return sequence;
         }
+#endif
 
         /// <summary>
         /// Shows the UI
@@ -241,19 +269,23 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         {
             if (gameObject.activeSelf) return; // Bail out if already visible
 
+#if PRIMETWEEN
             _currentTween.Complete();
+#endif
 
             gameObject.SetActive(true);
 
             OnShowing();
             OnVisibilityChanging(true);
 
+#if PRIMETWEEN
             if (animate && shouldAnimate)
             {
                 _currentTween = Animate(true);
-                _currentTween.OnComplete(ShowComplete);
+                _currentTween.OnComplete(ShowComplete, false);
             }
             else
+#endif
                 ShowComplete();
 
             return;
@@ -287,17 +319,21 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         {
             if (!gameObject.activeSelf) return; // Bail out if already hidden
 
+#if PRIMETWEEN
             _currentTween.Complete();
+#endif
 
             OnHiding();
             OnVisibilityChanging(false);
 
+#if PRIMETWEEN
             if (animate && shouldAnimate)
             {
                 _currentTween = Animate(false);
-                _currentTween.OnComplete(HideComplete);
+                _currentTween.OnComplete(HideComplete, false);
             }
             else
+#endif
                 HideComplete();
 
             return;
@@ -368,7 +404,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         protected virtual void OnDestroy()
         {
+#if PRIMETWEEN
             _currentTween.Complete();
+#endif
         }
     }
 }

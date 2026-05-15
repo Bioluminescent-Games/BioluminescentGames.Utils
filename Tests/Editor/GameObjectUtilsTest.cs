@@ -1,6 +1,4 @@
-﻿// D:\UnityProjects\BioluminescentGames.Utils\Assets\BioluminescentGames.Utils\Tests\Editor\GameObjectUtilsTest.cs
-
-using BioluminescentGames.Utils.Utilities;
+﻿using BioluminescentGames.Utils.Utilities;
 using NUnit.Framework;
 using UnityEngine;
 

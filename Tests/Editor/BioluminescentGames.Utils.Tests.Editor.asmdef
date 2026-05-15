@@ -4,9 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "BioluminescentGames.Utils.Utilities",
-        "BioluminescentGames.Utils.MonoBehaviourExtensions",
-        "BioluminescentGames.Utils.Editor.Utilities"
+        "BioluminescentGames.Utils.Editor",
+        "BioluminescentGames.Utils.Runtime"
     ],
     "includePlatforms": [
         "Editor"

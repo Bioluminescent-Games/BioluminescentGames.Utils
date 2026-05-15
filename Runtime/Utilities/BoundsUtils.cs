@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using ZLinq;
 
 namespace BioluminescentGames.Utils.Utilities
 {
@@ -49,8 +49,8 @@ namespace BioluminescentGames.Utils.Utilities
 
         public static Bounds GetBoundsEncapsulating(IEnumerable<Bounds> boundsToEncapsulate)
         {
-            IEnumerable<Bounds> boundsEnumerable = boundsToEncapsulate as Bounds[] ?? boundsToEncapsulate.ToArray();
-            Bounds bounds = boundsEnumerable.ToArray()[0];
+            IEnumerable<Bounds> boundsEnumerable = boundsToEncapsulate as Bounds[] ?? boundsToEncapsulate.AsValueEnumerable().ToArray();
+            Bounds bounds = boundsEnumerable.AsValueEnumerable().ToArray()[0];
             bounds.EncapsulateAll(boundsEnumerable);
             return bounds;
         }

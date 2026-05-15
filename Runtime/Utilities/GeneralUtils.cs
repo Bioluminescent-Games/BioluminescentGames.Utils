@@ -4,18 +4,16 @@ using System.Security.Cryptography;
 using System.Text;
 using Unity.Properties;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace BioluminescentGames.Utils.Utilities
 {
-    public static class GenericUtils
+    public static class GeneralUtils
     {
         public static bool PlayerPrefsGetBool(string key, bool fallback = false)
         {
             if (PlayerPrefs.HasKey(key))
                 return PlayerPrefs.GetInt(key) != 0;
-            else
-                return fallback;
+            return fallback;
         }
 
         public static void PlayerPrefsSetBool(string key, bool value)
@@ -42,6 +40,7 @@ namespace BioluminescentGames.Utils.Utilities
     // ReSharper disable InconsistentNaming
 
     [Serializable]
+    [GeneratePropertyBag]
     public struct Pair<T1, T2>
     {
         public T1 A;

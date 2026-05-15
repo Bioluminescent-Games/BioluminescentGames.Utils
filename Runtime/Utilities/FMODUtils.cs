@@ -11,7 +11,7 @@ namespace BioluminescentGames.Utils.Utilities
         {
             if (result == RESULT.OK) return false;
 
-            UnityEngine.Debug.LogWarning($"Failed to verify FMOD Result: {result}");
+            UnityEngine.Debug.LogWarning($"FMOD Error: {result.ToString()}");
             return true;
         }
     }

@@ -1,9 +1,9 @@
-using System.Linq;
 using BioluminescentGames.Utils.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using ZLinq;
 
 namespace BioluminescentGames.Utils.Editor.Utilities
 {
@@ -41,7 +41,9 @@ namespace BioluminescentGames.Utils.Editor.Utilities
                     options[i] = $"{i}: {b.effectivePath} [{b.groups.TrimStart(';')}]";
             }
 
-            options = options.Select(s => s.Replace("/", "_")).ToArray(); // Remove / to avoid making submenus
+            options = options.AsValueEnumerable()
+                .Select(s => s.Replace("/", "_"))
+                .ToArray(); // Remove / to avoid making submenus
 
             property.intValue = EditorGUI.Popup(position, label.text, property.intValue, options);
         }

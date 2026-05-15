@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using BioluminescentGames.Utils.Core;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
-using ZLinq;
 using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
 using BioluminescentGames.Utils.Systems.Settings.UI.Metadata;
 using BioluminescentGames.Utils.Systems.UI;
@@ -11,6 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using ZLinq;
 
 namespace BioluminescentGames.Utils.Systems.Settings.UI
 {

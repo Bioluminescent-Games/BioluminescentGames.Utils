@@ -1,4 +1,4 @@
-#if PRIME_TWEEN
+#if PRIMETWEEN
 
 using PrimeTween;
 using UnityEngine;

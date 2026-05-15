@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using System.Linq;
+using ZLinq;
 
 namespace BioluminescentGames.Utils.Editor
 {
@@ -116,7 +116,7 @@ namespace BioluminescentGames.Utils.Editor
 
             string assetPath = AssetDatabase.GetAssetPath(tex);
             TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
-            if (importer == null || importer.isReadable) return tex;
+            if (!importer || importer.isReadable) return tex;
 
             importer.isReadable = true;
             importer.SaveAndReimport();
@@ -126,17 +126,23 @@ namespace BioluminescentGames.Utils.Editor
 
         private static float GetPixelSafe(Texture2D tex, int x, int y, float defaultValue)
         {
-            return tex != null ? tex.GetPixel(x, y).r : defaultValue;
+            return tex ? tex.GetPixel(x, y).r : defaultValue;
         }
 
         private static int GetFirstAvailableWidth(params Texture2D[] textures)
         {
-            return (from tex in textures where tex != null select tex.width).FirstOrDefault();
+            return textures.AsValueEnumerable()
+                .Where(tex => tex)
+                .Select(tex => tex.width)
+                .FirstOrDefault();
         }
 
         private static int GetFirstAvailableHeight(params Texture2D[] textures)
         {
-            return (from tex in textures where tex != null select tex.height).FirstOrDefault();
+            return textures.AsValueEnumerable()
+                .Where(tex => tex)
+                .Select(tex => tex.height)
+                .FirstOrDefault();
         }
     }
 }

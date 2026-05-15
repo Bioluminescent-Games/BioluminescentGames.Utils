@@ -1,5 +1,7 @@
 using BioluminescentGames.Utils.Systems.UpdateSystem;
+#if UNITY_NGO
 using Unity.Netcode;
+#endif
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.MonoBehaviourExtensions
