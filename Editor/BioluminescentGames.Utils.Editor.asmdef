@@ -3,7 +3,8 @@
     "rootNamespace": "BioluminescentGames.Utils.Editor",
     "references": [
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:cec033a8dc23f724b8b8d58aee96a8ec"
+        "GUID:cec033a8dc23f724b8b8d58aee96a8ec",
+        "GUID:1491147abca9d7d4bb7105af628b223e"
     ],
     "includePlatforms": [
         "Editor"
@@ -14,6 +15,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.netcode.gameobjects",
+            "expression": "0",
+            "define": "UNITY_NGO"
+        }
+    ],
     "noEngineReferences": false
 }
