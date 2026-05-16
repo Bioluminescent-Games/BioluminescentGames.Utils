@@ -5,5 +5,6 @@ namespace BioluminescentGames.Utils.Core
         public static GameInterface Instance { get; protected set; }
 
         public abstract IInputHandler GetInputHandler();
+        public abstract IErrorHandler GetErrorHandler();
     }
 }
