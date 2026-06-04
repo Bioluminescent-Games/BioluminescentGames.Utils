@@ -7,9 +7,9 @@ namespace BioluminescentGames.Utils.Utilities
     {
         public static Vector3 FindCentre(this Vector3[] points)
         {
-            float x = points.AsValueEnumerable().Select(p => p.x).Sum() / points.Length;
-            float y = points.AsValueEnumerable().Select(p => p.y).Sum() / points.Length;
-            float z = points.AsValueEnumerable().Select(p => p.z).Sum() / points.Length;
+            float x = points.AsValueEnumerable().Select(p => p.x).Average();
+            float y = points.AsValueEnumerable().Select(p => p.y).Average();
+            float z = points.AsValueEnumerable().Select(p => p.z).Average();
             return new Vector3(x, y, z);
         }
         public static Vector2 XY(this Vector3 vector) => new Vector2(vector.x, vector.y);
@@ -52,6 +52,26 @@ namespace BioluminescentGames.Utils.Utilities
         public static float Distance(Vector3 a, Vector3 b)
         {
             return (a - b).magnitude;
+        }
+
+        public static bool Approximately(Vector3 a, Vector3 b)
+        {
+            return Mathf.Approximately(a.x, b.x) && Mathf.Approximately(a.y, b.y) && Mathf.Approximately(a.z, b.z);
+        }
+
+        public static bool Approximately(Vector2 a, Vector2 b)
+        {
+            return Mathf.Approximately(a.x, b.x) && Mathf.Approximately(a.y, b.y);
+        }
+
+        public static bool ApproximatelyZero(Vector3 vector)
+        {
+            return Approximately(vector, Vector3.zero);
+        }
+
+        public static bool ApproximatelyZero(Vector2 vector)
+        {
+            return Approximately(vector, Vector2.zero);
         }
     }
 }

@@ -159,5 +159,48 @@ namespace BioluminescentGames.Utils.Tests.Editor
             // Assert
             Assert.AreEqual(Mathf.Sqrt(50), distance, 0.0001f);
         }
+        
+        [TestCase(0f, 0f, 0f, 0f, 0f, 0f, ExpectedResult = true)]
+        [TestCase(1f, 2f, 3f, 1f, 2f, 3f, ExpectedResult = true)]
+        [TestCase(1f, 1f, 1f, 1f + 1e-6f, 1f + 1e-6f, 1f + 1e-6f, ExpectedResult = true)]  // Within epsilon
+        [TestCase(1f, 2f, 3f, 4f, 5f, 6f, ExpectedResult = false)]
+        [TestCase(0f, 1f, 1f, 1f, 1f, 1f, ExpectedResult = false)]  // X differs
+        [TestCase(1f, 0f, 1f, 1f, 1f, 1f, ExpectedResult = false)]  // Y differs
+        [TestCase(1f, 1f, 0f, 1f, 1f, 1f, ExpectedResult = false)]  // Z differs
+        public bool Approximately_Vector3(float ax, float ay, float az, float bx, float by, float bz)
+        {
+            return VectorUtils.Approximately(new Vector3(ax, ay, az), new Vector3(bx, by, bz));
+        }
+        
+        [TestCase(0f, 0f, 0f, 0f, ExpectedResult = true)]
+        [TestCase(3f, 7f, 3f, 7f, ExpectedResult = true)]
+        [TestCase(1f, 1f, 1f + 1e-6f, 1f + 1e-6f, ExpectedResult = true)]  // Within epsilon
+        [TestCase(1f, 2f, 3f, 4f, ExpectedResult = false)]
+        [TestCase(0f, 1f, 1f, 1f, ExpectedResult = false)]  // X differs
+        [TestCase(1f, 0f, 1f, 1f, ExpectedResult = false)]  // Y differs
+        public bool Approximately_Vector2(float ax, float ay, float bx, float by)
+        {
+            return VectorUtils.Approximately(new Vector2(ax, ay), new Vector2(bx, by));
+        }
+        
+        private const float k_Epsilon = float.Epsilon * 4;
+        
+        [TestCase(0f, 0f, 0f, ExpectedResult = true)]
+        [TestCase(k_Epsilon, k_Epsilon, k_Epsilon, ExpectedResult = true)]
+        [TestCase(1f, 0f, 0f, ExpectedResult = false)]
+        [TestCase(1f, 2f, 3f, ExpectedResult = false)]
+        public bool ApproximatelyZero_Vector3(float x, float y, float z)
+        {
+            return VectorUtils.ApproximatelyZero(new Vector3(x, y, z));
+        }
+        
+        [TestCase(0f, 0f, ExpectedResult = true)]
+        [TestCase(k_Epsilon, k_Epsilon, ExpectedResult = true)]
+        [TestCase(0f, 1f, ExpectedResult = false)]
+        [TestCase(5f, 3f, ExpectedResult = false)]
+        public bool ApproximatelyZero_Vector2(float x, float y)
+        {
+            return VectorUtils.ApproximatelyZero(new Vector2(x, y));
+        }
     }
 }
