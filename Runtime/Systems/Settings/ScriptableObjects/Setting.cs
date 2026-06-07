@@ -56,7 +56,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         /// <returns>The setting with the specified identifier, or null if not found.</returns>
         public static ISetting Get(string id) => AllSettings.Find(setting => setting.ID == id);
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             AllSettings.Add(this);
         }

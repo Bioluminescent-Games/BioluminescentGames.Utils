@@ -46,5 +46,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
             ApplyValues();
         }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            OnChanged = null;
+        }
     }
 }
