@@ -6,11 +6,6 @@ namespace BioluminescentGames.Utils.Utilities
     public class Result<T>
     {
         /// <summary>
-        /// The value of the <see cref="Result{T}"/>
-        /// </summary>
-        public T Value { get; }
-
-        /// <summary>
         /// Did the request succeed?
         /// </summary>
         public bool Succeeded { get; }
@@ -24,6 +19,11 @@ namespace BioluminescentGames.Utils.Utilities
         /// Error message
         /// </summary>
         public string Error { get; }
+        
+        /// <summary>
+        /// The value of the <see cref="Result{T}"/>
+        /// </summary>
+        public T Value { get; }
 
         /// <summary>
         /// Create a result with the most verbose method
@@ -91,5 +91,78 @@ namespace BioluminescentGames.Utils.Utilities
         /// <param name="val">The value to convert to a successful <see cref="Result{T}"/></param>
         /// <returns>The <see cref="Result{T}"/> as a success.</returns>
         public static implicit operator Result<T>(T val) => Success(val);
+    }
+
+    public class Result
+    {
+        /// <summary>
+        /// Did the request succeed?
+        /// </summary>
+        public bool Succeeded { get; }
+        
+        /// <summary>
+        /// Did the result fail?
+        /// </summary>
+        public bool Failed => !Succeeded;
+
+        /// <summary>
+        /// Error message
+        /// </summary>
+        public string Error { get; }
+
+        /// <summary>
+        /// Create a result with the most verbose method
+        /// </summary>
+        /// <param name="succeeded">If it succeeded</param>
+        /// <param name="error">The error message</param>
+        public Result(bool succeeded = true, string error = null)
+        {
+            Succeeded = succeeded;
+            Error = error;
+        }
+
+        /// <summary>
+        /// Return a success result
+        /// </summary>
+        /// <returns>The <see cref="Result"/></returns>
+        public static Result Success() => new();
+
+        /// <summary>
+        /// Return a failure result
+        /// </summary>
+        /// <param name="error">The error message</param>
+        /// <returns>A failure result</returns>
+        public static Result Failure(string error) => new(false, error);
+
+        /// <summary>
+        /// Returns a successful result if flag == true.
+        /// </summary>
+        /// <param name="flag">The flag that determines to return a success or a failure.</param>
+        /// <param name="error">The error message if the flag is false</param>
+        /// <returns>A <see cref="Result"/> based on <see cref="flag"/></returns>
+        public static Result FromFlag(bool flag, string error) => flag ? Success() : Failure(error);
+
+        /// <summary>
+        /// Returns true if the request was a success. Otherwise, prints the error and returns false.
+        /// </summary>
+        /// <returns>Was the request a success?</returns>
+        public bool Check()
+        {
+            if (Succeeded)
+                return true;
+
+            Debug.LogError(Error);
+            return false;
+        }
+
+        /// <summary>
+        /// Throw a <see cref="NullReferenceException"/> if the operation failed.
+        /// </summary>
+        /// <exception cref="NullReferenceException">If the result didn't succeed.</exception>
+        public void ThrowIfFailed()
+        {
+            if (Failed)
+                throw new NullReferenceException(Error);
+        }
     }
 }

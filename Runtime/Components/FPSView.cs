@@ -31,7 +31,7 @@ namespace BioluminescentGames.Utils.Components
                     .Average();
                 _text.text = $"FPS: {1f / average:0}";
                 _frameTimes.Clear();
-            }, 0.1f, () => true);
+            }, 0.1f, () => true, 0.1f);
         }
 
         public override void OnUpdate()
