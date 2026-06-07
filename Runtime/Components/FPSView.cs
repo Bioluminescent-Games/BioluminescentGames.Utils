@@ -24,7 +24,9 @@ namespace BioluminescentGames.Utils.Components
 
             TimeUtils.Instance.ExecuteRepeating(() =>
             {
-                float average = _frameTimes
+                float average = _frameTimes.Count <= 0 
+                    ? Time.unscaledDeltaTime
+                    : _frameTimes
 #if ZLINQ
                     .AsValueEnumerable()
 #endif
