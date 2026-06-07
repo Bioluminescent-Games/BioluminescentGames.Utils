@@ -9,5 +9,10 @@ namespace BioluminescentGames.Utils.Runtime
             setting.OnChanged += onValueChanged;
             onValueChanged?.Invoke(setting.Value);
         }
+        
+        public static void DeregisterHandler<T>(this ValueSetting<T> setting, System.Action<T> onValueChanged)
+        {
+            setting.OnChanged -= onValueChanged;
+        }
     }
 }
