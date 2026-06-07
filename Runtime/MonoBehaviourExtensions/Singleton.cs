@@ -1,3 +1,4 @@
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 #if UNITY_NGO
@@ -13,7 +14,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// Template for creating singletons for MonoBehaviours
     /// </summary>
     /// <typeparam name="TSelf">The type inheriting from MonoSingleton</typeparam>
-    public abstract class MonoSingleton<TSelf> : MonoBehaviour where TSelf : MonoSingleton<TSelf>
+    [AutoStaticsCleanup]
+    public abstract partial class MonoSingleton<TSelf> : MonoBehaviour where TSelf : MonoSingleton<TSelf>
     {
         protected static TSelf instance;
 
@@ -61,7 +63,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// Template for creating singletons for BioluminescentBehaviours
     /// </summary>
     /// <typeparam name="TSelf">The type inheriting from BioluminescentBehaviours</typeparam>
-    public abstract class BioluminescentSingleton<TSelf> : BioluminescentBehaviour where TSelf : BioluminescentSingleton<TSelf>
+    [AutoStaticsCleanup]
+    public abstract partial class BioluminescentSingleton<TSelf> : BioluminescentBehaviour where TSelf : BioluminescentSingleton<TSelf>
     {
         protected static TSelf instance;
 
@@ -112,7 +115,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// Template for creating singletons for regular classes
     /// </summary>
     /// <typeparam name="TSelf">The type inheriting from Singleton</typeparam>
-    public abstract class Singleton<TSelf> where TSelf : Singleton<TSelf>, new()
+    [AutoStaticsCleanup]
+    public abstract partial class Singleton<TSelf> where TSelf : Singleton<TSelf>, new()
     {
         protected static TSelf instance;
         public static bool HasInstance => instance != null;
@@ -136,7 +140,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// Template for creating singletons for NetworkObjects
     /// </summary>
     /// <typeparam name="TSelf">The type inheriting from NetworkSingleton</typeparam>
-    public abstract class NetworkSingleton<TSelf> : NetworkBehaviour where TSelf : NetworkSingleton<TSelf>
+    [AutoStaticsCleanup]
+    public abstract partial class NetworkSingleton<TSelf> : NetworkBehaviour where TSelf : NetworkSingleton<TSelf>
     {
         protected static TSelf instance;
         public static bool HasInstance => instance != null;
@@ -178,7 +183,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         }
     }
 
-    public abstract class LocalNetworkSingleton<TSelf> : NetworkBehaviour where TSelf : LocalNetworkSingleton<TSelf>
+    [AutoStaticsCleanup]
+    public abstract partial class LocalNetworkSingleton<TSelf> : NetworkBehaviour where TSelf : LocalNetworkSingleton<TSelf>
     {
         protected static TSelf local;
         public static bool HasLocalInstance => local != null;
@@ -220,7 +226,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// Template for creating singletons for BioluminescentNetworkBehaviour
     /// </summary>
     /// <typeparam name="TSelf">The type inheriting from BioluminescentNetworkSingleton</typeparam>
-    public abstract class BioluminescentNetworkSingleton<TSelf> : BioluminescentNetworkBehaviour where TSelf : BioluminescentNetworkSingleton<TSelf>
+    [AutoStaticsCleanup]
+    public abstract partial class BioluminescentNetworkSingleton<TSelf> : BioluminescentNetworkBehaviour where TSelf : BioluminescentNetworkSingleton<TSelf>
     {
         protected static TSelf instance;
         public static bool HasInstance => instance != null;
@@ -270,7 +277,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// Template for creating singletons for UI
     /// </summary>
     /// <typeparam name="TSelf">The type inheriting from UISingleton</typeparam>
-    public abstract class UISingleton<TSelf> : UIBehaviour where TSelf : UISingleton<TSelf>
+    [AutoStaticsCleanup]
+    public abstract partial class UISingleton<TSelf> : UIBehaviour where TSelf : UISingleton<TSelf>
     {
         protected static TSelf instance;
         public static bool HasInstance => instance != null;
@@ -319,7 +327,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// Template for creating singletons for PublicUI
     /// </summary>
     /// <typeparam name="TSelf">The type inheriting from PublicUISingleton</typeparam>
-    public abstract class PublicUISingleton<TSelf> : PublicUIBehaviour where TSelf : PublicUISingleton<TSelf>
+    [AutoStaticsCleanup]
+    public abstract partial class PublicUISingleton<TSelf> : PublicUIBehaviour where TSelf : PublicUISingleton<TSelf>
     {
         protected static TSelf instance;
         public static bool HasInstance => instance != null;
@@ -368,7 +377,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// Template for creating singletons for BioluminescentUIBehaviour
     /// </summary>
     /// <typeparam name="TSelf">The type inheriting from BioluminescentUISingleton</typeparam>
-    public abstract class BioluminescentUISingleton<TSelf> : BioluminescentUIBehaviour where TSelf : BioluminescentUISingleton<TSelf>
+    [AutoStaticsCleanup]
+    public abstract partial class BioluminescentUISingleton<TSelf> : BioluminescentUIBehaviour where TSelf : BioluminescentUISingleton<TSelf>
     {
         protected static TSelf instance;
         public static bool HasInstance => instance != null;
@@ -420,7 +430,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     /// Template for creating singletons for BioluminescentPublicUI
     /// </summary>
     /// <typeparam name="TSelf">The type inheriting from BioluminescentPublicUISingleton</typeparam>
-    public abstract class BioluminescentPublicUISingleton<TSelf> : BioluminescentPublicUIBehaviour where TSelf : BioluminescentPublicUISingleton<TSelf>
+    [AutoStaticsCleanup]
+    public abstract partial class BioluminescentPublicUISingleton<TSelf> : BioluminescentPublicUIBehaviour where TSelf : BioluminescentPublicUISingleton<TSelf>
     {
         protected static TSelf instance;
         public static bool HasInstance => instance != null;

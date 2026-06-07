@@ -9,7 +9,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
 
 namespace BioluminescentGames.Utils.Systems.Settings.UI
 {
@@ -44,7 +48,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
         {
             applyButton.onClick.AddListener(() =>
             {
-                foreach (ISetting settingObject in _settingsModified.AsValueEnumerable().Select(Settings.Get))
+                foreach (ISetting settingObject in _settingsModified
+#if ZLINQ
+                             .AsValueEnumerable()
+#endif
+                             .Select(Settings.Get))
                 {
                     Debug.Log($"Settings > Apply: {settingObject.NameInMenu}");
                     settingObject.OnApply();
@@ -63,7 +71,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             // Collect Categories
             List<CategoryDefinition> categories = new List<CategoryDefinition>();
             categories.AddRange(CollectCategories());
-            categories = categories.AsValueEnumerable().OrderBy(category => category).ToList(); // Sort Alphabetically so it isn't random order.
+            categories = categories
+#if ZLINQ
+                             .AsValueEnumerable()
+#endif
+                .OrderBy(category => category)
+                .ToList(); // Sort Alphabetically so it isn't random order.
 
             foreach (CategoryDefinition category in categories)
             {
@@ -235,6 +248,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             applyButton.gameObject.SetActive(_settingsModified.Count > 0);
         }
 
-        private static ISetting[] GetSettingsInCategory(CategoryDefinition category) => Settings.GetAll().AsValueEnumerable().Where(s => s.Category == category).ToArray();
+        private static ISetting[] GetSettingsInCategory(CategoryDefinition category) => Settings.GetAll()
+#if ZLINQ
+                             .AsValueEnumerable()
+#endif
+            .Where(s => s.Category == category)
+            .ToArray();
     }
 }

@@ -1,4 +1,8 @@
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Utilities
@@ -7,9 +11,21 @@ namespace BioluminescentGames.Utils.Utilities
     {
         public static Vector3 FindCentre(this Vector3[] points)
         {
-            float x = points.AsValueEnumerable().Select(p => p.x).Average();
-            float y = points.AsValueEnumerable().Select(p => p.y).Average();
-            float z = points.AsValueEnumerable().Select(p => p.z).Average();
+            float x = points
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
+                .Select(p => p.x).Average();
+            float y = points
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
+                .Select(p => p.y).Average();
+            float z = points
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
+                .Select(p => p.z).Average();
             return new Vector3(x, y, z);
         }
         public static Vector2 XY(this Vector3 vector) => new Vector2(vector.x, vector.y);

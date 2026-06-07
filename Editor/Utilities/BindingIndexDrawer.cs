@@ -3,7 +3,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
 
 namespace BioluminescentGames.Utils.Editor.Utilities
 {
@@ -41,7 +45,10 @@ namespace BioluminescentGames.Utils.Editor.Utilities
                     options[i] = $"{i}: {b.effectivePath} [{b.groups.TrimStart(';')}]";
             }
 
-            options = options.AsValueEnumerable()
+            options = options
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
                 .Select(s => s.Replace("/", "_"))
                 .ToArray(); // Remove / to avoid making submenus
 

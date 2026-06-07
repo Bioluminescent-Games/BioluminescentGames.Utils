@@ -2,7 +2,11 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
 
 namespace BioluminescentGames.Utils.Editor
 {
@@ -131,7 +135,10 @@ namespace BioluminescentGames.Utils.Editor
 
         private static int GetFirstAvailableWidth(params Texture2D[] textures)
         {
-            return textures.AsValueEnumerable()
+            return textures
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
                 .Where(tex => tex)
                 .Select(tex => tex.width)
                 .FirstOrDefault();
@@ -139,7 +146,10 @@ namespace BioluminescentGames.Utils.Editor
 
         private static int GetFirstAvailableHeight(params Texture2D[] textures)
         {
-            return textures.AsValueEnumerable()
+            return textures
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
                 .Where(tex => tex)
                 .Select(tex => tex.height)
                 .FirstOrDefault();

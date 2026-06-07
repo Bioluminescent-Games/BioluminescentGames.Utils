@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
 
 namespace BioluminescentGames.Utils.Utilities
 {
@@ -84,7 +87,11 @@ namespace BioluminescentGames.Utils.Utilities
 
         public static Vector3[] TransformAllPoints(this Transform transform, Vector3[] points)
         {
-            return points.AsValueEnumerable().Select(transform.TransformPoint).ToArray();
+            return points
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
+                .Select(transform.TransformPoint).ToArray();
         }
 
         public static void ClearAllChildren(this Transform transform)
@@ -106,10 +113,12 @@ namespace BioluminescentGames.Utils.Utilities
             }
         }
 
+#if !ZLINQ
         public static IEnumerable<Transform> Children(this Transform parent)
         {
             return parent.Cast<Transform>();
         }
+#endif
 
         public static void SetWorldScale(this Transform transform, Vector3 worldScale)
         {

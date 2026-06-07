@@ -3,7 +3,11 @@ using BioluminescentGames.Utils.Utilities;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using TMPro;
 using UnityEngine;
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
 
 namespace BioluminescentGames.Utils.Components
 {
@@ -20,8 +24,11 @@ namespace BioluminescentGames.Utils.Components
 
             TimeUtils.Instance.ExecuteRepeating(() =>
             {
-                float average = _frameTimes.AsValueEnumerable()
-                    .Aggregate(0.0f, (current, f) => current + f) / _frameTimes.Count;
+                float average = _frameTimes
+#if ZLINQ
+                    .AsValueEnumerable()
+#endif
+                    .Average();
                 _text.text = $"FPS: {1f / average:0}";
                 _frameTimes.Clear();
             }, 0.1f, () => true);

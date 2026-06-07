@@ -7,7 +7,11 @@ using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using Eflatun.SceneReference;
 using UnityEngine;
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
 
 #endregion
 
@@ -28,7 +32,9 @@ namespace BioluminescentGames.Utils.Utilities
                 if (!_init)
                     _sceneNameDictionary = new Dictionary<string, T>(
                         dictionary
-                            .AsValueEnumerable()
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
                             .ToDictionary(x => x.Key.Name, x => x.Value));
                 _init = true;
                 return _sceneNameDictionary;

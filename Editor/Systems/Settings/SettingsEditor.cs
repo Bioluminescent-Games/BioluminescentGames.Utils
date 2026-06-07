@@ -8,7 +8,11 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
 
 #endregion
 
@@ -164,7 +168,10 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
             _mainContainer.Clear();
 
             string[] categoryGuids = AssetDatabase.FindAssets("t:" + nameof(CategoryDefinition));
-            _categories = categoryGuids.AsValueEnumerable()
+            _categories = categoryGuids
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
                 .Select(guid => AssetDatabase.LoadAssetAtPath<CategoryDefinition>(AssetDatabase.GUIDToAssetPath(guid)))
                 .OrderBy(category => category.OrderIndex)
                 .ToList();
@@ -363,7 +370,10 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
         {
             if (!selectedCategory) return;
             string[] settingGuids = AssetDatabase.FindAssets("t:" + nameof(Setting));
-            List<Setting> settingsToShow = settingGuids.AsValueEnumerable()
+            List<Setting> settingsToShow = settingGuids
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
                 .Select(guid => AssetDatabase.LoadAssetAtPath<Setting>(AssetDatabase.GUIDToAssetPath(guid)))
                 .Where(s => s.Category == selectedCategory)
                 .OrderBy(setting => setting.OrderIndex)

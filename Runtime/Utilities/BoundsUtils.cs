@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using ZLinq;
 
 namespace BioluminescentGames.Utils.Utilities
 {
@@ -49,10 +48,13 @@ namespace BioluminescentGames.Utils.Utilities
 
         public static Bounds GetBoundsEncapsulating(IEnumerable<Bounds> boundsToEncapsulate)
         {
-            IEnumerable<Bounds> boundsEnumerable = boundsToEncapsulate as Bounds[] ?? boundsToEncapsulate.AsValueEnumerable().ToArray();
-            Bounds bounds = boundsEnumerable.AsValueEnumerable().ToArray()[0];
-            bounds.EncapsulateAll(boundsEnumerable);
+            // ReSharper disable PossibleMultipleEnumeration
+            using IEnumerator<Bounds> enumerator = boundsToEncapsulate.GetEnumerator();
+            enumerator.MoveNext();
+            Bounds bounds = enumerator.Current;
+            bounds.EncapsulateAll(boundsToEncapsulate);
             return bounds;
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         public static void DrawGizmo(this Bounds bounds)

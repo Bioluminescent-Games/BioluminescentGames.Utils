@@ -7,7 +7,12 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
+
 using Object = UnityEngine.Object;
 
 public class ComponentFinder : EditorWindow
@@ -177,7 +182,11 @@ public class ComponentFinder : EditorWindow
             SearchInScene(openedScene);
 
             // Close scene if it wasn't open before
-            if (oldOpenScenes.AsValueEnumerable().All(scene => scene.path != path))
+            if (oldOpenScenes
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
+                .All(scene => scene.path != path))
                 EditorSceneManager.CloseScene(openedScene, true);
         }
     }
@@ -191,7 +200,10 @@ public class ComponentFinder : EditorWindow
 
     private void AddComponentsToList(Component[] components, string path, bool isPrefab)
     {
-        _allComponents.AddRange(components.AsValueEnumerable()
+        _allComponents.AddRange(components
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
             .Select(component => new ComponentProperties(component, path, isPrefab))
             .ToArray());
     }
