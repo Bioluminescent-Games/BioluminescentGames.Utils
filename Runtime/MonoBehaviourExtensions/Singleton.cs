@@ -154,7 +154,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogError($"FATAL ERROR - {nameof(TSelf)} DOESNT HAVE AN INSTANCE!");
+                Debug.LogError($"FATAL ERROR - {typeof(TSelf).Name} DOESNT HAVE AN INSTANCE!");
 
                 return null;
             }
@@ -238,7 +238,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogError($"FATAL ERROR - {nameof(TSelf)} DOESNT HAVE AN INSTANCE!");
+                Debug.LogError($"FATAL ERROR - {typeof(TSelf).Name} DOESNT HAVE AN INSTANCE!");
 
                 return null;
             }
