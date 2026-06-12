@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using BioluminescentGames.Utils.Core;
 #if UNITASK
 using Cysharp.Threading.Tasks;
@@ -51,7 +50,7 @@ namespace BioluminescentGames.Utils.Runtime
         {
             try
             {
-                return await SteamFriends.GetLargeAvatarAsync( steamId );
+                return await SteamFriends.GetLargeAvatarAsync(steamId);
             }
             catch (Exception e)
             {
@@ -66,7 +65,8 @@ namespace BioluminescentGames.Utils.Runtime
         public static async Task<Texture2D> GetAvatar(SteamId steamId)
 #endif
         {
-            await UniTask.WaitWhile(() => AvatarsUnderway.Contains(steamId.Value));
+            if (AvatarsUnderway.Contains(steamId.Value))
+                await UniTask.WaitWhile(() => AvatarsUnderway.Contains(steamId.Value));
             
             if (AvatarCache.TryGetValue(steamId, out Texture2D cachedAvatar))
                 return cachedAvatar;
