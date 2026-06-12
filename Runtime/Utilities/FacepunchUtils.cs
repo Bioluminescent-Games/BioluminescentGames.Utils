@@ -72,14 +72,20 @@ namespace BioluminescentGames.Utils.Runtime
                 return cachedAvatar;
             
             AvatarsUnderway.Add(steamId.Value);
-            
-            Image? rawAvatar = await GetAvatarInternal(steamId);
-            if (rawAvatar == null)
-                return null;
-            Texture2D avatar = rawAvatar.Value.Convert();
-            AvatarCache.Add(steamId, avatar);
-            AvatarsUnderway.Remove(steamId.Value);
-            return avatar;
+
+            try
+            {
+                Image? rawAvatar = await GetAvatarInternal(steamId);
+                if (rawAvatar == null)
+                    return null;
+                Texture2D avatar = rawAvatar.Value.Convert();
+                AvatarCache.Add(steamId, avatar);
+                return avatar;
+            }
+            finally
+            {
+                AvatarsUnderway.Remove(steamId.Value);
+            }
         }
 
 #if UNITASK
