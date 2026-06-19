@@ -17,19 +17,19 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
     {
 #if PRIMETWEEN
         private const float k_DefaultDuration = 0.2f;
-    
+
         [Header("UI Behaviour")]
         [SerializeField] protected bool shouldAnimate = true;
-    
+
         [Space(2)]
         [SerializeField] protected CanvasGroup darkenCanvasGroup;
-            
+        
         [SerializeField] protected TweenSettings<float> darkenTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
         [SerializeField] protected TweenSettings<float> brightenTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
-    
+
         [Space(2)]
         [SerializeField] protected RectTransform[] containers;
-            
+        
         [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
         [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
 
@@ -49,7 +49,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <returns>The sequence containing the Tween.</returns>
         protected virtual Sequence Animate(bool showing)
         {
-            Sequence sequence = Sequence.Create();
+            bool unscaledTime = (showing ? darkenTweenSettings : brightenTweenSettings).settings.useUnscaledTime ||
+                                (showing ? scaleInTweenSettings : scaleOutTweenSettings).settings.useUnscaledTime;
+            Sequence sequence = Sequence.Create(useUnscaledTime: unscaledTime);
 
             if (darkenCanvasGroup)
                 sequence.Group(Tween.Alpha(darkenCanvasGroup, showing ? darkenTweenSettings : brightenTweenSettings));
@@ -249,7 +251,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <returns>The sequence containing the Tween.</returns>
         protected virtual Sequence Animate(bool showing)
         {
-            Sequence sequence = Sequence.Create();
+            bool unscaledTime = (showing ? darkenTweenSettings : brightenTweenSettings).settings.useUnscaledTime ||
+                                (showing ? scaleInTweenSettings : scaleOutTweenSettings).settings.useUnscaledTime;
+            Sequence sequence = Sequence.Create(useUnscaledTime: unscaledTime);
 
             if (darkenCanvasGroup)
                 sequence.Group(Tween.Alpha(darkenCanvasGroup, showing ? darkenTweenSettings : brightenTweenSettings));
