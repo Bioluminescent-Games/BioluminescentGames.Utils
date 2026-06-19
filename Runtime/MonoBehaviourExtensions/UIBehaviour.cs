@@ -24,14 +24,14 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         [Space(2)]
         [SerializeField] protected CanvasGroup darkenCanvasGroup;
         
-        [SerializeField] protected TweenSettings<float> darkenTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
-        [SerializeField] protected TweenSettings<float> brightenTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
+        [SerializeField] protected TweenSettings<float> darkenTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine, useUnscaledTime: true);
+        [SerializeField] protected TweenSettings<float> brightenTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine, useUnscaledTime: true);
 
         [Space(2)]
         [SerializeField] protected RectTransform[] containers;
         
-        [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
-        [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
+        [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine, useUnscaledTime: true);
+        [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine, useUnscaledTime: true);
 
 #if EDITOR_ATTRIBUTES
         [Space(4)]
@@ -226,14 +226,14 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         [Space(2)]
         [SerializeField] protected CanvasGroup darkenCanvasGroup;
         
-        [SerializeField] protected TweenSettings<float> darkenTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
-        [SerializeField] protected TweenSettings<float> brightenTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
+        [SerializeField] protected TweenSettings<float> darkenTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine, useUnscaledTime: true);
+        [SerializeField] protected TweenSettings<float> brightenTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine, useUnscaledTime: true);
 
         [Space(2)]
         [SerializeField] protected RectTransform[] containers;
         
-        [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine);
-        [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine);
+        [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine, useUnscaledTime: true);
+        [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine, useUnscaledTime: true);
 
 #if EDITOR_ATTRIBUTES
         [Space(4)]
