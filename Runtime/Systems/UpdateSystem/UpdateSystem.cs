@@ -77,7 +77,10 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
             foreach (IUpdatable updatable in _updatables)
             {
 #if ENABLE_UPDATESYSTEM_PROFILING
-                Profiler.BeginSample(TypeDictionary.GetNameForType(updatable.GetType()));
+                if (updatable is MonoBehaviour monoBehaviour)
+                    Profiler.BeginSample(TypeDictionary.GetNameForType(updatable.GetType()), monoBehaviour);
+                else
+                    Profiler.BeginSample(TypeDictionary.GetNameForType(updatable.GetType()) + "(not MonoBehaviour)");
 #endif
 
                 try
