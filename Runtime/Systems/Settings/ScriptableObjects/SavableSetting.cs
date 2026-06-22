@@ -11,7 +11,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         /// <summary>
         /// The ID used for saving.
         /// </summary>
-        public string IDForSaving => $"{ID}_{Variant}";
+        public string IDForSaving => string.IsNullOrEmpty(Variant) ? ID : $"{ID}_{Variant}";
 
         public override void Initialize()
         {
