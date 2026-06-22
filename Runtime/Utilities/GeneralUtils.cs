@@ -41,7 +41,7 @@ namespace BioluminescentGames.Utils.Utilities
 
     [Serializable]
     [GeneratePropertyBag]
-    public struct Pair<T1, T2>
+    public struct Pair<T1, T2> : IEquatable<Pair<T1, T2>>
     {
         public T1 A;
         public T2 B;
@@ -51,11 +51,37 @@ namespace BioluminescentGames.Utils.Utilities
             this.A = A;
             this.B = B;
         }
+
+        public bool Equals(Pair<T1, T2> other)
+        {
+            return EqualityComparer<T1>.Default.Equals(A, other.A) 
+                   && EqualityComparer<T2>.Default.Equals(B, other.B);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Pair<T1, T2> other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(A, B);
+        }
+
+        public static bool operator ==(Pair<T1, T2> left, Pair<T1, T2> right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Pair<T1, T2> left, Pair<T1, T2> right)
+        {
+            return !left.Equals(right);
+        }
     }
 
     [Serializable]
     [GeneratePropertyBag]
-    public struct Tuple<T1, T2, T3>
+    public struct Tuple<T1, T2, T3> : IEquatable<Tuple<T1, T2, T3>>
     {
         public T1 A;
         public T2 B;
@@ -66,6 +92,33 @@ namespace BioluminescentGames.Utils.Utilities
             this.A = A;
             this.B = B;
             this.C = C;
+        }
+
+        public bool Equals(Tuple<T1, T2, T3> other)
+        {
+            return EqualityComparer<T1>.Default.Equals(A, other.A) 
+                   && EqualityComparer<T2>.Default.Equals(B, other.B) 
+                   && EqualityComparer<T3>.Default.Equals(C, other.C);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Tuple<T1, T2, T3> other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(A, B, C);
+        }
+
+        public static bool operator ==(Tuple<T1, T2, T3> left, Tuple<T1, T2, T3> right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Tuple<T1, T2, T3> left, Tuple<T1, T2, T3> right)
+        {
+            return !left.Equals(right);
         }
     }
 
