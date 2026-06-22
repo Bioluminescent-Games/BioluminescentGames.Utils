@@ -15,7 +15,7 @@ namespace BioluminescentGames.Utils.Systems.Settings
             foreach (ISetting setting in GetAll())
             {
                 Debug.Log($"Settings > Loaded Setting: {setting.NameInMenu} ({setting.ID})");
-                setting.Init();
+                setting.Initialize();
             }
         }
 

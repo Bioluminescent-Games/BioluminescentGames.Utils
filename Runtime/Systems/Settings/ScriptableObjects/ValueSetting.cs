@@ -39,10 +39,10 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
             _currentValue = InternalValue;
             OnChanged?.Invoke(InternalValue);
         }
-
-        public override void Init()
+        
+        public override void Reload()
         {
-            base.Init();
+            base.Reload();
 
             ApplyValues();
         }

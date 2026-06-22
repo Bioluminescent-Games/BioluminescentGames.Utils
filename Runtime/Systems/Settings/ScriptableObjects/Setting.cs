@@ -60,11 +60,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         {
             AllSettings.Add(this);
         }
-
+        
         /// <summary>
         /// Initializes the setting. Can be overridden by derived classes.
         /// </summary>
-        public virtual void Init() {}
+        public virtual void Initialize() {}
 
         /// <summary>
         /// Applies the setting. Can be overridden by derived classes.

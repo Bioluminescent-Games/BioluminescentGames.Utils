@@ -8,12 +8,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
     {
         protected override void LoadFromPlayerPrefs()
         {
-            InternalValue = EnhancedPlayerPrefs.GetBool(ID, DefaultValue);
+            InternalValue = EnhancedPlayerPrefs.GetBool(IDForSaving, DefaultValue);
         }
 
         protected override void SaveToPlayerPrefs()
         {
-            EnhancedPlayerPrefs.SetBool(ID, InternalValue);
+            EnhancedPlayerPrefs.SetBool(IDForSaving, InternalValue);
         }
     }
 }

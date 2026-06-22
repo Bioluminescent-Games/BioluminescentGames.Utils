@@ -13,15 +13,20 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         public void AddOptions(params TMP_Dropdown.OptionData[] newOptions) => Options.AddRange(newOptions);
 
-        protected override void LoadFromPlayerPrefs()
+        public override void Initialize()
         {
             AddOptions(options);
-            InternalValue = (uint)EnhancedPlayerPrefs.GetInt(ID, (int)DefaultValue);
+            base.Initialize();
+        }
+
+        protected override void LoadFromPlayerPrefs()
+        {
+            InternalValue = (uint)EnhancedPlayerPrefs.GetInt(IDForSaving, (int)DefaultValue);
         }
 
         protected override void SaveToPlayerPrefs()
         {
-            EnhancedPlayerPrefs.SetInt(ID, (int)InternalValue);
+            EnhancedPlayerPrefs.SetInt(IDForSaving, (int)InternalValue);
         }
     }
 }

@@ -30,12 +30,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         protected override void LoadFromPlayerPrefs()
         {
-            InputAction.LoadBindingOverridesFromJson(EnhancedPlayerPrefs.GetString(k_PlayerPrefsPrefix + InputAction.id), false);
+            InputAction.LoadBindingOverridesFromJson(EnhancedPlayerPrefs.GetString($"{k_PlayerPrefsPrefix}{InputAction.id}_{Variant}"), false);
         }
 
         protected override void SaveToPlayerPrefs()
         {
-            EnhancedPlayerPrefs.SetString(k_PlayerPrefsPrefix + InputAction.id, InputAction.SaveBindingOverridesAsJson());
+            EnhancedPlayerPrefs.SetString($"{k_PlayerPrefsPrefix}{InputAction.id}_{Variant}", InputAction.SaveBindingOverridesAsJson());
         }
     }
 }

@@ -11,12 +11,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         protected override void LoadFromPlayerPrefs()
         {
-            InternalValue = EnhancedPlayerPrefs.GetInt(ID, DefaultValue);
+            InternalValue = EnhancedPlayerPrefs.GetInt(IDForSaving, DefaultValue);
         }
 
         protected override void SaveToPlayerPrefs()
         {
-            EnhancedPlayerPrefs.SetInt(ID, InternalValue);
+            EnhancedPlayerPrefs.SetInt(IDForSaving, InternalValue);
         }
     }
 }

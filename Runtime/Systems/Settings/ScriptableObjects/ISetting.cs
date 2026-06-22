@@ -10,7 +10,7 @@ namespace BioluminescentGames.Utils.Systems.Settings
         public int OrderIndex { get; }
         public string TooltipDescription { get; }
 
-        void Init();
+        void Initialize();
         void OnApply();
     }
 }
