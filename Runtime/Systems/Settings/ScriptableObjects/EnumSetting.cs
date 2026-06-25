@@ -29,6 +29,10 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         [field: SerializeField] public DisplayStyle Style { get; private set; }
         public List<string> Options { get; } = new();
 
+#if UNITY_EDITOR
+        private string[] _optionsBackup;
+#endif
+
         public void AddOptions(params string[] newOptions) => Options.AddRange(newOptions);
 
         public override void Initialize()
@@ -69,5 +73,42 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
             AssetDatabase.SaveAssetIfDirty(this);
 #endif
         }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            
+#if UNITY_EDITOR
+            EditorApplication.playModeStateChanged += EditorApplicationOnPlayModeStateChanged;
+#endif
+        }
+
+        private void OnDisable()
+        {
+#if UNITY_EDITOR
+            EditorApplication.playModeStateChanged -= EditorApplicationOnPlayModeStateChanged;
+#endif
+        }
+
+#if UNITY_EDITOR
+        private void EditorApplicationOnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            switch (state)
+            {
+                case PlayModeStateChange.EnteredPlayMode:
+                    _optionsBackup = Options.ToArray();
+                    break;
+                case PlayModeStateChange.ExitingPlayMode:
+                    Options.Clear();
+                    Options.AddRange(_optionsBackup);
+                    break;
+                case PlayModeStateChange.EnteredEditMode:
+                case PlayModeStateChange.ExitingEditMode:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+#endif
     }
 }
