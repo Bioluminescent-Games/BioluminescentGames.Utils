@@ -147,7 +147,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             {
                 case EnumSetting.DisplayStyle.Dropdown:
                     DropdownOptionUIMetadata dropdownOption = Instantiate(dropdownPrefab, settingsParent);
-                    dropdownOption.Dropdown.options = enumSetting.Options.AsValueEnumerable().Select(s => new TMP_Dropdown.OptionData(s)).ToList();
+                    dropdownOption.Dropdown.options = enumSetting.Options
+#if ZLINQ
+                        .AsValueEnumerable()
+#endif
+                        .Select(s => new TMP_Dropdown.OptionData(s))
+                        .ToList();
                     dropdownOption.Dropdown.value = (int)enumSetting.Value;
                     dropdownOption.Dirty += () => enumSetting.Value = (uint)dropdownOption.Dropdown.value;
 
