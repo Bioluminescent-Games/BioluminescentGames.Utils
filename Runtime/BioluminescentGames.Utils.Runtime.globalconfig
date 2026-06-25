@@ -1,0 +1,3 @@
+is_global = true # enables Roslyn
+build_property.UnityEnableAutoStaticsCleanupCodeGen = true # statics cleanup code generator on
+build_property.UnityEnableAutoStaticsCleanupAnalysis = true # statics cleanup analyzer off

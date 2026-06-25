@@ -1,13 +1,18 @@
 using System.Collections.Generic;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using BioluminescentGames.Utils.Utilities;
+#if PRIMETWEEN
 using PrimeTween;
+#endif
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+#if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
+#endif
 
 namespace BackroomsGame.UI
 {
@@ -23,6 +28,7 @@ namespace BackroomsGame.UI
         [SerializeField] private TMP_Text previousText;
         [SerializeField] private TMP_Text nextText;
 
+#if PRIMETWEEN
         [Header("Animations")]
         [SerializeField] private TweenSettings<float> previousTween;
         [SerializeField] private TweenSettings<float> nextTween;
@@ -30,6 +36,7 @@ namespace BackroomsGame.UI
         [SerializeField] private TweenSettings<float> noNextTween;
         [SerializeField] private TweenSettings<float> noPrevTween;
         [SerializeField] private TweenSettings<float> neutralTween;
+#endif
         
         [Header("Dots")]
         [SerializeField] private Image dotTemplate;
@@ -44,11 +51,12 @@ namespace BackroomsGame.UI
         
         public int Value { get; private set; }
 
-        private List<string> _oldOptions = new();
+        private string[] _oldOptions;
 
+#if PRIMETWEEN
         private Sequence _currentTween;
-        
         private Sequence _nextTween;
+#endif
 
         private void Start()
         {
@@ -63,52 +71,78 @@ namespace BackroomsGame.UI
 
         public override void OnUpdate()
         {
-            if (!_oldOptions.AsValueEnumerable().SequenceEqual(options))
+            if (!_oldOptions
+#if ZLINQ
+                    .AsValueEnumerable()
+#endif
+                    .SequenceEqual(options))
             {
                 UpdateDots();
                 UpdateTexts();
-                _oldOptions = options;
+                _oldOptions = options.ToArray();
             }
         }
 
         private void Prev()
         {
+#if PRIMETWEEN
             ChangeValueAndPlayAnimations(-1, previousTween);
+#else
+            ChangeValueAndPlayAnimations(-1);
+#endif
         }
 
         private void Next()
         {
+#if PRIMETWEEN
             ChangeValueAndPlayAnimations(+1, nextTween);
+#else
+            ChangeValueAndPlayAnimations(+1);
+#endif
         }
 
+#if PRIMETWEEN
         private void ChangeValueAndPlayAnimations(int delta, TweenSettings<float> animation)
+#else
+        private void ChangeValueAndPlayAnimations(int delta)
+#endif
         {
             if (Value <= 0 && delta < 0)
             {
+#if PRIMETWEEN
                 neutralTween.startValue = noPrevTween.endValue;
                 PlaySequence(Tween.UIAnchoredPositionX(textsParent, noPrevTween)
                     .Chain(Tween.UIAnchoredPositionX(textsParent, neutralTween)));
+#endif
                 return;
             }
 
             if (Value >= options.Count - 1 && delta > 0)
             {
+#if PRIMETWEEN
                 neutralTween.startValue = noNextTween.endValue;
                 PlaySequence(Tween.UIAnchoredPositionX(textsParent, noNextTween)
                     .Chain(Tween.UIAnchoredPositionX(textsParent, neutralTween)));
+#endif
                 return;
             }
 
             Value += delta;
             onValueChanged.Invoke(Value);
+#if PRIMETWEEN
             PlaySequence(Sequence.Create(Tween.UIAnchoredPositionX(textsParent, animation)).OnComplete(UpdateTexts));
+#else
+            UpdateTexts();
+#endif
         }
 
+#if PRIMETWEEN
         private void PlaySequence(Sequence sequence)
         {
             _currentTween.Complete();
             _currentTween = sequence;
         }
+#endif
 
         private void UpdateDots()
         {

@@ -1,7 +1,7 @@
 #region
 
 using System.Collections.Generic;
-using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 #endregion
@@ -11,7 +11,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
     /// <summary>
     /// Abstract base class for settings, inheriting from ScriptableObject and implementing ISetting.
     /// </summary>
-    public abstract class Setting : ScriptableObject, ISetting
+    [AutoStaticsCleanup]
+    public abstract partial class Setting : ScriptableObject, ISetting
     {
         /// <summary>
         /// Gets the unique identifier for the setting.
@@ -59,6 +60,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         protected virtual void OnEnable()
         {
             AllSettings.Add(this);
+        }
+
+        protected virtual void OnDisable()
+        {
+            AllSettings.Remove(this);
         }
         
         /// <summary>

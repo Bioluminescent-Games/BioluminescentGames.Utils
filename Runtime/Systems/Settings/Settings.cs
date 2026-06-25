@@ -8,15 +8,12 @@ namespace BioluminescentGames.Utils.Systems.Settings
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Awake()
         {
-            Debug.Log("Settings > Loading Settings into Memory");
             Resources.LoadAll<Setting>("Settings");
-            Debug.Log("Settings > Loaded Settings into Memory! Initializing Settings...");
             
             foreach (ISetting setting in GetAll())
-            {
-                Debug.Log($"Settings > Loaded Setting: {setting.NameInMenu} ({setting.ID})");
                 setting.Initialize();
-            }
+
+            Debug.Log("Settings > Loaded Settings!");
         }
 
         /// <summary>

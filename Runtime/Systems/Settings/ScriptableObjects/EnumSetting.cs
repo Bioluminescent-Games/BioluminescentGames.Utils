@@ -83,8 +83,10 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 #endif
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
+            
 #if UNITY_EDITOR
             EditorApplication.playModeStateChanged -= EditorApplicationOnPlayModeStateChanged;
 #endif
