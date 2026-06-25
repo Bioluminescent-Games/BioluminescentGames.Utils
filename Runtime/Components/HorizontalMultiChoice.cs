@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using BioluminescentGames.Utils.Utilities;
@@ -71,6 +72,8 @@ namespace BackroomsGame.UI
 
         public override void OnUpdate()
         {
+            _oldOptions ??= options.ToArray();
+
             if (!_oldOptions
 #if ZLINQ
                     .AsValueEnumerable()
