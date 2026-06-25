@@ -8,13 +8,13 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI.Metadata
     {
         [field: SerializeField] public TMP_Text Title { get; private set; }
 
-        public event Action OnDirty;
+        public event Action Dirty;
 
-        protected void SetDirty() => OnDirty?.Invoke();
+        protected void SetDirty() => Dirty?.Invoke();
 
         private void OnDestroy()
         {
-            OnDirty = null;
+            Dirty = null;
         }
 
     }

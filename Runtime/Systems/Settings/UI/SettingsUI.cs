@@ -35,6 +35,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
         [SerializeField] private IntOptionUIMetadata intPrefab;
         [SerializeField] private FloatOptionUIMetadata floatPrefab;
         [SerializeField] private DropdownOptionUIMetadata dropdownPrefab;
+        [SerializeField] private HorizontalMultiChoiceOptionUIMetadata horizontalMultiChoicePrefab;
         [SerializeField] private ButtonOptionUIMetadata buttonPrefab;
         [SerializeField] private KeybindOptionUIMetadata keybindPrefab;
         [SerializeField] private OptionUIMetadata dividerPrefab;
@@ -66,8 +67,6 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
         private void Start()
         {
-            Debug.Log("Settings > Loading Categories...");
-
             // Collect Categories
             List<CategoryDefinition> categories = new List<CategoryDefinition>();
             categories.AddRange(CollectCategories());
@@ -90,8 +89,6 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
         private void InstantiateSettingsInCategory(CategoryDefinition category)
         {
-            Debug.Log($"Settings > Instantiating Settings inside {category}...");
-
             settingsParent.ClearAllChildren();
 
             List<ISetting> settings = new List<ISetting>();
@@ -100,119 +97,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
             foreach (ISetting setting in settings)
             {
-                UITooltip tooltip;
-
-                switch (setting)
-                {
-                    case BoolSetting boolSetting:
-                        CheckboxOptionUIMetadata checkboxOption = Instantiate(checkboxPrefab, settingsParent);
-                        checkboxOption.Title.text = boolSetting.NameInMenu;
-                        checkboxOption.Checkbox.isOn = boolSetting.Value;
-                        checkboxOption.OnDirty += () => _settingsModified.Add(boolSetting.ID);
-                        // ReSharper disable AccessToModifiedClosure
-                        checkboxOption.OnDirty += () => boolSetting.Value = checkboxOption.Checkbox.isOn;
-
-                        tooltip = checkboxOption.GetComponent<UITooltip>();
-                        break;
-                    case IntSetting intSetting:
-                        IntOptionUIMetadata intOption = Instantiate(intPrefab, settingsParent);
-                        intOption.Title.text = intSetting.NameInMenu;
-                        intOption.Slider.maxValue = intSetting.MaxValue;
-                        intOption.Slider.minValue = intSetting.MinValue;
-                        intOption.Slider.value = intSetting.Value;
-                        intOption.OnDirty += () => _settingsModified.Add(intSetting.ID);
-                        intOption.OnDirty += () => intSetting.Value = Mathf.RoundToInt(intOption.Slider.value);
-
-                        tooltip = intOption.GetComponent<UITooltip>();
-                        break;
-                    case FloatSetting floatSetting:
-                        FloatOptionUIMetadata floatOption = Instantiate(floatPrefab, settingsParent);
-                        floatOption.Title.text = floatSetting.NameInMenu;
-                        floatOption.Slider.maxValue = floatSetting.MaxValue;
-                        floatOption.Slider.minValue = floatSetting.MinValue;
-                        floatOption.Slider.value = floatSetting.Value;
-                        floatOption.OnDirty += () => _settingsModified.Add(floatSetting.ID);
-                        floatOption.OnDirty += () => floatSetting.Value = floatOption.Slider.value;
-
-                        tooltip = floatOption.GetComponent<UITooltip>();
-                        break;
-                    case DropdownSetting dropdownSetting:
-                        DropdownOptionUIMetadata dropdownOption = Instantiate(dropdownPrefab, settingsParent);
-                        dropdownOption.Title.text = dropdownSetting.NameInMenu;
-                        dropdownOption.Dropdown.options = dropdownSetting.Options;
-                        dropdownOption.Dropdown.value = (int)dropdownSetting.Value;
-                        dropdownOption.OnDirty += () => _settingsModified.Add(dropdownSetting.ID);
-                        dropdownOption.OnDirty += () => dropdownSetting.Value = (uint)dropdownOption.Dropdown.value;
-
-                        tooltip = dropdownOption.GetComponent<UITooltip>();
-                        // ReSharper restore AccessToModifiedClosure
-                        break;
-                    case ButtonSetting buttonSetting:
-                        ButtonOptionUIMetadata buttonOption = Instantiate(buttonPrefab, settingsParent);
-                        buttonOption.Title.text = buttonSetting.NameInMenu;
-                        buttonOption.Button.onClick.AddListener(buttonSetting.ButtonPressed);
-
-                        tooltip = buttonOption.GetComponent<UITooltip>();
-                        break;
-                    case KeybindSetting keybindSetting:
-                        KeybindOptionUIMetadata keybindOption = Instantiate(keybindPrefab, settingsParent);
-                        keybindOption.Title.text = keybindSetting.NameInMenu;
-
-                        keybindOption.Button.onClick.AddListener(() =>
-                        {
-                            bool actionEnabled = keybindSetting.InputAction.enabled;
-                            keybindSetting.InputAction.Disable();
-
-                            rebindingScreen.ShowObject();
-                            keybindSetting.InputAction.PerformInteractiveRebinding(keybindSetting.BindingIndex)
-                                .WithCancelingThrough(Keyboard.current.escapeKey)
-                                .WithControlsExcluding("Mouse")
-                                .OnMatchWaitForAnother(0.1f)
-                                .OnCancel(o =>
-                                {
-                                    o.Dispose();
-                                    rebindingScreen.HideObject();
-                                    if (actionEnabled)
-                                        keybindSetting.InputAction.Enable();
-                                })
-                                .OnComplete(o =>
-                                {
-                                    o.Dispose();
-                                    UpdateText();
-                                    rebindingScreen.HideObject();
-                                    keybindSetting.OnApply();
-                                    if (actionEnabled)
-                                        keybindSetting.InputAction.Enable();
-                                })
-                                .Start();
-                        });
-
-                        UpdateText();
-
-                        keybindOption.ResetButton.onClick.AddListener(() =>
-                        {
-                            keybindSetting.InputAction.RemoveBindingOverride(keybindSetting.BindingIndex);
-                            keybindSetting.OnApply();
-                            UpdateText();
-                        });
-
-                        tooltip = keybindOption.GetComponent<UITooltip>();
-                        break;
-
-                        void UpdateText()
-                        {
-                            keybindOption.ButtonText.text = keybindSetting.InputAction.GetBindingDisplayString(keybindSetting.BindingIndex) + " [Rebind]";
-                        }
-
-                    case SettingDivider settingDivider:
-                        OptionUIMetadata dividerOption = Instantiate(dividerPrefab, settingsParent);
-                        dividerOption.Title.text = settingDivider.NameInMenu;
-
-                        tooltip = dividerOption.GetComponent<UITooltip>();
-                        break;
-                    default:
-                        throw new IndexOutOfRangeException("Invalid setting type");
-                }
+                OptionUIMetadata option = CreateOptionUI(setting);
+                UITooltip tooltip = option.GetComponent<UITooltip>();
 
                 if (!string.IsNullOrWhiteSpace(setting.TooltipDescription))
                 {
@@ -225,10 +111,147 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                     tooltip.description = string.Empty;
                 }
             }
-
-            Debug.Log("Settings > Instantiated Settings!");
         }
 
+        private OptionUIMetadata CreateOptionUI(ISetting setting)
+        {
+            OptionUIMetadata option = setting switch
+            {
+                ButtonSetting buttonSetting => CreateButtonOptionUI(buttonSetting),
+                EnumSetting enumSetting => CreateEnumOptionUI(enumSetting),
+                FloatSetting floatSetting => CreateFloatOptionUI(floatSetting),
+                IntSetting intSetting => CreateIntOptionUI(intSetting),
+                KeybindSetting keybindSetting => CreateKeybindOptionUI(keybindSetting),
+                BoolSetting boolSetting => CreateBoolOptionUI(boolSetting),
+                SettingDivider settingDivider => CreateSettingDividerOptionUI(settingDivider),
+                _ => throw new ArgumentOutOfRangeException(nameof(setting))
+            };
+            
+            option.Title.text = setting.NameInMenu;
+            option.Dirty += () => _settingsModified.Add(setting.ID);
+            
+            return option;
+        }
+
+        private OptionUIMetadata CreateButtonOptionUI(ButtonSetting buttonSetting)
+        {
+            ButtonOptionUIMetadata buttonOption = Instantiate(buttonPrefab, settingsParent);
+            buttonOption.Button.onClick.AddListener(buttonSetting.TriggerButtonPress);
+            
+            return buttonOption;
+        }
+
+        private OptionUIMetadata CreateEnumOptionUI(EnumSetting enumSetting)
+        {
+            switch (enumSetting.Style)
+            {
+                case EnumSetting.DisplayStyle.Dropdown:
+                    DropdownOptionUIMetadata dropdownOption = Instantiate(dropdownPrefab, settingsParent);
+                    dropdownOption.Dropdown.options = enumSetting.Options.AsValueEnumerable().Select(s => new TMP_Dropdown.OptionData(s)).ToList();
+                    dropdownOption.Dropdown.value = (int)enumSetting.Value;
+                    dropdownOption.Dirty += () => enumSetting.Value = (uint)dropdownOption.Dropdown.value;
+
+                    return dropdownOption;
+                case EnumSetting.DisplayStyle.Horizontal:
+                    HorizontalMultiChoiceOptionUIMetadata horizontalMultiChoiceOption = Instantiate(horizontalMultiChoicePrefab, settingsParent);
+                    horizontalMultiChoiceOption.HorizontalMultiChoice.options = enumSetting.Options;
+                    horizontalMultiChoiceOption.HorizontalMultiChoice.SetValue((int)enumSetting.Value);
+                    horizontalMultiChoiceOption.Dirty += () =>
+                        enumSetting.Value = (uint)horizontalMultiChoiceOption.HorizontalMultiChoice.Value;
+
+                    return horizontalMultiChoiceOption;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private OptionUIMetadata CreateFloatOptionUI(FloatSetting floatSetting)
+        {
+            FloatOptionUIMetadata floatOption = Instantiate(floatPrefab, settingsParent);
+            floatOption.Slider.maxValue = floatSetting.MaxValue;
+            floatOption.Slider.minValue = floatSetting.MinValue;
+            floatOption.Slider.value = floatSetting.Value;
+            floatOption.Dirty += () => floatSetting.Value = floatOption.Slider.value;
+
+            return floatOption;
+        }
+
+        private OptionUIMetadata CreateIntOptionUI(IntSetting intSetting)
+        {
+            IntOptionUIMetadata intOption = Instantiate(intPrefab, settingsParent);
+            intOption.Slider.maxValue = intSetting.MaxValue;
+            intOption.Slider.minValue = intSetting.MinValue;
+            intOption.Slider.value = intSetting.Value;
+            intOption.Dirty += () => intSetting.Value = Mathf.RoundToInt(intOption.Slider.value);
+
+            return intOption;
+        }
+
+        private OptionUIMetadata CreateKeybindOptionUI(KeybindSetting keybindSetting)
+        {
+            KeybindOptionUIMetadata keybindOption = Instantiate(keybindPrefab, settingsParent);
+
+            keybindOption.Button.onClick.AddListener(() =>
+            {
+                bool actionEnabled = keybindSetting.InputAction.enabled;
+                keybindSetting.InputAction.Disable();
+                
+                rebindingScreen.ShowObject();
+                keybindSetting.InputAction.PerformInteractiveRebinding(keybindSetting.BindingIndex)
+                    .WithCancelingThrough(Keyboard.current.escapeKey)
+                    .WithControlsExcluding("Mouse")
+                    .OnMatchWaitForAnother(0.1f)
+                    .OnCancel(o =>
+                    {
+                        o.Dispose();
+                        rebindingScreen.HideObject();
+                        if (actionEnabled)
+                            keybindSetting.InputAction.Enable();
+                    })
+                    .OnComplete(o =>
+                    {
+                        o.Dispose();
+                        UpdateText();
+                        rebindingScreen.HideObject();
+                        keybindSetting.OnApply();
+                        if (actionEnabled)
+                            keybindSetting.InputAction.Enable();
+                    })
+                    .Start();
+            });
+
+            UpdateText();
+
+            keybindOption.ResetButton.onClick.AddListener(() =>
+            {
+                keybindSetting.InputAction.RemoveBindingOverride(keybindSetting.BindingIndex);
+                keybindSetting.OnApply();
+                UpdateText();
+            });
+
+            return keybindOption;
+            
+            void UpdateText()
+            {
+                keybindOption.ButtonText.text = keybindSetting.InputAction.GetBindingDisplayString(keybindSetting.BindingIndex) + " [Rebind]";
+            }
+        }
+
+        private OptionUIMetadata CreateBoolOptionUI(BoolSetting boolSetting)
+        {
+            CheckboxOptionUIMetadata checkboxOption = Instantiate(checkboxPrefab, settingsParent);
+            checkboxOption.Checkbox.isOn = boolSetting.Value;
+            checkboxOption.Dirty += () => boolSetting.Value = checkboxOption.Checkbox.isOn;
+            
+            return checkboxOption;
+        }
+
+        private OptionUIMetadata CreateSettingDividerOptionUI(SettingDivider _)
+        {
+            OptionUIMetadata dividerOption = Instantiate(dividerPrefab, settingsParent);
+            return dividerOption;
+        }
+        
         private static CategoryDefinition[] CollectCategories()
         {
             List<CategoryDefinition> categories = new();

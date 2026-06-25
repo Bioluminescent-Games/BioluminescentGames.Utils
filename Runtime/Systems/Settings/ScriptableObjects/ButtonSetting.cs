@@ -10,8 +10,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         /// <summary>
         /// When the button is pressed.
         /// </summary>
-        public event Action OnButtonPressed;
+        public event EventHandler ButtonPressed;
 
-        internal void ButtonPressed() => OnButtonPressed?.Invoke();
+        internal void TriggerButtonPress() => ButtonPressed?.Invoke(this, EventArgs.Empty);
     }
 }
