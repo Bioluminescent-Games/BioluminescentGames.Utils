@@ -13,7 +13,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
             BoxCollider collider = new GameObject().AddComponent<BoxCollider>();
             Bounds bounds = new(Vector3.one, Vector3.one * 2);
 
-            collider.SetBounds(bounds);
+            collider.SetBoundsWorldSpace(bounds);
 
             Assert.AreEqual(bounds.center, collider.center);
             Assert.AreEqual(bounds.extents, collider.size);

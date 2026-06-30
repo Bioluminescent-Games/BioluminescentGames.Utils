@@ -5,7 +5,13 @@ namespace BioluminescentGames.Utils.Utilities
 {
     public static class BoundsUtils
     {
-        public static void SetBounds(this BoxCollider collider, Bounds bounds)
+        public static void SetBounds(this BoxCollider collider, Bounds worldSpaceBounds)
+        {
+            collider.center = collider.transform.InverseTransformPoint(worldSpaceBounds.center.x, worldSpaceBounds.center.y, worldSpaceBounds.center.z);
+            collider.size = worldSpaceBounds.extents * 2;
+        }
+        
+        public static void SetBoundsWorldSpace(this BoxCollider collider, Bounds bounds)
         {
             collider.center = bounds.center;
             collider.size = bounds.extents;
