@@ -202,5 +202,33 @@ namespace BioluminescentGames.Utils.Tests.Editor
         {
             return VectorUtils.ApproximatelyZero(new Vector2(x, y));
         }
+
+        [Test]
+        public void MoveTowardsNoCap()
+        { 
+            Vector3 current = new(1, 2, 3);
+            Vector3 target = new(1, 2, 5);
+            const float moveDistance = 1.0f;
+            
+            Vector3 expected = new(1, 2, 4);
+            
+            Vector3 moved = VectorUtils.MoveTowardsNoCap(current, target, moveDistance);
+            
+            Assert.AreEqual(expected, moved);
+        }
+
+        [Test]
+        public void MoveTowardsNoCap_Backwards()
+        { 
+            Vector3 current = new(1, 2, 3);
+            Vector3 target = new(1, 2, 5);
+            const float moveDistance = -1.0f;
+            
+            Vector3 expected = new(1, 2, 2);
+            
+            Vector3 moved = VectorUtils.MoveTowardsNoCap(current, target, moveDistance);
+            
+            Assert.AreEqual(expected, moved);
+        }
     }
 }

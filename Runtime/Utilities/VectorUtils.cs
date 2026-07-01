@@ -89,5 +89,11 @@ namespace BioluminescentGames.Utils.Utilities
         {
             return Approximately(vector, Vector2.zero);
         }
+
+        public static Vector3 MoveTowardsNoCap(Vector3 current, Vector3 target, float moveDistance)
+        {
+            Vector3 direction = (target - current).normalized;
+            return current + direction * moveDistance;
+        }
     }
 }
