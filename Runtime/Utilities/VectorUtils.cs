@@ -29,6 +29,7 @@ namespace BioluminescentGames.Utils.Utilities
             return new Vector3(x, y, z);
         }
         public static Vector2 XY(this Vector3 vector) => new Vector2(vector.x, vector.y);
+        public static Vector2 XZ(this Vector3 vector) => new Vector2(vector.x, vector.z);
 
         public static Vector3 XY0(this Vector2 vector) => new Vector3(vector.x, vector.y, 0.0f);
 
