@@ -8,7 +8,7 @@ namespace BioluminescentGames.Utils.StaticUtilities
     {
         private static readonly Dictionary<Type, string> NameDictionary = new();
 
-        public static string GetNameForType(Type type)
+        public static string GetName(this Type type)
         {
             if (NameDictionary.TryGetValue(type, out string typeName)) return typeName;
 

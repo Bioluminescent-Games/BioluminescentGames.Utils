@@ -46,7 +46,7 @@ public class ComponentFinder : EditorWindow
             IsPrefab = isPrefab;
 
             PathInAsset = GeneratePath(component.transform);
-            TypeName = TypeDictionary.GetNameForType(component.GetType());
+            TypeName = component.GetType().GetName();
         }
     }
 

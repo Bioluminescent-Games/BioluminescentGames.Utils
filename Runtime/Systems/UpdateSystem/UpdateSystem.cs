@@ -78,9 +78,9 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
             {
 #if ENABLE_UPDATESYSTEM_PROFILING
                 if (updatable is MonoBehaviour monoBehaviour)
-                    Profiler.BeginSample(TypeDictionary.GetNameForType(updatable.GetType()), monoBehaviour);
+                    Profiler.BeginSample(updatable.GetType().GetName(), monoBehaviour);
                 else
-                    Profiler.BeginSample(TypeDictionary.GetNameForType(updatable.GetType()) + "(not MonoBehaviour)");
+                    Profiler.BeginSample(updatable.GetType().GetName() + " (not MonoBehaviour)");
 #endif
 
                 try
@@ -110,7 +110,7 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
                 return behaviourA.gameObject.GetInstanceID().CompareTo(behaviourB.gameObject.GetInstanceID());*/
 
                 // ReSharper disable once ConvertToLambdaExpression
-                return string.Compare(TypeDictionary.GetNameForType(updatableA.GetType()), TypeDictionary.GetNameForType(updatableB.GetType()), StringComparison.InvariantCulture);
+                return string.Compare(updatableA.GetType().GetName(), updatableB.GetType().GetName(), StringComparison.InvariantCulture);
             });
         }
 

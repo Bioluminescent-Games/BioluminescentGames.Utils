@@ -29,7 +29,7 @@ namespace BioluminescentGames.Utils.Components
         {
             base.OnEnable();
             
-            TimeUtils.Instance.ExecuteRepeatingRealtime(() =>
+            ExecuteRepeatingRealtime(() =>
             {
                 float average = _frameTimes.Count <= 0 
                     ? Time.unscaledDeltaTime
@@ -40,7 +40,7 @@ namespace BioluminescentGames.Utils.Components
                         .Average();
                 _text.text = $"FPS: {1f / average:0}";
                 _frameTimes.Clear();
-            }, measureRateSeconds, () => isActiveAndEnabled, measureRateSeconds);
+            }, measureRateSeconds, delaySeconds: measureRateSeconds);
         }
 
         public override void OnUpdate()

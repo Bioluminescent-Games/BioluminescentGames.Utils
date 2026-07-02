@@ -29,7 +29,7 @@ namespace BioluminescentGames.Utils.Systems.UI
             _visible = true;
 
             if (canvasGroup.alpha < 0.1f)
-                TimeUtils.Instance.WaitForSecondsBeforeExecuting(delaySeconds, () =>
+                WaitForSecondsBeforeExecuting(delaySeconds, () =>
                 {
                     if (!_visible)
                         return;
