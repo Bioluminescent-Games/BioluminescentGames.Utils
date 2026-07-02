@@ -77,5 +77,18 @@ namespace BioluminescentGames.Utils.Utilities
                 yield return new WaitForSeconds(repeatRateSeconds);
             }
         }
+
+        public void ExecuteRepeatingRealtime(Action action, float repeatRateSeconds, Func<bool> continueRunningPredicate, float delaySeconds = 0) => StartCoroutine(ExecuteRepeatingImpl(action, repeatRateSeconds, continueRunningPredicate, delaySeconds));
+        private static IEnumerator ExecuteRepeatingRealtimeImpl(Action action, float repeatRateSeconds, Func<bool> continueRunningPredicate, float delaySeconds)
+        {
+            if (delaySeconds > 0)
+                yield return new WaitForSecondsRealtime(delaySeconds);
+
+            while (continueRunningPredicate())
+            {
+                action?.Invoke();
+                yield return new WaitForSecondsRealtime(repeatRateSeconds);
+            }
+        }
     }
 }

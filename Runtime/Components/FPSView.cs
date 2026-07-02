@@ -14,6 +14,8 @@ namespace BioluminescentGames.Utils.Components
     [RequireComponent(typeof(TMP_Text))]
     public class FPSView : BioluminescentBehaviour
     {
+        [SerializeField] private float measureRateSeconds = 0.1f;
+        
         private TMP_Text _text;
 
         private readonly List<float> _frameTimes = new ();
@@ -21,19 +23,24 @@ namespace BioluminescentGames.Utils.Components
         private void Awake()
         {
             _text = GetComponent<TMP_Text>();
+        }
 
-            TimeUtils.Instance.ExecuteRepeating(() =>
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            
+            TimeUtils.Instance.ExecuteRepeatingRealtime(() =>
             {
                 float average = _frameTimes.Count <= 0 
                     ? Time.unscaledDeltaTime
                     : _frameTimes
 #if ZLINQ
-                    .AsValueEnumerable()
+                        .AsValueEnumerable()
 #endif
-                    .Average();
+                        .Average();
                 _text.text = $"FPS: {1f / average:0}";
                 _frameTimes.Clear();
-            }, 0.1f, () => true, 0.1f);
+            }, measureRateSeconds, () => isActiveAndEnabled, measureRateSeconds);
         }
 
         public override void OnUpdate()
