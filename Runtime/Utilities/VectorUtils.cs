@@ -121,5 +121,23 @@ namespace BioluminescentGames.Utils.Utilities
             
             return vector / maxComponent;
         }
+
+        /// <summary>
+        /// Normalizes a 2D vector against a square bounding box instead of a unit circle.
+        /// </summary>
+        /// <param name="inputVector">The vector in unit-circle space</param>
+        /// <returns>A vector in square bounding box space</returns>
+        public static Vector2 RemapToSquare(Vector2 inputVector)
+        {
+            if (inputVector == Vector2.zero) return Vector2.zero;
+            
+            Vector2 direction = inputVector.normalized;
+            
+            float maxComponent = Mathf.Max(Mathf.Abs(direction.x), Mathf.Abs(direction.y));
+            
+            float squareScale = 1.0f / maxComponent;
+            
+            return new Vector2(inputVector.x * squareScale, inputVector.y * squareScale);
+        }
     }
 }
