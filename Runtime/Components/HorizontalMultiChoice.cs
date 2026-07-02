@@ -114,7 +114,8 @@ namespace BackroomsGame.UI
             {
 #if PRIMETWEEN
                 neutralTween.startValue = noPrevTween.endValue;
-                PlaySequence(Tween.UIAnchoredPositionX(textsParent, noPrevTween)
+                PlaySequence(Sequence.Create(useUnscaledTime: noPrevTween.settings.useUnscaledTime)
+                    .Group(Tween.UIAnchoredPositionX(textsParent, noPrevTween))
                     .Chain(Tween.UIAnchoredPositionX(textsParent, neutralTween)));
 #endif
                 return;
@@ -124,7 +125,8 @@ namespace BackroomsGame.UI
             {
 #if PRIMETWEEN
                 neutralTween.startValue = noNextTween.endValue;
-                PlaySequence(Tween.UIAnchoredPositionX(textsParent, noNextTween)
+                PlaySequence(Sequence.Create(useUnscaledTime: noNextTween.settings.useUnscaledTime)
+                    .Group(Tween.UIAnchoredPositionX(textsParent, noNextTween))
                     .Chain(Tween.UIAnchoredPositionX(textsParent, neutralTween)));
 #endif
                 return;
@@ -133,7 +135,8 @@ namespace BackroomsGame.UI
             Value += delta;
             onValueChanged.Invoke(Value);
 #if PRIMETWEEN
-            PlaySequence(Sequence.Create(Tween.UIAnchoredPositionX(textsParent, animation)).OnComplete(UpdateTexts));
+            PlaySequence(Sequence.Create(useUnscaledTime: animation.settings.useUnscaledTime)
+                .Group(Tween.UIAnchoredPositionX(textsParent, animation)).OnComplete(UpdateTexts));
 #else
             UpdateTexts();
 #endif
