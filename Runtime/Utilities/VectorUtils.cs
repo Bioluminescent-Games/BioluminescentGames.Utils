@@ -96,5 +96,30 @@ namespace BioluminescentGames.Utils.Utilities
             Vector3 direction = (target - current).normalized;
             return current + direction * moveDistance;
         }
+
+        public static Vector3 NormalizeToSquare(this Vector3 vector)
+        {
+            if (vector == Vector3.zero) return Vector3.zero;
+
+            float maxComponent = Mathf.Max(
+                Mathf.Abs(vector.x),
+                Mathf.Abs(vector.y),
+                Mathf.Abs(vector.z)
+            );
+            
+            return vector / maxComponent;
+        }
+
+        public static Vector2 NormalizeToSquare(this Vector2 vector)
+        {
+            if (vector == Vector2.zero) return Vector2.zero;
+
+            float maxComponent = Mathf.Max(
+                Mathf.Abs(vector.x),
+                Mathf.Abs(vector.y)
+            );
+            
+            return vector / maxComponent;
+        }
     }
 }
