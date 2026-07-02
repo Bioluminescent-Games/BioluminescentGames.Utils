@@ -23,12 +23,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 UpdateSystem.Instance.Unregister(this);
         }
 
-        public virtual void OnUpdate()
-        {
-#if UNITY_EDITOR || BUILD_DEBUG
-            Debug.LogWarning($"OnUpdate method on {GetType().GetName()} is empty or you're calling base.OnUpdate()!");
-#endif
-        }
+        public virtual void OnUpdate() { }
         
         protected void ExecuteOnNextFrame(Action action) => StartCoroutine(ExecuteOnNextFrameImpl(action));
         private static IEnumerator ExecuteOnNextFrameImpl(Action action)
@@ -103,12 +98,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 UpdateSystem.Instance.Unregister(this);
         }
 
-        public virtual void OnUpdate()
-        {
-#if UNITY_EDITOR || BUILD_DEBUG
-            Debug.LogWarning($"OnUpdate method on {GetType().GetName()} is empty or you're calling base.OnUpdate()!");
-#endif
-        }
+        public virtual void OnUpdate() { }
         
         protected void ExecuteOnNextFrame(Action action) => StartCoroutine(ExecuteOnNextFrameImpl(action));
         private static IEnumerator ExecuteOnNextFrameImpl(Action action)
