@@ -79,6 +79,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
             base.OnEnable();
             
 #if UNITY_EDITOR
+            EditorApplication.playModeStateChanged -= EditorApplicationOnPlayModeStateChanged;
             EditorApplication.playModeStateChanged += EditorApplicationOnPlayModeStateChanged;
 #endif
         }
