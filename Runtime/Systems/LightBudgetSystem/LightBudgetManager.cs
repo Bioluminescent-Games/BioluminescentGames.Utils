@@ -109,13 +109,12 @@ namespace BioluminescentGames.Utils.Runtime
         private void UpdateLightsEnabled()
         {
             Profiler.BeginSample($"{nameof(LightBudgetManager)}.{nameof(UpdateLightsEnabled)}");
-            Transform transformToUse = GameInterface.Instance.GetCurrentCamera().transform;
 
             var sortedLights = _lights
 #if ZLINQ
                 .AsValueEnumerable()
 #endif
-                .OrderBy(light => VectorUtils.SqrDistance(light.transform.position, transformToUse.position) - GetLightBias(light));
+                .OrderBy(GetLightOrdering);
             
             foreach (LightBudgetLight light in sortedLights.Take(maxEnabledLights))
                 light.Light.enabled = true;
@@ -124,6 +123,12 @@ namespace BioluminescentGames.Utils.Runtime
                 light.Light.enabled = false;
             
             Profiler.EndSample();
+        }
+
+        private float GetLightOrdering(LightBudgetLight light)
+        {
+            return VectorUtils.Distance(light.transform.position,
+                GameInterface.Instance.GetCurrentCamera().transform.position) - GetLightBias(light);
         }
 
         private float GetLightBias(LightBudgetLight light)
@@ -135,13 +140,12 @@ namespace BioluminescentGames.Utils.Runtime
         private void UpdateLightsShadows()
         {
             Profiler.BeginSample($"{nameof(LightBudgetManager)}.{nameof(UpdateLightsShadows)}");
-            Transform transformToUse = GameInterface.Instance.GetCurrentCamera().transform;
 
             var sortedLights = _lights
 #if ZLINQ
                 .AsValueEnumerable()
 #endif
-                .OrderBy(light => VectorUtils.SqrDistance(light.transform.position, transformToUse.position) - GetLightBias(light));
+                .OrderBy(GetLightOrdering);
             
             int accumulator = 0;
             foreach (ShadowTier shadowTier in shadowTiers)
