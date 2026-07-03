@@ -59,6 +59,10 @@ namespace BioluminescentGames.Utils.Runtime
         
         [Tooltip("How fast the light budget updates which lights should have which shadow tiers (in seconds)")]
         [SerializeField] private float shadowsUpdateRateSeconds = 0.5f;
+
+        [Header("Advanced")]
+        [Tooltip("How much lights within the view frustum are favored. If a light is within the view frustum, the system will subtract the light's distance to the camera by the value of this field, which hereby favors lights within the view frustum.")]
+        [SerializeField] private float lightWithinViewFrustumBonus = 10.0f;
         
 #if UNITY_EDITOR
 #if EDITOR_ATTRIBUTES
@@ -111,7 +115,7 @@ namespace BioluminescentGames.Utils.Runtime
 #if ZLINQ
                 .AsValueEnumerable()
 #endif
-                .OrderBy(light => VectorUtils.SqrDistance(light.transform.position, transformToUse.position));
+                .OrderBy(light => VectorUtils.SqrDistance(light.transform.position, transformToUse.position) - GetLightBias(light));
             
             foreach (LightBudgetLight light in sortedLights.Take(maxEnabledLights))
                 light.Light.enabled = true;
@@ -120,6 +124,12 @@ namespace BioluminescentGames.Utils.Runtime
                 light.Light.enabled = false;
             
             Profiler.EndSample();
+        }
+
+        private float GetLightBias(LightBudgetLight light)
+        {
+            Bounds bounds = light.GetBounds();
+            return CameraUtils.IsObjectWithinViewFrustum(bounds) ? lightWithinViewFrustumBonus : 0.0f;
         }
 
         private void UpdateLightsShadows()
@@ -131,7 +141,7 @@ namespace BioluminescentGames.Utils.Runtime
 #if ZLINQ
                 .AsValueEnumerable()
 #endif
-                .OrderBy(light => VectorUtils.SqrDistance(light.transform.position, transformToUse.position));
+                .OrderBy(light => VectorUtils.SqrDistance(light.transform.position, transformToUse.position) - GetLightBias(light));
             
             int accumulator = 0;
             foreach (ShadowTier shadowTier in shadowTiers)

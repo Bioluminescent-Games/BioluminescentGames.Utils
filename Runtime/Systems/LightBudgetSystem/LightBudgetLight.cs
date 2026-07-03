@@ -1,4 +1,10 @@
 #if URP
+
+#if EDITOR_ATTRIBUTES
+using EditorAttributes;
+#endif
+
+using BioluminescentGames.Utils.Utilities;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -7,6 +13,11 @@ namespace BioluminescentGames.Utils.Runtime
     [RequireComponent(typeof(UniversalAdditionalLightData), typeof(Light))]
     public class LightBudgetLight : MonoBehaviour
     {
+#if EDITOR_ATTRIBUTES
+        [DrawHandle(handleColor: GUIColor.Green, handleSpace: Space.Self)]
+#endif
+        [SerializeField] private Bounds bounds = BoundsUtils.Default;
+        
         internal UniversalAdditionalLightData AdditionalLightData { get; private set; }
         internal Light Light { get; private set; }
 
@@ -25,6 +36,11 @@ namespace BioluminescentGames.Utils.Runtime
         {
             if (LightBudgetManager.HasInstance)
                 LightBudgetManager.Instance.DeregisterLight(this);
+        }
+
+        public Bounds GetBounds()
+        {
+            return transform.TransformBounds(bounds);
         }
     }
 }

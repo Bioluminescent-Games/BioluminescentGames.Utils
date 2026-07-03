@@ -5,6 +5,8 @@ namespace BioluminescentGames.Utils.Utilities
 {
     public static class BoundsUtils
     {
+        public static readonly Bounds Default = new(Vector3.zero, Vector3.one * 2);
+        
         public static void SetBounds(this BoxCollider collider, Bounds worldSpaceBounds)
         {
             collider.center = collider.transform.InverseTransformPoint(worldSpaceBounds.center.x, worldSpaceBounds.center.y, worldSpaceBounds.center.z);
@@ -78,6 +80,18 @@ namespace BioluminescentGames.Utils.Utilities
         }
 
         public static Bounds InverseTranslate(this Bounds bounds, Transform transform)
+        {
+            bounds.center = transform.InverseTransformPoint(bounds.center);
+            return bounds;
+        }
+
+        public static Bounds TransformBounds(this Transform transform, Bounds bounds)
+        {
+            bounds.center = transform.TransformPoint(bounds.center);
+            return bounds;
+        }
+
+        public static Bounds InverseTransformBounds(this Transform transform, Bounds bounds)
         {
             bounds.center = transform.InverseTransformPoint(bounds.center);
             return bounds;
