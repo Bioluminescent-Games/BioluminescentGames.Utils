@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace BioluminescentGames.Utils.Core
 {
     public abstract class GameInterface
@@ -6,5 +8,6 @@ namespace BioluminescentGames.Utils.Core
 
         public abstract IInputHandler GetInputHandler();
         public abstract IErrorHandler GetErrorHandler();
+        public virtual Camera GetCurrentCamera() => Camera.main;
     }
 }
