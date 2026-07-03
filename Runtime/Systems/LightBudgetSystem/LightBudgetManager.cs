@@ -59,6 +59,21 @@ namespace BioluminescentGames.Utils.Runtime
         
         [Tooltip("How fast the light budget updates which lights should have which shadow tiers (in seconds)")]
         [SerializeField] private float shadowsUpdateRateSeconds = 0.5f;
+        
+#if UNITY_EDITOR
+#if EDITOR_ATTRIBUTES
+        private bool ShowMessageBox => !Application.isPlaying && drawGizmos;
+        [HelpBox("Gizmos legend:\n" +
+                 "<color=black>Black</color> - disabled.\n" +
+                 "<color=red>Red</color> - shadows disabled.\n" +
+                 "<color=blue>Blue</color> - custom shadow resolution.\n" +
+                 "<color=orange>Orange</color> - low shadow resolution.\n" +
+                 "<color=yellow>Yellow</color> - medium shadow resolution.\n" +
+                 "<color=green>Green</color> - high shadow resolution.")]
+        [MessageBox("Gizmos only work during PlayMode.", nameof(ShowMessageBox), MessageMode.Warning)]
+#endif
+        [SerializeField] private bool drawGizmos = true;
+#endif
 
         private readonly HashSet<LightBudgetLight> _lights = new();
         
@@ -135,6 +150,52 @@ namespace BioluminescentGames.Utils.Runtime
             
             Profiler.EndSample();
         }
+        
+#if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            foreach (LightBudgetLight light in _lights)
+            {
+                if (!light.Light.enabled)
+                {
+                    DrawLightGizmo(light, Color.black);
+                    return;
+                }
+
+                if (light.Light.shadows == LightShadows.None)
+                {
+                    DrawLightGizmo(light, Color.red);
+                    return;
+                }
+
+                switch (light.AdditionalLightData.additionalLightsShadowResolutionTier)
+                {
+                    case (int)Resolution.Low:
+                        DrawLightGizmo(light, Color.orangeRed);
+                        return;
+                    
+                    case (int)Resolution.Medium:
+                        DrawLightGizmo(light, Color.yellow);
+                        return;
+                    
+                    case (int)Resolution.High:
+                        DrawLightGizmo(light, Color.green);
+                        return;
+                    
+                    default:
+                        DrawLightGizmo(light, Color.blue);
+                        return;
+                }
+            }
+        }
+
+        private static void DrawLightGizmo(LightBudgetLight light, Color color)
+        {
+            const float epsilon = 0.0001f;
+            Gizmos.color = color;
+            Gizmos.DrawCube(light.transform.parent.position - epsilon * Vector3.up, light.transform.parent.lossyScale - epsilon * 2 * Vector3.one);
+        }
+#endif
     }
 }
 #endif
