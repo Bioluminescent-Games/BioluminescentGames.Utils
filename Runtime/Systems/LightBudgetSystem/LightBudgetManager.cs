@@ -159,32 +159,32 @@ namespace BioluminescentGames.Utils.Runtime
                 if (!light.Light.enabled)
                 {
                     DrawLightGizmo(light, Color.black);
-                    return;
+                    continue;
                 }
 
                 if (light.Light.shadows == LightShadows.None)
                 {
                     DrawLightGizmo(light, Color.red);
-                    return;
+                    continue;
                 }
 
                 switch (light.AdditionalLightData.additionalLightsShadowResolutionTier)
                 {
                     case (int)Resolution.Low:
                         DrawLightGizmo(light, Color.orangeRed);
-                        return;
+                        continue;
                     
                     case (int)Resolution.Medium:
                         DrawLightGizmo(light, Color.yellow);
-                        return;
+                        continue;
                     
                     case (int)Resolution.High:
                         DrawLightGizmo(light, Color.green);
-                        return;
+                        continue;
                     
                     default:
                         DrawLightGizmo(light, Color.blue);
-                        return;
+                        continue;
                 }
             }
         }
