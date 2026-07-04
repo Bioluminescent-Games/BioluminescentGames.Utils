@@ -32,6 +32,7 @@ namespace BioluminescentGames.Utils.Runtime
 #if ZLINQ
                 .AsValueEnumerable()
 #endif
+                .Where(collider => collider != _collider)
                 .Select(collider => collider.bounds);
 
             return bounds.ToArray();
