@@ -101,15 +101,9 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 UITooltip tooltip = option.GetComponent<UITooltip>();
 
                 if (!string.IsNullOrWhiteSpace(setting.TooltipDescription))
-                {
-                    tooltip.title = setting.NameInMenu;
-                    tooltip.description = setting.TooltipDescription;
-                }
+                    tooltip.SetTooltip(setting.NameInMenu, setting.TooltipDescription);
                 else
-                {
-                    tooltip.title = string.Empty;
-                    tooltip.description = string.Empty;
-                }
+                    tooltip.SetTooltip(string.Empty, string.Empty);
             }
         }
 
