@@ -73,6 +73,8 @@ namespace BackroomsGame.UI
         {
             _oldOptions ??= options.ToArray();
 
+            Value = Mathf.Clamp(Value, 0, options.Count - 1);
+            
             if (!_oldOptions
 #if ZLINQ
                     .AsValueEnumerable()
