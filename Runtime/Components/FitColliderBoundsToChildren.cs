@@ -2,6 +2,8 @@ using BioluminescentGames.Utils.Utilities;
 using UnityEngine;
 #if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
 #endif
 
 namespace BioluminescentGames.Utils.Runtime

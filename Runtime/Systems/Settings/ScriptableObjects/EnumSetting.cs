@@ -1,77 +1,48 @@
 using System;
 using System.Collections.Generic;
 using BioluminescentGames.Utils.Utilities;
-#if EDITOR_ATTRIBUTES
-using EditorAttributes;
-#endif
-using TMPro;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
-using UnityEngine.Serialization;
-using ZLinq;
+#if BG_ENABLE_LOCALIZATION
+using UnityEngine.Localization;
+#endif
 
 namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "New Multiple-Choice Setting", menuName = "Scriptable Objects/Settings/Multiple-Choice Setting")]
-    public class EnumSetting : ValueSetting<uint>
+    public class EnumSetting : ValueSetting<string>
     {
         public enum DisplayStyle { Dropdown, Horizontal }
         
-        [FormerlySerializedAs("options")] 
-        [SerializeField, HideInInspector] private TMP_Dropdown.OptionData[] legacyOptions;
-        
-        #if EDITOR_ATTRIBUTES
-        [Rename("Options")]
-        #endif
-        [SerializeField] private string[] stringOptions;
+        [SerializeField] private EnumSettingOption options;
         [field: SerializeField] public DisplayStyle Style { get; private set; }
-        public List<string> Options { get; } = new();
+        public List<EnumSettingOption> Options { get; } = new();
+
+        public int Index => IndexOf(Value);
+        public int InternalIndex => IndexOf(InternalValue);
 
 #if UNITY_EDITOR
-        private string[] _optionsBackup;
+        private EnumSettingOption[] _optionsBackup;
 #endif
 
-        public void AddOptions(params string[] newOptions) => Options.AddRange(newOptions);
+        public void AddOptions(params EnumSettingOption[] newOptions) => Options.AddRange(newOptions);
 
         public override void Initialize()
         {
-            AddOptions(stringOptions);
+            AddOptions(options);
             base.Initialize();
         }
 
         protected override void LoadFromPlayerPrefs()
         {
-            InternalValue = (uint)EnhancedPlayerPrefs.GetInt(IDForSaving, (int)DefaultValue);
+            InternalValue = EnhancedPlayerPrefs.GetString(IDForSaving, DefaultValue);
         }
 
         protected override void SaveToPlayerPrefs()
         {
-            EnhancedPlayerPrefs.SetInt(IDForSaving, (int)InternalValue);
-        }
-
-        public void AddOptions(Type enumType)
-        {
-            string[] optionsFromEnum = Enum.GetNames(enumType);
-            Options.AddRange(optionsFromEnum);
-        }
-
-        private void OnValidate()
-        {
-            if (legacyOptions == null)
-                return;
-
-            if (legacyOptions.Length <= 0)
-                return;
-            
-            stringOptions = legacyOptions.AsValueEnumerable().Select(o => o.text).ToArray();
-            legacyOptions = null;
-            
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-#endif
+            EnhancedPlayerPrefs.SetString(IDForSaving, InternalValue);
         }
 
         protected override void OnEnable()
@@ -113,5 +84,26 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
             }
         }
 #endif
+
+        [Serializable]
+        public struct EnumSettingOption
+        {
+#if BG_ENABLE_LOCALIZATION
+            public LocalizedString displayName;
+#else
+            public string displayName;
+#endif
+            public string id;
+        }
+
+        public int IndexOf(string id)
+        {
+            return Options.FindIndex(option => option.id == id);
+        }
+
+        public void SetValueByIndex(int index)
+        {
+            Value = Options[index].id;
+        }
     }
 }

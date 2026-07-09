@@ -13,7 +13,10 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         /// </summary>
         public event Action<T> OnChanged;
 
-        protected T InternalValue;
+        /// <summary>
+        /// The non-applied internal value of the setting.
+        /// </summary>
+        internal T InternalValue;
         private T _currentValue;
 
         public T Value
@@ -52,6 +55,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
             base.OnEnable();
 
             OnChanged = null;
+        }
+
+        public override void DiscardValue()
+        {
+            InternalValue = _currentValue;
         }
     }
 }

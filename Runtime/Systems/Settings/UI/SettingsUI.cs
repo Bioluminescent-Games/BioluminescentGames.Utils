@@ -43,7 +43,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
         [Header("Keybinds")]
         [SerializeField] private PublicUIBehaviour rebindingScreen;
 
-        private readonly HashSet<string> _settingsModified = new HashSet<string>();
+        private readonly HashSet<string> _settingsModified = new();
 
         private void Awake()
         {
@@ -142,31 +142,39 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
         private OptionUIMetadata CreateEnumOptionUI(EnumSetting enumSetting)
         {
-            switch (enumSetting.Style)
+            EnumOptionUIMetadata optionUI = enumSetting.Style switch
             {
-                case EnumSetting.DisplayStyle.Dropdown:
-                    DropdownOptionUIMetadata dropdownOption = Instantiate(dropdownPrefab, settingsParent);
-                    dropdownOption.Dropdown.options = enumSetting.Options
+                EnumSetting.DisplayStyle.Dropdown => CreateDropdownOptionUI(enumSetting),
+                EnumSetting.DisplayStyle.Horizontal => CreateHorizontalMultiChoiceOptionUI(enumSetting),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            
+            optionUI.SetItems(enumSetting.Options
 #if ZLINQ
-                        .AsValueEnumerable()
+                .AsValueEnumerable()
 #endif
-                        .Select(s => new TMP_Dropdown.OptionData(s))
-                        .ToList();
-                    dropdownOption.Dropdown.value = (int)enumSetting.Value;
-                    dropdownOption.Dirty += () => enumSetting.Value = (uint)dropdownOption.Dropdown.value;
+                .Select(option => option.displayName)
+                .ToArray());
 
-                    return dropdownOption;
-                case EnumSetting.DisplayStyle.Horizontal:
-                    HorizontalMultiChoiceOptionUIMetadata horizontalMultiChoiceOption = Instantiate(horizontalMultiChoicePrefab, settingsParent);
-                    horizontalMultiChoiceOption.HorizontalMultiChoice.options = enumSetting.Options;
-                    horizontalMultiChoiceOption.HorizontalMultiChoice.SetValue((int)enumSetting.Value);
-                    horizontalMultiChoiceOption.Dirty += () =>
-                        enumSetting.Value = (uint)horizontalMultiChoiceOption.HorizontalMultiChoice.Value;
+            return optionUI;
+        }
 
-                    return horizontalMultiChoiceOption;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+        private EnumOptionUIMetadata CreateDropdownOptionUI(EnumSetting enumSetting)
+        {
+            DropdownOptionUIMetadata dropdownOption = Instantiate(dropdownPrefab, settingsParent);
+            dropdownOption.Dropdown.value = enumSetting.InternalIndex;
+            dropdownOption.Dirty += () => enumSetting.SetValueByIndex(dropdownOption.Dropdown.value);
+
+            return dropdownOption;
+        }
+
+        private EnumOptionUIMetadata CreateHorizontalMultiChoiceOptionUI(EnumSetting enumSetting)
+        {
+            HorizontalMultiChoiceOptionUIMetadata horizontalMultiChoiceOption = Instantiate(horizontalMultiChoicePrefab, settingsParent);
+            horizontalMultiChoiceOption.HorizontalMultiChoice.SetValue(enumSetting.InternalIndex);
+            horizontalMultiChoiceOption.Dirty += () => enumSetting.SetValueByIndex(horizontalMultiChoiceOption.HorizontalMultiChoice.Value);
+
+            return horizontalMultiChoiceOption;
         }
 
         private OptionUIMetadata CreateFloatOptionUI(FloatSetting floatSetting)
@@ -174,7 +182,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             FloatOptionUIMetadata floatOption = Instantiate(floatPrefab, settingsParent);
             floatOption.Slider.maxValue = floatSetting.MaxValue;
             floatOption.Slider.minValue = floatSetting.MinValue;
-            floatOption.Slider.value = floatSetting.Value;
+            floatOption.Slider.value = floatSetting.InternalValue;
             floatOption.Dirty += () => floatSetting.Value = floatOption.Slider.value;
 
             return floatOption;
@@ -185,7 +193,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             IntOptionUIMetadata intOption = Instantiate(intPrefab, settingsParent);
             intOption.Slider.maxValue = intSetting.MaxValue;
             intOption.Slider.minValue = intSetting.MinValue;
-            intOption.Slider.value = intSetting.Value;
+            intOption.Slider.value = intSetting.InternalValue;
             intOption.Dirty += () => intSetting.Value = Mathf.RoundToInt(intOption.Slider.value);
 
             return intOption;
@@ -244,7 +252,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
         private OptionUIMetadata CreateBoolOptionUI(BoolSetting boolSetting)
         {
             CheckboxOptionUIMetadata checkboxOption = Instantiate(checkboxPrefab, settingsParent);
-            checkboxOption.Checkbox.isOn = boolSetting.Value;
+            checkboxOption.Checkbox.isOn = boolSetting.InternalValue;
             checkboxOption.Dirty += () => boolSetting.Value = checkboxOption.Checkbox.isOn;
             
             return checkboxOption;
@@ -281,5 +289,17 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 #endif
             .Where(s => s.Category == category)
             .ToArray();
+
+        protected override void OnHiding()
+        {
+            foreach (ISetting settingObject in _settingsModified
+#if ZLINQ
+                         .AsValueEnumerable()
+#endif
+                         .Select(Settings.Get))
+            {
+                settingObject.DiscardValue();
+            }
+        }
     }
 }

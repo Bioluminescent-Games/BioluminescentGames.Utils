@@ -20,5 +20,6 @@ namespace BioluminescentGames.Utils.Systems.Settings
 
         void Initialize();
         void OnApply();
+        void DiscardValue();
     }
 }

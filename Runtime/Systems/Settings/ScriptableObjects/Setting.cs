@@ -88,6 +88,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         /// </summary>
         public virtual void OnApply() {}
 
+        /// <summary>
+        /// Discard the value that would've been applied by calling OnApply.
+        /// </summary>
+        public virtual void DiscardValue() {}
+
 #if UNITY_EDITOR
         public void EDITOR_SetOrderIndex(int orderIndex) => OrderIndex = orderIndex;
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using BioluminescentGames.Utils.Utilities;
@@ -189,6 +188,16 @@ namespace BackroomsGame.UI
             Value = value;
             UpdateTexts();
             UpdateDots();
+        }
+
+        public void ClearOptions()
+        {
+            options.Clear();
+        }
+
+        public void AddOptions(List<string> newOptions)
+        {
+            options.AddRange(newOptions);
         }
     }
 }

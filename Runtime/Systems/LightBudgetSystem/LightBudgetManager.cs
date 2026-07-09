@@ -12,6 +12,8 @@ using BioluminescentGames.Utils.Utilities;
 using UnityEngine.Profiling;
 #if ZLINQ
 using ZLinq;
+#else
+using System.Linq;
 #endif
 using Random = UnityEngine.Random;
 
