@@ -18,7 +18,6 @@ using System.Linq;
 
 namespace BioluminescentGames.Utils.Editor.Systems.Settings
 {
-    // TODO: Add category/setting
     public class SettingsEditor : EditorWindow
     {
         private const string k_ToolName = "Settings Editor";
@@ -27,9 +26,7 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
 
         private VisualElement _mainContainer;
         private ListView _leftPane;
-        private TwoPaneSplitView _rightPane;
-        private ListView _rightPaneTopPane;
-        private ScrollView _rightPaneBottomPane;
+        private ListView _rightPane;
 
         private List<Setting> _settingsToShow;
 
@@ -37,8 +34,7 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
         [SerializeField, HideInInspector] private int settingsSelectedIndex = -1;
 
         private Toolbar _toolbar;
-
-
+        
         private ToolbarButton _removeCategoryToolbarButton;
         private Button _removeSettingButton;
 
@@ -227,12 +223,16 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
             _leftPane.selectionChanged += _ => categoriesSelectedIndex = _leftPane.selectedIndex;
             _leftPane.selectionChanged += _ => BuildUI();
             _leftPane.itemsChosen += OnItemsChosen;
+            
+            _leftPane.RegisterCallback<PointerDownEvent>(_ =>
+            {
+                if (categoriesSelectedIndex >= 0 && categoriesSelectedIndex < _categories.Count)
+                    Selection.activeObject = _categories[categoriesSelectedIndex];
+            });
+            
             splitView.Add(_leftPane);
-
-            _rightPane = new TwoPaneSplitView(1, 250, TwoPaneSplitViewOrientation.Vertical);
-            splitView.Add(_rightPane);
-
-            _rightPaneTopPane = new ListView
+            
+            _rightPane = new ListView
             {
                 makeItem = () => {
                     TextField field = new() { isDelayed = true };
@@ -275,14 +275,18 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
                 reorderMode = ListViewReorderMode.Animated,
                 selectedIndex = settingsSelectedIndex
             };
-            _rightPaneTopPane.selectionChanged += RightPaneTopPaneOnSelectionChanged;
-            _rightPaneTopPane.itemIndexChanged += RightPaneTopPaneOnItemIndexChanged;
-            _rightPaneTopPane.selectionChanged += _ => settingsSelectedIndex = _rightPaneTopPane.selectedIndex;
-            _rightPaneTopPane.itemsChosen += OnItemsChosen;
-            _rightPane.Add(_rightPaneTopPane);
-
-            _rightPaneBottomPane = new ScrollView();
-            _rightPane.Add(_rightPaneBottomPane);
+            _rightPane.selectionChanged += RightPaneOnSelectionChanged;
+            _rightPane.itemIndexChanged += RightPaneOnItemIndexChanged;
+            _rightPane.selectionChanged += _ => settingsSelectedIndex = _rightPane.selectedIndex;
+            _rightPane.itemsChosen += OnItemsChosen;
+            
+            _rightPane.RegisterCallback<PointerDownEvent>(_ => 
+            {
+                if (_settingsToShow != null && settingsSelectedIndex >= 0 && settingsSelectedIndex < _settingsToShow.Count)
+                    Selection.activeObject = _settingsToShow[settingsSelectedIndex];
+            });
+            
+            splitView.Add(_rightPane);
 
             if (categoriesSelectedIndex >= 0 && categoriesSelectedIndex < _categories.Count)
             {
@@ -333,7 +337,7 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
             }
         }
 
-        private void RightPaneTopPaneOnItemIndexChanged(int arg1, int arg2)
+        private void RightPaneOnItemIndexChanged(int arg1, int arg2)
         {
             if (_settingsToShow == null) return;
 
@@ -364,6 +368,7 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
             CategoryDefinition selectedCategory = enumerator.Current as CategoryDefinition;
 
             UpdateSelectedCategory(selectedCategory);
+            Selection.activeObject = selectedCategory;
         }
 
         private void UpdateSelectedCategory(CategoryDefinition selectedCategory)
@@ -381,26 +386,23 @@ namespace BioluminescentGames.Utils.Editor.Systems.Settings
             _settingsToShow = settingsToShow;
             for (int i = 0; i < _settingsToShow.Count; i++)
                 _settingsToShow[i].EDITOR_SetOrderIndex(i);
-            _rightPaneTopPane.itemsSource = _settingsToShow;
-            _rightPaneTopPane.ClearSelection();
-            _rightPaneTopPane.Rebuild();
+            _rightPane.itemsSource = _settingsToShow;
+            _rightPane.ClearSelection();
+            _rightPane.Rebuild();
         }
 
-        private void RightPaneTopPaneOnSelectionChanged(IEnumerable<object> selectedItems)
+        private void RightPaneOnSelectionChanged(IEnumerable<object> selectedItems)
         {
-            _rightPaneBottomPane.Clear();
-
             if (_mainContainer.Contains(_removeSettingButton))
                 _mainContainer.Remove(_removeSettingButton);
 
-            using IEnumerator<object> enumerator = selectedItems.GetEnumerator();
+            using var enumerator = selectedItems.GetEnumerator();
             if (!enumerator.MoveNext()) return;
 
             Setting selectedSetting = enumerator.Current as Setting;
             if (!selectedSetting) return;
-
-            InspectorElement inspector = new(selectedSetting);
-            _rightPaneBottomPane.Add(inspector);
+            
+            Selection.activeObject = selectedSetting;
 
             _mainContainer.Add(_removeSettingButton);
         }
