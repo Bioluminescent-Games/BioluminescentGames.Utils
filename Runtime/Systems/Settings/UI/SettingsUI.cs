@@ -237,7 +237,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             
             void UpdateText()
             {
-                keybindOption.ButtonText.text = keybindSetting.InputAction.GetBindingDisplayString(keybindSetting.BindingIndex) + " [Rebind]";
+                keybindOption.ButtonText.text = keybindSetting.InputAction.GetBindingDisplayString(keybindSetting.BindingIndex);
             }
         }
 
