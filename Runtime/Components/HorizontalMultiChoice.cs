@@ -72,8 +72,6 @@ namespace BackroomsGame.UI
         public override void OnUpdate()
         {
             _oldOptions ??= options.ToArray();
-
-            Value = Mathf.Clamp(Value, 0, options.Count - 1);
             
             if (!_oldOptions
 #if ZLINQ
@@ -81,6 +79,8 @@ namespace BackroomsGame.UI
 #endif
                     .SequenceEqual(options))
             {
+                Value = Mathf.Clamp(Value, 0, options.Count - 1);
+                
                 UpdateDots();
                 UpdateTexts();
                 _oldOptions = options.ToArray();
@@ -195,6 +195,7 @@ namespace BackroomsGame.UI
         public void ClearOptions()
         {
             options.Clear();
+            Value = Mathf.Clamp(Value, 0, options.Count - 1);
         }
 
         public void AddOptions(List<string> newOptions)
