@@ -178,14 +178,14 @@ namespace BackroomsGame.UI
 
         public void SetValue(int value)
         {
-            Value = value;
+            Value = Mathf.Clamp(value, 0, options.Count - 1);
             onValueChanged.Invoke(Value);
             UpdateTexts();
         }
 
         public void SetValueNoNotify(int value)
         {
-            Value = value;
+            Value = Mathf.Clamp(value, 0, options.Count - 1);
             UpdateTexts();
             UpdateDots();
         }
