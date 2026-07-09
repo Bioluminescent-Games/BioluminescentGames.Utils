@@ -30,6 +30,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         public override void Initialize()
         {
+            Options.Clear();
             if (!populateOptionsAtRuntime)
                 Options.AddRange(options);
             
@@ -58,18 +59,21 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         public void AddOptions(EnumSettingOption[] option)
         {
+            Debug.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
             Options.AddRange(option);
             Reload();
         }
 
         public void AddOption(EnumSettingOption option)
         {
+            Debug.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
             Options.Add(option);
             Reload();
         }
 
         public void ClearOptions()
         {
+            Debug.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
             Options.Clear();
             Reload();
         }
