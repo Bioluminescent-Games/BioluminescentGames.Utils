@@ -72,10 +72,10 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             categories.AddRange(CollectCategories());
             categories = categories
 #if ZLINQ
-                             .AsValueEnumerable()
+                .AsValueEnumerable()
 #endif
-                .OrderBy(category => category)
-                .ToList(); // Sort Alphabetically so it isn't random order.
+                .OrderBy(category => category.OrderIndex)
+                .ToList();
 
             foreach (CategoryDefinition category in categories)
             {
@@ -100,8 +100,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 OptionUIMetadata option = CreateOptionUI(setting);
                 UITooltip tooltip = option.GetComponent<UITooltip>();
 
-                if (!string.IsNullOrWhiteSpace(setting.TooltipDescription))
-                    tooltip.SetTooltip(setting.NameInMenu, setting.TooltipDescription);
+                if (!setting.Description.IsEmpty)
+                    tooltip.SetTooltip(setting.NameInMenu, setting.Description);
                 else
                     tooltip.SetTooltip(string.Empty, string.Empty);
             }
@@ -121,7 +121,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 _ => throw new ArgumentOutOfRangeException(nameof(setting))
             };
             
+#if BG_ENABLE_LOCALIZATION
+            option.Title.StringReference = setting.NameInMenu;
+            option.Title.RefreshString();
+#else
             option.Title.text = setting.NameInMenu;
+#endif
             option.Dirty += () => _settingsModified.Add(setting.ID);
             
             return option;

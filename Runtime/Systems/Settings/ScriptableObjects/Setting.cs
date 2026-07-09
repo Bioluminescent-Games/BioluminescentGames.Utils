@@ -3,6 +3,9 @@
 using System.Collections.Generic;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
+#if BG_ENABLE_LOCALIZATION
+using UnityEngine.Localization;
+#endif
 
 #endregion
 
@@ -22,7 +25,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         /// <summary>
         /// Gets the name of the setting as it appears in the menu.
         /// </summary>
+#if BG_ENABLE_LOCALIZATION
+        [field: SerializeField] public LocalizedString NameInMenu { get; private set; }
+#else
         [field: SerializeField] public string NameInMenu { get; private set; }
+#endif
 
         /// <summary>
         /// Gets the category name of the setting.
@@ -37,7 +44,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         /// <summary>
         /// The description of the tooltip for the setting.
         /// </summary>
-        [field: SerializeField] public string TooltipDescription { get; private set; }
+#if BG_ENABLE_LOCALIZATION
+        [field: SerializeField] public LocalizedString Description { get; private set; }
+#else
+        [field: SerializeField] public string Description { get; private set; }
+#endif
 
         /// <summary>
         /// A static list of all settings.
