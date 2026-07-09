@@ -31,5 +31,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI.Metadata
             DropdownItems.RefreshList();
         }
 #endif
+
+        public abstract void SetItems(string[] items);
     }
 }

@@ -22,6 +22,10 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 #endif
         [SerializeField] private EnumSettingOption[] options;
         [field: SerializeField] public DisplayStyle Style { get; private set; }
+        
+#if BG_ENABLE_LOCALIZATION
+        [field: SerializeField] public bool LocalizedOptions { get; private set; }
+#endif
 
         internal List<EnumSettingOption> Options { get; } = new();
         
@@ -82,10 +86,9 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         public struct EnumSettingOption
         {
 #if BG_ENABLE_LOCALIZATION
-            public LocalizedString displayName;
-#else
-            public string displayName;
+            public LocalizedString localizedDisplayName;
 #endif
+            public string displayNameString;
             public string id;
         }
     }

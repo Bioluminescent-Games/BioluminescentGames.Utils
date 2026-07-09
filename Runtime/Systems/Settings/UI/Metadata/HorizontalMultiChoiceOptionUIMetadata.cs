@@ -17,7 +17,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI.Metadata
             HorizontalMultiChoice.onValueChanged.AddListener(_ => SetDirty());
         }
         
-        public void SetItems(string[] items)
+        public override void SetItems(string[] items)
         {
             HorizontalMultiChoice.ClearOptions();
             HorizontalMultiChoice.AddOptions(items

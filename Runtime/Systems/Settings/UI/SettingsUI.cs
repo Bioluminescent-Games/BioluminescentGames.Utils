@@ -149,12 +149,26 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 _ => throw new ArgumentOutOfRangeException()
             };
             
-            optionUI.SetItems(enumSetting.Options
+#if BG_ENABLE_LOCALIZATION
+            if (enumSetting.LocalizedOptions)
+            {
+                optionUI.SetItems(enumSetting.Options
 #if ZLINQ
-                .AsValueEnumerable()
+                    .AsValueEnumerable()
 #endif
-                .Select(option => option.displayName)
-                .ToArray());
+                    .Select(option => option.localizedDisplayName)
+                    .ToArray());
+            }
+            else
+#endif
+            {
+                optionUI.SetItems(enumSetting.Options
+#if ZLINQ
+                    .AsValueEnumerable()
+#endif
+                    .Select(option => option.displayNameString)
+                    .ToArray());
+            }
 
             return optionUI;
         }

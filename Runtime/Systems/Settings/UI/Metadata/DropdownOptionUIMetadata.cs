@@ -17,7 +17,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI.Metadata
             Dropdown.onValueChanged.AddListener(_ => SetDirty());
         }
 
-        public void SetItems(string[] items)
+        public override void SetItems(string[] items)
         {
             Dropdown.ClearOptions();
             Dropdown.AddOptions(items
