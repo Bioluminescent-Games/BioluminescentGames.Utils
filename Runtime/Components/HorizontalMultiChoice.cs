@@ -165,6 +165,8 @@ namespace BackroomsGame.UI
 
         private void UpdateTexts()
         {
+            Value = Mathf.Clamp(Value, 0, options.Count - 1);
+            
             currentText.text = options[Value];
             
             previousText.text = Value > 0 
