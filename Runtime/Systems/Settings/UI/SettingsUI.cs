@@ -55,7 +55,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 #endif
                              .Select(Settings.Get))
                 {
-                    Debug.Log($"Settings > Apply: {settingObject.NameInMenu}");
+                    Debug.Log($"Settings > Apply: {settingObject.ID}");
                     settingObject.OnApply();
                 }
 
