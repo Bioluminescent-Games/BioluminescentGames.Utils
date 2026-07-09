@@ -57,7 +57,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
             Value = Options[index].id;
         }
 
-        public void AddOptions(EnumSettingOption[] option)
+        public void AddOptions(params EnumSettingOption[] option)
         {
             Debug.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
             Options.AddRange(option);
