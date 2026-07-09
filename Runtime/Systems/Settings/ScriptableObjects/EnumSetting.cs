@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
 using BioluminescentGames.Utils.Utilities;
+#if EDITOR_ATTRIBUTES
+using EditorAttributes;
+#endif
 using UnityEngine;
 #if BG_ENABLE_LOCALIZATION
 using UnityEngine.Localization;
@@ -12,11 +16,25 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
     {
         public enum DisplayStyle { Dropdown, Horizontal }
         
-        [field: SerializeField] public EnumSettingOption[] Options { get; private set; }
+        [SerializeField, Tooltip("Will you use scripts to populate the options?")] private bool populateOptionsAtRuntime;
+#if EDITOR_ATTRIBUTES
+        [HideField(nameof(populateOptionsAtRuntime))]
+#endif
+        [SerializeField] private EnumSettingOption[] options;
         [field: SerializeField] public DisplayStyle Style { get; private set; }
 
+        internal List<EnumSettingOption> Options { get; } = new();
+        
         public int Index => IndexOf(Value);
         public int InternalIndex => IndexOf(InternalValue);
+
+        public override void Initialize()
+        {
+            if (!populateOptionsAtRuntime)
+                Options.AddRange(options);
+            
+            base.Initialize();
+        }
 
         protected override void LoadFromPlayerPrefs()
         {
@@ -28,6 +46,34 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
             EnhancedPlayerPrefs.SetString(IDForSaving, InternalValue);
         }
 
+        public int IndexOf(string id)
+        {
+            return Options.FindIndex(option => option.id == id);
+        }
+
+        public void SetValueByIndex(int index)
+        {
+            Value = Options[index].id;
+        }
+
+        public void AddOptions(EnumSettingOption[] option)
+        {
+            Options.AddRange(option);
+            Reload();
+        }
+
+        public void AddOption(EnumSettingOption option)
+        {
+            Options.Add(option);
+            Reload();
+        }
+
+        public void ClearOptions()
+        {
+            Options.Clear();
+            Reload();
+        }
+
         [Serializable]
         public struct EnumSettingOption
         {
@@ -37,16 +83,6 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
             public string displayName;
 #endif
             public string id;
-        }
-
-        public int IndexOf(string id)
-        {
-            return Array.FindIndex(Options, option => option.id == id);
-        }
-
-        public void SetValueByIndex(int index)
-        {
-            Value = Options[index].id;
         }
     }
 }
