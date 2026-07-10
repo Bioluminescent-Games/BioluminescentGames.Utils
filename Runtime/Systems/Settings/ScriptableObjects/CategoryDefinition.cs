@@ -20,12 +20,12 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         [field: SerializeField] public bool LocalizeDisplayName { get; private set; } = true;
         
 #if EDITOR_ATTRIBUTES
-        [EnableField(nameof(LocalizeDisplayName))]
+        [field: EnableField(nameof(LocalizeDisplayName))]
 #endif
         [field: SerializeField] public LocalizedString LocalizedDisplayName { get; private set; }
         
 #if EDITOR_ATTRIBUTES
-        [DisableField(nameof(LocalizeDisplayName))]
+        [field: DisableField(nameof(LocalizeDisplayName))]
 #endif
 #endif
         [field: SerializeField] public string DisplayName { get; private set; }
