@@ -8,6 +8,9 @@ using BioluminescentGames.Utils.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+#if BG_ENABLE_LOCALIZATION
+using UnityEngine.Localization.Components;
+#endif
 using UnityEngine.UI;
 #if ZLINQ
 using ZLinq;
@@ -80,7 +83,18 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             foreach (CategoryDefinition category in categories)
             {
                 Button categoryButton = Instantiate(categoryPrefab, categoryParent);
-                categoryButton.GetComponentInChildren<TMP_Text>().text = category.name;
+#if BG_ENABLE_LOCALIZATION
+                if (category.LocalizeDisplayName)
+                {
+                    LocalizeStringEvent stringEvent = categoryButton.GetComponentInChildren<LocalizeStringEvent>();
+                    stringEvent.StringReference = category.LocalizedDisplayName;
+                    stringEvent.RefreshString();
+                }
+                else
+#endif
+                {
+                    categoryButton.GetComponentInChildren<TMP_Text>().text = category.name;
+                }
                 categoryButton.onClick.AddListener(() => InstantiateSettingsInCategory(category));
             }
 
