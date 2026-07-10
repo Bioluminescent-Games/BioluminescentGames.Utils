@@ -142,49 +142,52 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
         private OptionUIMetadata CreateEnumOptionUI(EnumSetting enumSetting)
         {
-            EnumOptionUIMetadata optionUI = enumSetting.Style switch
+            return enumSetting.Style switch
             {
-                EnumSetting.DisplayStyle.Dropdown => CreateDropdownOptionUI(enumSetting),
-                EnumSetting.DisplayStyle.Horizontal => CreateHorizontalMultiChoiceOptionUI(enumSetting),
+                EnumSetting.DisplayStyle.Dropdown => CreateDropdownOptionUI(enumSetting, AddOptions),
+                EnumSetting.DisplayStyle.Horizontal => CreateHorizontalMultiChoiceOptionUI(enumSetting, AddOptions),
                 _ => throw new ArgumentOutOfRangeException()
             };
-            
-#if BG_ENABLE_LOCALIZATION
-            if (enumSetting.LocalizedOptions)
-            {
-                optionUI.SetItems(enumSetting.Options
-#if ZLINQ
-                    .AsValueEnumerable()
-#endif
-                    .Select(option => option.localizedDisplayName)
-                    .ToArray());
-            }
-            else
-#endif
-            {
-                optionUI.SetItems(enumSetting.Options
-#if ZLINQ
-                    .AsValueEnumerable()
-#endif
-                    .Select(option => option.displayNameString)
-                    .ToArray());
-            }
 
-            return optionUI;
+            void AddOptions(EnumOptionUIMetadata enumOptionUI)
+            {
+#if BG_ENABLE_LOCALIZATION
+                if (enumSetting.LocalizedOptions)
+                {
+                    enumOptionUI.SetItems(enumSetting.Options
+#if ZLINQ
+                        .AsValueEnumerable()
+#endif
+                        .Select(option => option.localizedDisplayName)
+                        .ToArray());
+                }
+                else
+#endif
+                {
+                    enumOptionUI.SetItems(enumSetting.Options
+#if ZLINQ
+                        .AsValueEnumerable()
+#endif
+                        .Select(option => option.displayNameString)
+                        .ToArray());
+                }
+            }
         }
 
-        private EnumOptionUIMetadata CreateDropdownOptionUI(EnumSetting enumSetting)
+        private EnumOptionUIMetadata CreateDropdownOptionUI(EnumSetting enumSetting, Action<EnumOptionUIMetadata> addOptions)
         {
             DropdownOptionUIMetadata dropdownOption = Instantiate(dropdownPrefab, settingsParent);
+            addOptions(dropdownOption);
             dropdownOption.Dropdown.value = enumSetting.InternalIndex;
             dropdownOption.Dirty += () => enumSetting.SetValueByIndex(dropdownOption.Dropdown.value);
 
             return dropdownOption;
         }
 
-        private EnumOptionUIMetadata CreateHorizontalMultiChoiceOptionUI(EnumSetting enumSetting)
+        private EnumOptionUIMetadata CreateHorizontalMultiChoiceOptionUI(EnumSetting enumSetting, Action<EnumOptionUIMetadata> addOptions)
         {
             HorizontalMultiChoiceOptionUIMetadata horizontalMultiChoiceOption = Instantiate(horizontalMultiChoicePrefab, settingsParent);
+            addOptions(horizontalMultiChoiceOption);
             horizontalMultiChoiceOption.HorizontalMultiChoice.SetValue(enumSetting.InternalIndex);
             horizontalMultiChoiceOption.Dirty += () => enumSetting.SetValueByIndex(horizontalMultiChoiceOption.HorizontalMultiChoice.Value);
 
