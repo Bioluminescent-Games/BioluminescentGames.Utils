@@ -337,6 +337,9 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
         protected override void OnShowing()
         {
+            if (_categories == null || _categories.Length == 0)
+                return;
+            
             InstantiateSettingsInCategory(_categories[0]);
         }
     }
