@@ -134,6 +134,8 @@ namespace BioluminescentGames.Utils.Systems.UI
 
             UpdateTooltip().Forget();
         }
+        
+        public void DisableTooltip() => SetTooltip(string.Empty, string.Empty);
 
 #if BG_ENABLE_LOCALIZATION
         public void SetTooltip(LocalizedString newTitle, LocalizedString newDescription)

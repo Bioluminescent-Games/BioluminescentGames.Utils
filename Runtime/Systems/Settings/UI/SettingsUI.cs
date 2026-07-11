@@ -48,6 +48,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
         private readonly HashSet<string> _settingsModified = new();
 
+        private CategoryDefinition[] _categories;
+
         private void Awake()
         {
             applyButton.onClick.AddListener(() =>
@@ -63,6 +65,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 }
 
                 _settingsModified.Clear();
+                
+                InstantiateSettingsInCategory(_categories[0]);
 
                 Hide();
             });
@@ -70,17 +74,14 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
         private void Start()
         {
-            // Collect Categories
-            List<CategoryDefinition> categories = new List<CategoryDefinition>();
-            categories.AddRange(CollectCategories());
-            categories = categories
+            _categories = CollectCategories()
 #if ZLINQ
                 .AsValueEnumerable()
 #endif
                 .OrderBy(category => category.OrderIndex)
-                .ToList();
+                .ToArray();
 
-            foreach (CategoryDefinition category in categories)
+            foreach (CategoryDefinition category in _categories)
             {
                 Button categoryButton = Instantiate(categoryPrefab, categoryParent);
 #if BG_ENABLE_LOCALIZATION
@@ -98,7 +99,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 categoryButton.onClick.AddListener(() => InstantiateSettingsInCategory(category));
             }
 
-            InstantiateSettingsInCategory(categories[0]);
+            InstantiateSettingsInCategory(_categories[0]);
         }
 
         private void InstantiateSettingsInCategory(CategoryDefinition category)
@@ -117,7 +118,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 if (!setting.Description.IsEmpty)
                     tooltip.SetTooltip(setting.NameInMenu, setting.Description);
                 else
-                    tooltip.SetTooltip(string.Empty, string.Empty);
+                    tooltip.DisableTooltip();
             }
         }
 
@@ -297,21 +298,24 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
         
         private static CategoryDefinition[] CollectCategories()
         {
-            List<CategoryDefinition> categories = new();
+            HashSet<CategoryDefinition> categories = new();
 
             foreach (ISetting setting in Settings.GetAll())
             {
-                if (!categories.Contains(setting.Category))
-                    categories.Add(setting.Category);
+                categories.Add(setting.Category);
             }
 
-            categories.Sort();
-            return categories.ToArray();
+            return categories
+#if ZLINQ
+                .AsValueEnumerable()
+#endif
+                .Order()
+                .ToArray();
         }
 
         public override void OnUpdate()
         {
-            applyButton.gameObject.SetActive(_settingsModified.Count > 0);
+            applyButton.interactable = _settingsModified.Count > 0;
         }
 
         private static ISetting[] GetSettingsInCategory(CategoryDefinition category) => Settings.GetAll()
