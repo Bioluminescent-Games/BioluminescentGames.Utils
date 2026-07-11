@@ -67,8 +67,6 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 _settingsModified.Clear();
                 
                 Hide();
-
-                InstantiateSettingsInCategory(_categories[0]);
             });
         }
 
@@ -335,6 +333,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             {
                 settingObject.DiscardValue();
             }
+        }
+
+        protected override void OnShowing()
+        {
+            InstantiateSettingsInCategory(_categories[0]);
         }
     }
 }
