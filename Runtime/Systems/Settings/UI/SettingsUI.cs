@@ -66,9 +66,9 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 
                 _settingsModified.Clear();
                 
-                InstantiateSettingsInCategory(_categories[0]);
-
                 Hide();
+
+                InstantiateSettingsInCategory(_categories[0]);
             });
         }
 
