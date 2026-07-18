@@ -76,7 +76,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 #if ZLINQ
                 .AsValueEnumerable()
 #endif
-                .Order()
+                .OrderBy(c => c.OrderIndex)
                 .ToArray();
 
             foreach (CategoryDefinition category in _categories)
@@ -307,7 +307,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 #if ZLINQ
                 .AsValueEnumerable()
 #endif
-                .Order()
+                .OrderBy(c => c.OrderIndex)
                 .ToArray();
         }
 
