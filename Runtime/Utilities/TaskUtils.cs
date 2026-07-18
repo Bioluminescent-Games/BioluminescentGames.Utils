@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace BioluminescentGames.Utils.Runtime
+namespace BioluminescentGames.Utils.Utilities
 {
     public static class TaskUtils
     {
