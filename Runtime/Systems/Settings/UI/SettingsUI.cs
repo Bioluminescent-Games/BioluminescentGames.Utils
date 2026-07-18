@@ -113,7 +113,11 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 OptionUIMetadata option = CreateOptionUI(setting);
                 UITooltip tooltip = option.GetComponent<UITooltip>();
 
+#if BG_ENABLE_LOCALIZATION
                 if (!setting.Description.IsEmpty)
+#else
+                if (!string.IsNullOrEmpty(setting.Description))
+#endif
                     tooltip.SetTooltip(setting.NameInMenu, setting.Description);
                 else
                     tooltip.DisableTooltip();
