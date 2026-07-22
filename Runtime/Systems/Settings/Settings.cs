@@ -9,9 +9,9 @@ namespace BioluminescentGames.Utils.Systems.Settings
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Awake()
         {
-            Resources.LoadAll<Setting>("Settings");
+            var settings = Resources.LoadAll<Setting>("Settings");
 
-            foreach (ISetting setting in GetAll())
+            foreach (ISetting setting in settings)
             {
                 Log.Trace($"Load setting {setting.ID}");
                 setting.Initialize();
