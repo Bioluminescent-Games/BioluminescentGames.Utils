@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BioluminescentGames.Utils.StaticUtilities;
 using BioluminescentGames.Utils.Utilities;
 #if EDITOR_ATTRIBUTES
 using EditorAttributes;
@@ -63,21 +64,21 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 
         public void AddOptions(params EnumSettingOption[] option)
         {
-            Debug.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
+            Log.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
             Options.AddRange(option);
             Reload();
         }
 
         public void AddOption(EnumSettingOption option)
         {
-            Debug.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
+            Log.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
             Options.Add(option);
             Reload();
         }
 
         public void ClearOptions()
         {
-            Debug.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
+            Log.Assert(populateOptionsAtRuntime, $"You cannot modify options when {nameof(populateOptionsAtRuntime)} isn't enabled.", this);
             Options.Clear();
             Reload();
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using BioluminescentGames.Utils.Core;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
+using BioluminescentGames.Utils.StaticUtilities;
 #if EDITOR_ATTRIBUTES
 using EditorAttributes;
 #endif
@@ -98,7 +99,7 @@ namespace BioluminescentGames.Utils.Runtime
         {
             if (!_lights.Add(light))
             {
-                Debug.LogWarning("LightBudgetManager already has light: " + light.gameObject.name);
+                Log.Warning("LightBudgetManager already has light: " + light.gameObject.name);
                 return;
             }
         }

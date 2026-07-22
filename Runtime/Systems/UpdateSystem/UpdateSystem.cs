@@ -36,7 +36,7 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
 
         private void AddUpdatable(IUpdatable updatable)
         {
-            Debug.Assert(!(_updatables.Contains(updatable) && !_updatablesToRemove.Contains(updatable)), $"Tried to add updatable {updatable} that was already registered.", updatable as Object);
+            Log.Assert(!(_updatables.Contains(updatable) && !_updatablesToRemove.Contains(updatable)), $"Tried to add updatable {updatable} that was already registered.", updatable as Object);
 
             _updatables.Add(updatable);
         }
@@ -89,7 +89,7 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
                 }
                 catch (Exception e)
                 {
-                    Debug.LogException(e);
+                    Log.Exception(e);
                 }
 
 #if ENABLE_UPDATESYSTEM_PROFILING
@@ -105,7 +105,7 @@ namespace BioluminescentGames.Utils.Systems.UpdateSystem
                 /*MonoBehaviour behaviourA = updatableA as MonoBehaviour;
                 MonoBehaviour behaviourB = updatableB as MonoBehaviour;
 
-                Debug.Assert(behaviourA != null && behaviourB != null);
+                Log.Assert(behaviourA != null && behaviourB != null);
 
                 return behaviourA.gameObject.GetInstanceID().CompareTo(behaviourB.gameObject.GetInstanceID());*/
 

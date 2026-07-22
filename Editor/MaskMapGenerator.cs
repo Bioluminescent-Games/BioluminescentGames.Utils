@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using BioluminescentGames.Utils.StaticUtilities;
 #if ZLINQ
 using ZLinq;
 #else
@@ -59,7 +60,7 @@ namespace BioluminescentGames.Utils.Editor
                     if (file.StartsWith(Application.dataPath))
                         path = "Assets" + file[Application.dataPath.Length..];
                     else
-                        Debug.LogWarning($"Selected file must be inside Assets folder. (Found {path})");
+                        Log.Warning($"Selected file must be inside Assets folder. (Found {path})");
                 }
             }
             GUILayout.EndHorizontal();
@@ -78,7 +79,7 @@ namespace BioluminescentGames.Utils.Editor
 
             if (width == 0 || height == 0)
             {
-                Debug.LogError("You must provide at least one texture to determine the output resolution.");
+                Log.Error("You must provide at least one texture to determine the output resolution.");
                 return;
             }
 
@@ -103,7 +104,7 @@ namespace BioluminescentGames.Utils.Editor
             File.WriteAllBytes(_savePath, pngData);
             AssetDatabase.Refresh();
 
-            Debug.Log("Mask Map generated at: " + _savePath);
+            Log.Info("Mask Map generated at: " + _savePath);
         }
 
         private static Texture2D LoadTexture(string path)
@@ -114,7 +115,7 @@ namespace BioluminescentGames.Utils.Editor
             Texture2D tex = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             if (!tex)
             {
-                Debug.LogError("Could not load texture at " + path);
+                Log.Error("Could not load texture at " + path);
                 return null;
             }
 

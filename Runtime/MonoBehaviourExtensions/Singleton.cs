@@ -1,3 +1,4 @@
+using BioluminescentGames.Utils.StaticUtilities;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogWarning($"Auto-creating instance for {typeof(TSelf).Name}");
+                Log.Warning($"Auto-creating instance for {typeof(TSelf).Name}");
 
                 GameObject obj = new()
                 {
@@ -83,7 +84,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogWarning($"Auto-creating instance for {typeof(TSelf).Name}");
+                Log.Warning($"Auto-creating instance for {typeof(TSelf).Name}");
 
                 GameObject obj = new()
                 {
@@ -159,7 +160,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogError($"FATAL ERROR - {typeof(TSelf).Name} DOESNT HAVE AN INSTANCE!");
+                Log.Error($"FATAL ERROR - {typeof(TSelf).Name} DOESNT HAVE AN INSTANCE!");
 
                 return null;
             }
@@ -198,7 +199,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (local != null)
                     return local;
 
-                Debug.LogError($"FATAL ERROR - {typeof(TSelf).Name} DOESNT HAVE A LOCAL INSTANCE!");
+                Log.Error($"FATAL ERROR - {typeof(TSelf).Name} DOESNT HAVE A LOCAL INSTANCE!");
 
                 return null;
             }
@@ -245,7 +246,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogError($"FATAL ERROR - {typeof(TSelf).Name} DOESNT HAVE AN INSTANCE!");
+                Log.Error($"FATAL ERROR - {typeof(TSelf).Name} DOESNT HAVE AN INSTANCE!");
 
                 return null;
             }
@@ -296,7 +297,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogWarning($"Auto-creating instance for {typeof(TSelf).Name}");
+                Log.Warning($"Auto-creating instance for {typeof(TSelf).Name}");
 
                 GameObject obj = new()
                 {
@@ -346,7 +347,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogWarning($"Auto-creating instance for {typeof(TSelf).Name}");
+                Log.Warning($"Auto-creating instance for {typeof(TSelf).Name}");
 
                 GameObject obj = new()
                 {
@@ -396,7 +397,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogWarning($"Auto-creating instance for {typeof(TSelf).Name}");
+                Log.Warning($"Auto-creating instance for {typeof(TSelf).Name}");
 
                 GameObject obj = new()
                 {
@@ -449,7 +450,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 if (instance)
                     return instance;
 
-                Debug.LogWarning($"Auto-creating instance for {typeof(TSelf).Name}");
+                Log.Warning($"Auto-creating instance for {typeof(TSelf).Name}");
 
                 GameObject obj = new()
                 {

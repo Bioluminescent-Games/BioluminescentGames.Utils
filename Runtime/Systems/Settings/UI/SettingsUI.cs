@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
+using BioluminescentGames.Utils.StaticUtilities;
 using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
 using BioluminescentGames.Utils.Systems.Settings.UI.Metadata;
 using BioluminescentGames.Utils.Systems.UI;
@@ -60,7 +61,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
 #endif
                              .Select(Settings.Get))
                 {
-                    Debug.Log($"Settings > Apply: {settingObject.ID}");
+                    Log.Info($"Settings > Apply: {settingObject.ID}");
                     settingObject.OnApply();
                 }
 

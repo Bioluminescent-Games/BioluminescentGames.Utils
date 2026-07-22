@@ -1,4 +1,5 @@
 ﻿using System;
+using BioluminescentGames.Utils.StaticUtilities;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Utilities
@@ -40,7 +41,7 @@ namespace BioluminescentGames.Utils.Utilities
             } catch
             {
                 guid = Guid.Empty;
-                Debug.LogWarning($"Attempted to parse invalid GUID string '{serializedGuid}'. GUID will set to System.Guid.Empty");
+                Log.Warning($"Attempted to parse invalid GUID string '{serializedGuid}'. GUID will set to System.Guid.Empty");
             }
         }
 

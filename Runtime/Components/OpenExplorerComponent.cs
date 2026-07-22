@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using BioluminescentGames.Utils.StaticUtilities;
 using BioluminescentGames.Utils.Utilities;
 using UnityEngine;
 #if EDITOR_ATTRIBUTES
@@ -91,7 +92,7 @@ namespace BioluminescentGames.Utils.Components
                 case Type.File:
                     if (!File.Exists(path))
                     {
-                        Debug.LogError("File not found: " + path);
+                        Log.Error("File not found: " + path);
                         return;
                     }
 
@@ -105,7 +106,7 @@ namespace BioluminescentGames.Utils.Components
                 case Type.Folder:
                     if (!Directory.Exists(path))
                     {
-                        Debug.LogError("Directory not found: " + path);
+                        Log.Error("Directory not found: " + path);
                         return;
                     }
 

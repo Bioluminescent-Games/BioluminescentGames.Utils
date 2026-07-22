@@ -1,4 +1,5 @@
 using System;
+using BioluminescentGames.Utils.StaticUtilities;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Utilities
@@ -70,7 +71,7 @@ namespace BioluminescentGames.Utils.Utilities
             if (Succeeded)
                 return true;
 
-            Debug.LogError(Error);
+            Log.Error(Error);
             return false;
         }
 
@@ -151,7 +152,7 @@ namespace BioluminescentGames.Utils.Utilities
             if (Succeeded)
                 return true;
 
-            Debug.LogError(Error);
+            Log.Error(Error);
             return false;
         }
 

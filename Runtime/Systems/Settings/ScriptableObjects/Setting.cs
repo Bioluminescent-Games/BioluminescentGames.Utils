@@ -53,7 +53,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         /// <summary>
         /// A static list of all settings.
         /// </summary>
-        private static readonly List<ISetting> AllSettings = new List<ISetting>();
+        private static readonly List<ISetting> AllSettings = new();
 
         /// <summary>
         /// Gets all settings as an array.

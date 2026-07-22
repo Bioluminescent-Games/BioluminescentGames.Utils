@@ -1,5 +1,6 @@
 ﻿#if FMOD
 
+using BioluminescentGames.Utils.StaticUtilities;
 using FMOD;
 
 namespace BioluminescentGames.Utils.Utilities
@@ -11,7 +12,7 @@ namespace BioluminescentGames.Utils.Utilities
         {
             if (result == RESULT.OK) return false;
 
-            UnityEngine.Debug.LogWarning($"FMOD Error: {result.ToString()}");
+            Log.Warning($"FMOD Error: {result.ToString()}");
             return true;
         }
     }

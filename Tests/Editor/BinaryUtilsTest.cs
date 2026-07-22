@@ -2,6 +2,7 @@
 using BioluminescentGames.Utils.Utilities;
 using NUnit.Framework;
 using System.Text;
+using BioluminescentGames.Utils.StaticUtilities;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Tests.Editor
@@ -43,7 +44,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
             // Arrange
             byte[] invalidUtf8Bytes = { 0xFF, 0xFE };
 
-            Debug.Log(invalidUtf8Bytes.DecodeToString());
+            Log.Info(invalidUtf8Bytes.DecodeToString());
 
             // Act & Assert
             Assert.Throws<DecoderFallbackException>(() => invalidUtf8Bytes.DecodeToString());

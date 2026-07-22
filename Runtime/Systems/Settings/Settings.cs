@@ -1,3 +1,4 @@
+using BioluminescentGames.Utils.StaticUtilities;
 using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
 using UnityEngine;
 
@@ -9,11 +10,14 @@ namespace BioluminescentGames.Utils.Systems.Settings
         private static void Awake()
         {
             Resources.LoadAll<Setting>("Settings");
-            
-            foreach (ISetting setting in GetAll())
-                setting.Initialize();
 
-            Debug.Log("Settings > Loaded Settings!");
+            foreach (ISetting setting in GetAll())
+            {
+                Log.Trace($"Load setting {setting.ID}");
+                setting.Initialize();
+            }
+
+            Log.Verbose("Settings > Loaded Settings!");
         }
 
         /// <summary>

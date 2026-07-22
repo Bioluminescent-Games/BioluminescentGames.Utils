@@ -102,7 +102,7 @@ public class ComponentFinder : EditorWindow
         string assetPath = componentPathPair.AssetPath;
         string path = componentPathPair.PathInAsset;
         Label label = item as Label;
-        Debug.Assert(label != null);
+        Log.Assert(label != null);
         label.text = $"{componentPathPair.TypeName} <color=grey>{assetPath}{path}</color>";
         //Object containingThing = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
 

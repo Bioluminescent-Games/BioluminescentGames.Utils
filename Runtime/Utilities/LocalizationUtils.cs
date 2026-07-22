@@ -1,4 +1,5 @@
 #if BG_ENABLE_LOCALIZATION
+using BioluminescentGames.Utils.StaticUtilities;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
@@ -27,7 +28,7 @@ namespace BioluminescentGames.Utils.Runtime
 
             if (localizedStringGroup.Strings.Count <= 0)
             {
-                Debug.LogWarning($"Cannot refresh {nameof(LocalizedStringGroup)} when {nameof(localizedStringGroup.Strings)} is empty.");
+                Log.Warning($"Cannot refresh {nameof(LocalizedStringGroup)} when {nameof(localizedStringGroup.Strings)} is empty.");
                 return;
             }
             
