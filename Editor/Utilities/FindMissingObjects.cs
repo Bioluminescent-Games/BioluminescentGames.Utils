@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BioluminescentGames.Utils.StaticUtilities;
 #if ZLINQ
 using ZLinq;
 #else
@@ -28,7 +29,7 @@ namespace BioluminescentGames.Utils.Editor
                 .AsValueEnumerable()
 #endif
                 .Sum(transform => GameObjectUtility.RemoveMonoBehavioursWithMissingScript(transform.gameObject));
-            Debug.Log($"Removed {count} missing scripts from selected GameObjects.");
+            Log.Info($"Removed {count} missing scripts from selected GameObjects.");
         }
 	
         [MenuItem("Tools/Missing Objects/Remove Missing Scripts from Selected GameObjects and Children")]
@@ -48,7 +49,7 @@ namespace BioluminescentGames.Utils.Editor
                 }
             }
 
-            Debug.Log($"Removed {count} missing scripts from selected GameObjects and their children.");
+            Log.Info($"Removed {count} missing scripts from selected GameObjects and their children.");
         }
 
         [MenuItem("Tools/Missing Objects/Log Missing Scripts in Project and Open Scenes")]
@@ -61,7 +62,7 @@ namespace BioluminescentGames.Utils.Editor
 
                 if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                 {
-                    Debug.LogWarning("All scenes weren't searched because save dialog was cancelled.");
+                    Log.Warning("All scenes weren't searched because save dialog was cancelled.");
                     return;
                 }
 
@@ -113,20 +114,28 @@ namespace BioluminescentGames.Utils.Editor
 			    float sceneCountIncrement = 1 / sceneCountLimit;
 			    for (var s = 0; s < sceneCount; s++)
 			    {
-				    float sceneV = s / sceneCountLimit;
-				    string path = scenePaths[s];
-				    Scene scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
-				    GameObject[] gameObjects = scene.GetRootGameObjects();
-				    int gameObjectsCount = gameObjects.Length;
-				    float gameObjectsCountLimit = Mathf.Max(1, gameObjectsCount - 1);
-				    for (var g = 0; g < gameObjectsCount; g++)
-				    {
-					    float v = sceneV + g / gameObjectsCountLimit * sceneCountIncrement;
-					    if (EditorUtility.DisplayCancelableProgressBar("Finding missing scripts in scenes", path, v))
-						    return true;
+                    try
+                    {
+                        float sceneV = s / sceneCountLimit;
+                        string path = scenePaths[s];
+                        Scene scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+                        GameObject[] gameObjects = scene.GetRootGameObjects();
+                        int gameObjectsCount = gameObjects.Length;
+                        float gameObjectsCountLimit = Mathf.Max(1, gameObjectsCount - 1);
+                        for (var g = 0; g < gameObjectsCount; g++)
+                        {
+                            float v = sceneV + g / gameObjectsCountLimit * sceneCountIncrement;
+                            if (EditorUtility.DisplayCancelableProgressBar("Finding missing scripts in scenes", path,
+                                    v))
+                                return true;
 
-					    process(gameObjects[g], path, AssetDatabase.LoadAssetAtPath<SceneAsset>(path));
-				    }
+                            process(gameObjects[g], path, AssetDatabase.LoadAssetAtPath<SceneAsset>(path));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Exception(e);
+                    }
 			    }
 		    }
 		    finally
@@ -155,7 +164,7 @@ namespace BioluminescentGames.Utils.Editor
                             .Count(component => component == null);
 					    if (missingScriptCount == 0) continue;
 					    // ReSharper disable once Unity.NoNullCoalescing
-					    Debug.LogWarning($"\"{path} -> {AnimationUtility.CalculateTransformPath(child, root)} ({child.name})\" contains {missingScriptCount} missing scripts!",
+					    Log.Warning($"\"{path} -> {AnimationUtility.CalculateTransformPath(child, root)} ({child.name})\" contains {missingScriptCount} missing scripts!",
 						    pingOverride ?? gameObject);
 				    }
 			    }
