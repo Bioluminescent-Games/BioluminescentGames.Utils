@@ -49,35 +49,6 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 #else
         [field: SerializeField] public string Description { get; private set; }
 #endif
-
-        /// <summary>
-        /// A static list of all settings.
-        /// </summary>
-        private static readonly List<ISetting> AllSettings = new();
-
-        /// <summary>
-        /// Gets all settings as an array.
-        /// </summary>
-        /// <returns>An array of all settings.</returns>
-        public static ISetting[] GetAll() => AllSettings.ToArray();
-
-        /// <summary>
-        /// Gets a setting by its unique identifier.
-        /// </summary>
-        /// <param name="id">The unique identifier of the setting.</param>
-        /// <returns>The setting with the specified identifier, or null if not found.</returns>
-        public static ISetting Get(string id) => AllSettings.Find(setting => setting.ID == id);
-
-        protected virtual void OnEnable()
-        {
-            AllSettings.Add(this);
-        }
-
-        protected virtual void OnDisable()
-        {
-            AllSettings.Remove(this);
-        }
-        
         /// <summary>
         /// Initializes the setting. Can be overridden by derived classes.
         /// </summary>

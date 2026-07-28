@@ -50,10 +50,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
             ApplyValues();
         }
 
-        protected override void OnEnable()
+        protected virtual void OnEnable()
         {
-            base.OnEnable();
-
             OnChanged = null;
         }
 
