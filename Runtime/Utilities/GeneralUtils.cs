@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+#if UNITY_NGO
 using Unity.Netcode;
+#endif
 using Unity.Properties;
 using UnityEngine;
 
