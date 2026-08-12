@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BioluminescentGames.Utils.StaticUtilities;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -104,8 +105,6 @@ public class ComponentFinder : EditorWindow
         Label label = item as Label;
         Log.Assert(label != null);
         label.text = $"{componentPathPair.TypeName} <color=grey>{assetPath}{path}</color>";
-        //Object containingThing = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
-
     }
 
     private static string GeneratePath(Transform componentTransform, string currentPath = "")
@@ -121,6 +120,10 @@ public class ComponentFinder : EditorWindow
     {
         _allComponents.Clear();
         _filteredComponents.Clear();
+
+        EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
 
         if (_searchInAssetsToggle.value)
             SearchInAssets();
@@ -202,8 +205,9 @@ public class ComponentFinder : EditorWindow
     {
         _allComponents.AddRange(components
 #if ZLINQ
-                .AsValueEnumerable()
+            .AsValueEnumerable()
 #endif
+            .Where(component => !PrefabUtility.IsPartOfNonAssetPrefabInstance(component))
             .Select(component => new ComponentProperties(component, path, isPrefab))
             .ToArray());
     }
