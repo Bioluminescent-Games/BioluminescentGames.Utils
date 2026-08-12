@@ -23,6 +23,7 @@ public class ComponentFinder : EditorWindow
     private ToolbarButton _searchButton;
     private ToolbarToggle _searchInAssetsToggle;
     private ToolbarToggle _searchInSceneToggle;
+    private ToolbarToggle _searchInPackagesToggle;
 
     private ListView _componentList;
 
@@ -66,6 +67,7 @@ public class ComponentFinder : EditorWindow
         _searchButton = rootVisualElement.Q<ToolbarButton>("SearchButton");
         _searchInAssetsToggle = rootVisualElement.Q<ToolbarToggle>("SearchInAssetsToggle");
         _searchInSceneToggle = rootVisualElement.Q<ToolbarToggle>("SearchInScenesToggle");
+        _searchInPackagesToggle = rootVisualElement.Q<ToolbarToggle>("SearchInPackagesToggle");
 
         _componentList = visualTree.Q<ListView>("ComponentList");
         _componentList.itemsSource = _filteredComponents;
@@ -158,7 +160,7 @@ public class ComponentFinder : EditorWindow
         foreach (string prefabGuid in prefabGuids)
         {
             string path = AssetDatabase.GUIDToAssetPath(prefabGuid);
-            if (IsPartOfPackage(path))
+            if (IsPartOfPackage(path) && !_searchInPackagesToggle.value)
                 continue;
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
 

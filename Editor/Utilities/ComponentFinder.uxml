@@ -5,6 +5,7 @@
         <uie:ToolbarSpacer style="width: 48px;"/>
         <uie:ToolbarToggle label="Search in Assets" name="SearchInAssetsToggle" value="true"/>
         <uie:ToolbarToggle label="Search in Scenes" name="SearchInScenesToggle" value="true" text=""/>
+        <uie:ToolbarToggle label="Search in Packages" name="SearchInPackagesToggle"/>
     </uie:Toolbar>
     <ui:ListView name="ComponentList" style="height: 100%; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px;"/>
 </ui:UXML>
