@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using BioluminescentGames.Utils.StaticUtilities;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Object = UnityEngine.Object;
@@ -14,6 +15,7 @@ using Object = UnityEngine.Object;
 namespace BioluminescentGames.Utils.Systems.UpdateSystem
 {
     [UpdateInGroup(typeof(SimulationSystemGroup))]
+    [AutoStaticsCleanup]
     public partial class UpdateSystem : SystemBase
     {
         public static UpdateSystem Instance { get; private set; }

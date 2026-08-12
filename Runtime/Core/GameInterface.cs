@@ -1,8 +1,10 @@
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Core
 {
-    public abstract class GameInterface
+    [AutoStaticsCleanup]
+    public abstract partial class GameInterface
     {
         public static GameInterface Instance { get; protected set; }
 

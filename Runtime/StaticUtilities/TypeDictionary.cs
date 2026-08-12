@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.StaticUtilities
 {
-    public static class TypeDictionary
+    [AutoStaticsCleanup]
+    public static partial class TypeDictionary
     {
         private static readonly Dictionary<Type, string> NameDictionary = new();
 

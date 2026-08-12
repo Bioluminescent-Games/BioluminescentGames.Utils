@@ -1,9 +1,11 @@
 using BioluminescentGames.Utils.Core;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Runtime
 {
-    public static class CameraUtils
+    [AutoStaticsCleanup]
+    public static partial class CameraUtils
     {
         private static int _lastFrustumFrameRecalcTime = -1;
         private static Plane[] _cachedFrustumPlanes;

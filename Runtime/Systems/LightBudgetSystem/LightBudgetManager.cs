@@ -10,6 +10,7 @@ using EditorAttributes;
 #endif
 using UnityEngine;
 using BioluminescentGames.Utils.Utilities;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine.Profiling;
 #if ZLINQ
 using ZLinq;
@@ -20,7 +21,8 @@ using Random = UnityEngine.Random;
 
 namespace BioluminescentGames.Utils.Runtime
 {
-    public class LightBudgetManager : MonoSingleton<LightBudgetManager>
+    [AutoStaticsCleanup]
+    public partial class LightBudgetManager : MonoSingleton<LightBudgetManager>
     {
         private enum Resolution
         {

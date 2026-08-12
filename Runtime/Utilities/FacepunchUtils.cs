@@ -9,11 +9,13 @@ using Cysharp.Threading.Tasks;
 using Steamworks;
 using UnityEngine;
 using Steamworks.Data;
+using Unity.Scripting.LifecycleManagement;
 using Color = Steamworks.Data.Color;
 
 namespace BioluminescentGames.Utils.Runtime
 {
-    public static class FacepunchUtils
+    [AutoStaticsCleanup]
+    public static partial class FacepunchUtils
     {
         private static readonly Dictionary<ulong, Texture2D> AvatarCache = new();
         private static readonly List<ulong> AvatarsUnderway = new();
@@ -42,11 +44,11 @@ namespace BioluminescentGames.Utils.Runtime
             return avatar;
         }
 
-        #if UNITASK
+#if UNITASK
         private static async UniTask<Image?> GetAvatarInternal(SteamId steamId)
-        #else
+#else
         private static async Task<Image?> GetAvatarInternal(SteamId steamId)
-        #endif
+#endif
         {
             try
             {

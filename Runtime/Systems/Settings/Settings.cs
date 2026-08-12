@@ -1,11 +1,13 @@
 using System;
 using BioluminescentGames.Utils.StaticUtilities;
 using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Systems.Settings
 {
-    public static class Settings
+    [AutoStaticsCleanup]
+    public static partial class Settings
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Awake()
