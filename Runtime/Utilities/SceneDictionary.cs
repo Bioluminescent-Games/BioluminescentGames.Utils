@@ -1,10 +1,12 @@
-#if SERIALIZED_COLLECTIONS && SCENE_REFERENCE
+#if (SERIALIZED_COLLECTIONS || UNITY_6000_6_OR_NEWER) && SCENE_REFERENCE
 
 #region
 
 using System;
 using System.Collections.Generic;
+#if !UNITY_6000_6_OR_NEWER
 using AYellowpaper.SerializedCollections;
+#endif
 using Eflatun.SceneReference;
 using UnityEngine;
 #if ZLINQ
@@ -20,7 +22,13 @@ namespace BioluminescentGames.Utils.Utilities
     [Serializable]
     public class SceneDictionary<T>
     {
+#if UNITY_6000_6_OR_NEWER
+#pragma warning disable UAC1016
+        [SerializeField] private Dictionary<SceneReference, T> dictionary;
+#pragma warning restore UAC1016
+#else
         [SerializeField, SerializedDictionary("Level", "Value")] private SerializedDictionary<SceneReference, T> dictionary;
+#endif
 
         private bool _init;
 
@@ -33,7 +41,7 @@ namespace BioluminescentGames.Utils.Utilities
                     _sceneNameDictionary = new Dictionary<string, T>(
                         dictionary
 #if ZLINQ
-                .AsValueEnumerable()
+                            .AsValueEnumerable()
 #endif
                             .ToDictionary(x => x.Key.Name, x => x.Value));
                 _init = true;
