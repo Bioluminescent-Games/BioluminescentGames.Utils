@@ -37,7 +37,10 @@ namespace BioluminescentGames.Utils.Runtime
         
         public static LocalizedString Duplicate(this LocalizedString localizedString)
         {
-            return new LocalizedString(localizedString.TableReference, localizedString.TableEntryReference);
+            LocalizedString duplicated = new(localizedString.TableReference, localizedString.TableEntryReference);
+            foreach (string variableName in localizedString.Keys)
+                duplicated.Add(variableName, localizedString[variableName]);
+            return duplicated;
         }
     }
 }
