@@ -34,6 +34,11 @@ namespace BioluminescentGames.Utils.Runtime
             
             localizedStringGroup.Strings[0]?.RefreshString();
         }
+        
+        public static LocalizedString Duplicate(this LocalizedString localizedString)
+        {
+            return new LocalizedString(localizedString.TableReference, localizedString.TableEntryReference);
+        }
     }
 }
 #endif
