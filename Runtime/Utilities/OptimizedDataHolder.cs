@@ -106,5 +106,13 @@ namespace BioluminescentGames.Utils.Utilities
             Set(new T(), false);
             return Value;
         }
+
+        /// <summary>
+        /// Less expensive way of setting the value to null.
+        /// </summary>
+        public void Clear()
+        {
+            DeleteValue();
+        }
     }
 }
