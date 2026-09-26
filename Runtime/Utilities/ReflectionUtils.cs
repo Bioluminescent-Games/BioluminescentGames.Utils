@@ -3,7 +3,9 @@ using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace BioluminescentGames.Utils.Runtime
 {
@@ -18,6 +20,7 @@ namespace BioluminescentGames.Utils.Runtime
         /// <param name="fieldName">The name of the field to search</param>
         /// <param name="property">The serialized property</param>
         /// <returns>The field info of the desired field</returns>
+#if UNITY_EDITOR
         public static FieldInfo FindField(string fieldName, SerializedProperty property)
         {
             if (fieldName.Contains('.'))
@@ -28,6 +31,7 @@ namespace BioluminescentGames.Utils.Runtime
 
             return fieldInfo;
         }
+#endif
         
         internal static FieldInfo FindField(string fieldName, object targetObject) => FindMember(fieldName, targetObject?.GetType(), BINDING_FLAGS, MemberTypes.Field) as FieldInfo;
         internal static PropertyInfo FindProperty(string propertyName, object targetObject) => FindMember(propertyName, targetObject?.GetType(), BINDING_FLAGS, MemberTypes.Property) as PropertyInfo;
@@ -38,6 +42,7 @@ namespace BioluminescentGames.Utils.Runtime
         /// <param name="propertyName">The name of the property to search</param>
         /// <param name="property">The serialized property</param>
         /// <returns>The property info of the desired property</returns>
+#if UNITY_EDITOR
         public static PropertyInfo FindProperty(string propertyName, SerializedProperty property)
         {
             if (propertyName.Contains('.'))
@@ -48,6 +53,7 @@ namespace BioluminescentGames.Utils.Runtime
 
             return propertyInfo;
         }
+#endif
         
         /// <summary>
         /// Finds a member inside a serialzied object
@@ -55,6 +61,7 @@ namespace BioluminescentGames.Utils.Runtime
         /// <param name="memberName">The name of the member to look for</param>
         /// <param name="serializedProperty">The serialized property</param>
         /// <returns>The member info of the member</returns>
+#if UNITY_EDITOR
         public static MemberInfo GetValidMemberInfo(string memberName, SerializedProperty serializedProperty)
         {
             MemberInfo memberInfo;
@@ -66,6 +73,7 @@ namespace BioluminescentGames.Utils.Runtime
         
             return memberInfo;
         }
+#endif
         
         internal static MemberInfo GetValidMemberInfo(string memberName, object targetObject)
         {
@@ -85,6 +93,7 @@ namespace BioluminescentGames.Utils.Runtime
         /// <param name="functionName">The name of the function to search</param>
         /// <param name="property">The serialized property</param>
         /// <returns>The method info of the desired function</returns>
+#if UNITY_EDITOR
         public static MethodInfo FindFunction(string functionName, SerializedProperty property)
         {
             if (functionName.Contains('.'))
@@ -117,6 +126,7 @@ namespace BioluminescentGames.Utils.Runtime
 
             return methodInfo;
         }
+#endif
         
         internal static MethodInfo FindFunction(string functionName, object targetObject)
         {
@@ -144,6 +154,7 @@ namespace BioluminescentGames.Utils.Runtime
         /// <param name="property">The serialized property</param>
         /// <param name="nestedObject">Outputs the serialized nested object</param>
         /// <returns>The nested object type</returns>
+#if UNITY_EDITOR
         public static Type GetNestedObjectType(SerializedProperty property, out object nestedObject)
         {
             try
@@ -180,6 +191,7 @@ namespace BioluminescentGames.Utils.Runtime
                 return null;
             }
         }
+#endif
 
         /// <summary>
         /// Finds a member from the target and it's inherited types
@@ -225,6 +237,7 @@ namespace BioluminescentGames.Utils.Runtime
         /// <param name="memberPath">The path on which to locate the member</param>
         /// <param name="memberTypes">The type of the member to look for. Only Field, Property and Method types are supported</param>
         /// <returns>The member info of the specified member type</returns>
+#if UNITY_EDITOR
         public static MemberInfo GetStaticMemberInfoFromPath(string memberPath, MemberTypes memberTypes)
         {
             MemberInfo memberInfo = null;
@@ -253,6 +266,7 @@ namespace BioluminescentGames.Utils.Runtime
 
             return memberInfo;
         }
+#endif
 
         private static string GetNamespaceString(string[] splitMemberPath)
         {
@@ -314,6 +328,7 @@ namespace BioluminescentGames.Utils.Runtime
         /// <param name="property">The serialized property</param>
         /// <param name="methodParameters">Optional parameter data to pass through if the member is a method</param>
         /// <returns>The value of the member</returns>
+#if UNITY_EDITOR
         public static object GetMemberInfoValue(MemberInfo memberInfo, SerializedProperty property, params object[] methodParameters)
         {
             Object targetObject = property.serializedObject.targetObject;
@@ -366,5 +381,6 @@ namespace BioluminescentGames.Utils.Runtime
 
             return null;
         }
+#endif
     }
 }
