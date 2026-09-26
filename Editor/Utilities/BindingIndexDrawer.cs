@@ -1,3 +1,5 @@
+using System.Reflection;
+using BioluminescentGames.Utils.Runtime;
 using BioluminescentGames.Utils.Utilities;
 using UnityEditor;
 using UnityEngine;
@@ -18,17 +20,15 @@ namespace BioluminescentGames.Utils.Editor.Utilities
         {
             BindingIndexAttribute attr = (BindingIndexAttribute)attribute;
 
-            /*SerializedProperty actionRefProp = property.serializedObject
-                .FindProperty(attr.ActionReferenceField);*/
-            SerializedProperty actionRefProp = FindActionRefProperty(property, attr.ActionReferenceField);
+            MemberInfo actionReferenceField = ReflectionUtils.GetValidMemberInfo(attr.ActionReferenceField, property);
 
-            if (actionRefProp == null || actionRefProp.objectReferenceValue == null)
+            var actionRef = ReflectionUtils.GetMemberInfoValue(actionReferenceField, property) as InputActionReference;
+            if (actionRef == null)
             {
                 EditorGUI.HelpBox(position, "Assign an Action Reference first", MessageType.Info);
                 return;
             }
 
-            InputActionReference actionRef = (InputActionReference)actionRefProp.objectReferenceValue;
             InputAction action = actionRef.action;
             ReadOnlyArray<InputBinding> bindings = action.bindings;
 
@@ -53,19 +53,6 @@ namespace BioluminescentGames.Utils.Editor.Utilities
                 .ToArray(); // Remove / to avoid making submenus
 
             property.intValue = EditorGUI.Popup(position, label.text, property.intValue, options);
-        }
-
-        private static SerializedProperty FindActionRefProperty(SerializedProperty property, string fieldName)
-        {
-            SerializedObject so = property.serializedObject;
-
-            // Plain field
-            SerializedProperty found = so.FindProperty(fieldName);
-            if (found != null) return found;
-
-            // Backing field for auto-properties
-            found = so.FindProperty($"<{fieldName}>k__BackingField");
-            return found;
         }
     }
 }
