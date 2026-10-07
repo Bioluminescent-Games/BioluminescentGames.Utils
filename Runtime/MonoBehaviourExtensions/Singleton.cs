@@ -479,6 +479,41 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
                 instance = this as TSelf;
         }
     }
+    
+    /// <summary>
+    /// Template for creating singletons for ScriptableObjects
+    /// </summary>
+    /// <typeparam name="TSelf">The type inheriting from ScriptableObject</typeparam>
+    [AutoStaticsCleanup]
+    public abstract partial class ScriptableObjectSingleton<TSelf> : ScriptableObject where TSelf : ScriptableObjectSingleton<TSelf>
+    {
+        protected static TSelf instance;
+
+        public static bool HasInstance => instance != null;
+        public static TSelf TryGetInstance() => HasInstance ? instance : null;
+        public static TSelf Current => instance;
+
+        public static TSelf Instance
+        {
+            get
+            {
+                if (instance)
+                    return instance;
+
+                TSelf[] assets = Resources.LoadAll<TSelf>("");
+                if (assets == null || assets.Length < 1)
+                {
+                    Log.Error($"FATAL ERROR - {typeof(TSelf).Name} DOESNT HAVE AN INSTANCE!");
+                    return null;
+                }
+                
+                if (assets.Length > 1)
+                    Log.Warning($"Warning: Multiple instances of {typeof(TSelf).Name} found, picking the first one ({assets[0].name}.");
+
+                return instance = assets[0];
+            }
+        }
+    }
 
     // ReSharper restore InconsistentNaming
     // ReSharper restore MemberCanBePrivate.Global
