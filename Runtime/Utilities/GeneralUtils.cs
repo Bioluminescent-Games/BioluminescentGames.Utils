@@ -6,6 +6,9 @@ using System.Text;
 using Unity.Netcode;
 #endif
 using Unity.Properties;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Utilities
@@ -37,6 +40,15 @@ namespace BioluminescentGames.Utils.Utilities
             using MD5 md5Hasher = MD5.Create();
             byte[] data = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(s));
             return BitConverter.ToUInt16(data, 0);
+        }
+
+        public static void QuitGame()
+        {
+#if UNITY_EDITOR
+            EditorApplication.ExitPlaymode();
+#else
+            Application.Quit();
+#endif
         }
     }
 
