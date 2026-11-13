@@ -41,7 +41,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         private Sequence _currentTween;
 
-        private bool _visibleState; // The state of the object excluding its animations
+        private bool _visibleState = true; // The state of the object excluding its animations
 
         /// <summary>
         /// Animate the UI showing/hiding.
@@ -247,7 +247,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         private Sequence _currentTween;
 
-        private bool _visibleState; // The state of the object excluding its animations
+        private bool _visibleState = true; // The state of the object excluding its animations
 
         /// <summary>
         /// Animate the UI showing/hiding.
