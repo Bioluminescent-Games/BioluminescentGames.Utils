@@ -41,6 +41,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         private Sequence _currentTween;
 
+        private bool _visibleState; // The state of the object excluding its animations
+
         /// <summary>
         /// Animate the UI showing/hiding.
         /// NOTE: This does NOT change the GameObject's active state!
@@ -69,8 +71,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// </summary>
         protected virtual void Show(bool animate)
         {
-            if (gameObject.activeSelf) return; // Bail out if already visible
-
+            if (_visibleState) return; // Bail out if already visible
+            _visibleState = true;
+            
 #if PRIMETWEEN
             _currentTween.Complete();
 #endif
@@ -119,8 +122,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// </summary>
         protected virtual void Hide(bool animate)
         {
-            if (!gameObject.activeSelf) return; // Bail out if already hidden
-
+            if (!_visibleState) return; // Bail out if already hidden
+            _visibleState = false;
+            
 #if PRIMETWEEN
             _currentTween.Complete();
 #endif
@@ -167,7 +171,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <summary>
         /// Is the UI Object visible?
         /// </summary>
-        protected virtual bool IsVisible() => gameObject.activeSelf;
+        protected virtual bool IsVisible() => _visibleState;
 
         /// <summary>
         /// Is the UI Object not visible?
@@ -243,6 +247,8 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
 
         private Sequence _currentTween;
 
+        private bool _visibleState; // The state of the object excluding its animations
+
         /// <summary>
         /// Animate the UI showing/hiding.
         /// NOTE: This does NOT change the GameObject's active state!
@@ -271,8 +277,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// </summary>
         protected virtual void Show(bool animate)
         {
-            if (gameObject.activeSelf) return; // Bail out if already visible
-
+            if (_visibleState) return; // Bail out if already visible
+            _visibleState = true;
+            
 #if PRIMETWEEN
             _currentTween.Complete();
 #endif
@@ -321,8 +328,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// </summary>
         protected virtual void Hide(bool animate)
         {
-            if (!gameObject.activeSelf) return; // Bail out if already hidden
-
+            if (!_visibleState) return; // Bail out if already hidden
+            _visibleState = false;
+            
 #if PRIMETWEEN
             _currentTween.Complete();
 #endif
@@ -369,7 +377,7 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         /// <summary>
         /// Is the UI Object visible?
         /// </summary>
-        protected virtual bool IsVisible() => gameObject.activeSelf;
+        protected virtual bool IsVisible() => _visibleState;
 
         /// <summary>
         /// Is the UI Object not visible?
