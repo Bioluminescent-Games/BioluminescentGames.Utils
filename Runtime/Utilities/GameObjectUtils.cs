@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace BioluminescentGames.Utils.Utilities
@@ -35,7 +34,7 @@ namespace BioluminescentGames.Utils.Utilities
         /// <returns>True if the GameObject has the component, false otherwise.</returns>
         public static bool HasComponent<T>(this Object obj) where T : Component
         {
-            return obj.GetComponent<T>();
+            return obj.GetComponent_BG<T>();
         }
 
         /// <summary>
@@ -47,20 +46,31 @@ namespace BioluminescentGames.Utils.Utilities
         public static T GetOrAddComponent<T>(this Object obj) where T : Component
         {
             if (obj.HasComponent<T>())
-                return obj.GetComponent<T>();
+                return obj.GetComponent_BG<T>();
 
             return obj.AddComponent<T>();
         }
 
-        /// <summary>
-        /// Adds a component to the GameObject.
-        /// </summary>
-        /// <typeparam name="T">The type of the component.</typeparam>
-        /// <param name="obj">The GameObject to add the component to.</param>
-        /// <returns>The component of type T.</returns>
-        public static T AddComponentCustom<T>(this Object obj) where T : Component
+        /// <inheritdoc cref="UnityEngine.GameObject.AddComponent{T}"/>
+        public static T AddComponent<T>(this Object obj) where T : Component
         {
-            return obj.AddComponent<T>();
+            return obj switch
+            {
+                GameObject gameObject => gameObject.AddComponent<T>(),
+                Component component => component.gameObject.AddComponent<T>(),
+                _ => throw new System.NotSupportedException()
+            };
+        }
+
+        /// <inheritdoc cref="UnityEngine.GameObject.GetComponent{T}"/>
+        public static T GetComponent_BG<T>(this Object obj) where T : Component
+        {
+            return obj switch
+            {
+                GameObject gameObject => gameObject.GetComponent<T>(),
+                Component component => component.gameObject.GetComponent<T>(),
+                _ => throw new System.NotSupportedException()
+            };
         }
 
         /// <summary>

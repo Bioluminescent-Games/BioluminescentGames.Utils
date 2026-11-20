@@ -100,7 +100,7 @@ namespace BioluminescentGames.Utils.Tests.Editor
         {
             GameObject obj = new();
 
-            Rigidbody result = obj.AddComponentCustom<Rigidbody>();
+            Rigidbody result = obj.AddComponent<Rigidbody>();
 
             Assert.IsNotNull(result, "AddComponentCustom should add a new component.");
             Assert.IsTrue(obj.HasComponent<Rigidbody>(), "GameObject should have the newly added component.");
