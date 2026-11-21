@@ -58,8 +58,8 @@ namespace BioluminescentGames.Utils.Utilities
     [GeneratePropertyBag]
     public struct Pair<T1, T2> : IEquatable<Pair<T1, T2>>
     {
-        public T1 A;
-        public T2 B;
+        public T1 A { get; set; }
+        public T2 B { get; set; }
 
         public Pair(T1 A, T2 B)
         {
@@ -98,9 +98,9 @@ namespace BioluminescentGames.Utils.Utilities
     [GeneratePropertyBag]
     public struct Tuple<T1, T2, T3> : IEquatable<Tuple<T1, T2, T3>>
     {
-        public T1 A;
-        public T2 B;
-        public T3 C;
+        public T1 A { get; set; }
+        public T2 B { get; set; }
+        public T3 C { get; set; }
 
         public Tuple(T1 A, T2 B, T3 C)
         {
