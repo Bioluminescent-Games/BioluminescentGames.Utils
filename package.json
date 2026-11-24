@@ -12,5 +12,5 @@
     "com.unity.entities": "1.4.3"
   },
   "category": "Scripting",
-  "license": "ARR"
+  "license": "Apache-2.0"
 }
