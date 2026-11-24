@@ -69,6 +69,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 
                 Hide();
             });
+
+            Hide(false);
         }
 
         private void Start()
