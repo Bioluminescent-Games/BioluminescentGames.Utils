@@ -6,8 +6,8 @@ using ZLinq;
 using System.Linq;
 #endif
 #if BG_ENABLE_LOCALIZATION
-using UnityEngine.Localization;
-using UnityEngine.Localization.Components;
+using Unity.Localization;
+using Unity.Localization.Components;
 #endif
 
 namespace BioluminescentGames.Utils.Systems.Settings.UI.Metadata
@@ -19,14 +19,15 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI.Metadata
 
         public void SetItems(LocalizedString[] items)
         {
-            DropdownItems.ListReference = new LocalizedStringGroup
-            {
-                Strings = items
+            var group = new LocalizedStringGroup();
+            
+            items
 #if ZLINQ
-                    .AsValueEnumerable()
+                .AsValueEnumerable()
 #endif
-                    .ToList(),
-            };
+                .CopyTo(group.Strings);
+
+            DropdownItems.ListReference = group;
             
             DropdownItems.RefreshList();
         }

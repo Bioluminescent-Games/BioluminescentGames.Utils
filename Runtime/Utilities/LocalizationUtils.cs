@@ -1,8 +1,7 @@
 #if BG_ENABLE_LOCALIZATION
 using BioluminescentGames.Utils.StaticUtilities;
-using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Components;
+using Unity.Localization;
+using Unity.Localization.Components;
 
 namespace BioluminescentGames.Utils.Runtime
 {
@@ -37,9 +36,8 @@ namespace BioluminescentGames.Utils.Runtime
         
         public static LocalizedString Duplicate(this LocalizedString localizedString)
         {
-            LocalizedString duplicated = new(localizedString.TableReference, localizedString.TableEntryReference);
-            foreach (string variableName in localizedString.Keys)
-                duplicated.Add(variableName, localizedString[variableName]);
+            var duplicated = new LocalizedString();
+            duplicated.SetReference(localizedString.TableReference, localizedString.TableEntryReference);
             return duplicated;
         }
     }

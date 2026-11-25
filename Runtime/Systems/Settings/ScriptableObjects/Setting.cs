@@ -1,10 +1,9 @@
 #region
 
-using System.Collections.Generic;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 #if BG_ENABLE_LOCALIZATION
-using UnityEngine.Localization;
+using Unity.Localization;
 #endif
 
 #endregion

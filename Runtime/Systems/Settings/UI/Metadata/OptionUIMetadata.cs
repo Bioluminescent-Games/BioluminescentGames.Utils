@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 #if BG_ENABLE_LOCALIZATION
-using UnityEngine.Localization.Components;
+using Unity.Localization.Components;
 #else
 using TMPro;
 #endif

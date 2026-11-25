@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 #if BG_ENABLE_LOCALIZATION
-using UnityEngine.Localization.Components;
+using Unity.Localization.Components;
 #endif
 using UnityEngine.UI;
 #if ZLINQ
@@ -90,7 +90,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
                 {
                     LocalizeStringEvent stringEvent = categoryButton.GetComponentInChildren<LocalizeStringEvent>();
                     stringEvent.StringReference = category.LocalizedDisplayName;
-                    stringEvent.RefreshString();
+                    stringEvent.StringReference.RefreshString();
                 }
                 else
 #endif
@@ -143,7 +143,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.UI
             
 #if BG_ENABLE_LOCALIZATION
             option.Title.StringReference = setting.NameInMenu;
-            option.Title.RefreshString();
+            option.Title.StringReference.RefreshString();
 #else
             option.Title.text = setting.NameInMenu;
 #endif

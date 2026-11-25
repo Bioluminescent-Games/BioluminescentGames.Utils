@@ -1,6 +1,6 @@
 using BioluminescentGames.Utils.Systems.Settings.ScriptableObjects;
 #if BG_ENABLE_LOCALIZATION
-using UnityEngine.Localization;
+using Unity.Localization;
 #endif
 
 namespace BioluminescentGames.Utils.Systems.Settings

@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 #if EDITOR_ATTRIBUTES
 using EditorAttributes;
 #endif
-using UnityEngine.Localization;
+using Unity.Localization;
 #endif
 
 #if UNITASK

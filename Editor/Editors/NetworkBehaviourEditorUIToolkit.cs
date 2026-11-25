@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Unity.Netcode;
-using Unity.Netcode.Editor;
+
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -32,7 +32,7 @@ namespace BioluminescentGames.Utils.Editor.Editors
             if (target == null)
                 return;
 
-            NetworkBehaviourEditor.CheckForNetworkObject((target as NetworkBehaviour).gameObject);
+            Unity.Netcode.GameObjects.Editor.NetworkBehaviourEditor.CheckForNetworkObject((target as NetworkBehaviour).gameObject);
         }
 
         private void Init(MonoScript script)

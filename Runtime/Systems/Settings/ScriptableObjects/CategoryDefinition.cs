@@ -3,7 +3,7 @@
 using System;
 using UnityEngine;
 #if BG_ENABLE_LOCALIZATION
-using UnityEngine.Localization;
+using Unity.Localization;
 #endif
 #if EDITOR_ATTRIBUTES
 using EditorAttributes;
