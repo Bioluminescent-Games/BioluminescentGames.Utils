@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 #if BG_ENABLE_LOCALIZATION
-#if EDITOR_ATTRIBUTES
-using EditorAttributes;
+#if ALCHEMY_INSPECTOR
+using Alchemy.Inspector;
 #endif
 using Unity.Localization;
 #endif
@@ -25,23 +25,23 @@ namespace BioluminescentGames.Utils.Systems.UI
 #endif
         
 #if BG_ENABLE_LOCALIZATION && EDITOR_ATTRIBUTES
-        [DisableField(nameof(useLocalization))]
+        [DisableIf(nameof(useLocalization))]
 #endif
         [SerializeField] private string title;
         
 #if BG_ENABLE_LOCALIZATION && EDITOR_ATTRIBUTES
-        [DisableField(nameof(useLocalization))]
+        [DisableIf(nameof(useLocalization))]
 #endif
         [SerializeField] private string description;
 
 #if BG_ENABLE_LOCALIZATION
-#if EDITOR_ATTRIBUTES
-        [EnableField(nameof(useLocalization))]
+#if ALCHEMY_INSPECTOR
+        [EnableIf(nameof(useLocalization))]
 #endif
         [SerializeField] private LocalizedString localizedTitle;
         
-#if EDITOR_ATTRIBUTES
-        [EnableField(nameof(useLocalization))]
+#if ALCHEMY_INSPECTOR
+        [EnableIf(nameof(useLocalization))]
 #endif
         [SerializeField] private LocalizedString localizedDescription;
 #endif

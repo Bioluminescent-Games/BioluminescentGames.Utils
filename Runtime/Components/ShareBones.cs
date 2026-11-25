@@ -1,5 +1,5 @@
-#if EDITOR_ATTRIBUTES
-using EditorAttributes;
+#if ALCHEMY_INSPECTOR
+using Alchemy.Inspector;
 #endif
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using UnityEngine;
@@ -9,12 +9,12 @@ namespace BioluminescentGames.Utils.Runtime
     [DisallowMultipleComponent]
     public class ShareBones : BioluminescentBehaviour
     {
-        #if EDITOR_ATTRIBUTES
+        #if ALCHEMY_INSPECTOR
         [Required]
         #endif
         [SerializeField] private SkinnedMeshRenderer master;
         
-        #if EDITOR_ATTRIBUTES
+        #if ALCHEMY_INSPECTOR
         [HelpBox("If Slave is null, it will automatically try to grab one from this GameObject")]
         #endif
         [Tooltip("If this is null, it will automatically try to grab one from this GameObject")]

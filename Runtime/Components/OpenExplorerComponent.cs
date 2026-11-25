@@ -4,10 +4,10 @@ using System.IO;
 using BioluminescentGames.Utils.StaticUtilities;
 using BioluminescentGames.Utils.Utilities;
 using UnityEngine;
-#if EDITOR_ATTRIBUTES
-using EditorAttributes;
+#if ALCHEMY_INSPECTOR
+using Alchemy.Inspector;
 #endif
-using Debug = UnityEngine.Debug;
+using Void = BioluminescentGames.Utils.Runtime.StaticUtilities.Void;
 
 namespace BioluminescentGames.Utils.Components
 {
@@ -27,9 +27,9 @@ namespace BioluminescentGames.Utils.Components
             Folder
         }
 
-#if EDITOR_ATTRIBUTES
+#if ALCHEMY_INSPECTOR
         [HelpBox("Supplies 2 UnityEvent compatible functions. You can also use ScriptableEvents")]
-        [SerializeField] private EditorAttributes.Void helpBoxVoid;
+        [SerializeField] private Void helpBoxVoid;
 #endif
         [SerializeField] private ScriptableEvent scriptableEvent;
         [SerializeField] private ScriptableEvent<string> scriptableEventWithPath;
@@ -40,11 +40,15 @@ namespace BioluminescentGames.Utils.Components
 
         [Space(2)]
         
-#if EDITOR_ATTRIBUTES
-        [ShowField(nameof(pathPreset), Path.CustomWithPlaceholders)]
+#if ALCHEMY_INSPECTOR
+        
+        [ShowIf(nameof(ShowPlaceholderStuff))]
         [HelpBox("Valid Placeholders:\n[InstallLocation] = Install Location\n[DP] = DataPath\n[PDP] = PersistentDataPath\n[SA] = StreamingAssets")]
-        [SerializeField] private EditorAttributes.Void placeholdersVoid;
-        [ShowField(nameof(pathPreset), Path.CustomWithPlaceholders)]
+        [SerializeField] private Void placeholdersVoid;
+        
+        private bool ShowPlaceholderStuff => pathPreset == Path.CustomWithPlaceholders;
+        
+        [ShowIf(nameof(ShowPlaceholderStuff))]
 #endif
         [SerializeField] private string pathToOpen = "";
 

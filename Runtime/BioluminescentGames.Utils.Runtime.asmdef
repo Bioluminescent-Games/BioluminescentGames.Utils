@@ -6,7 +6,6 @@
         "GUID:1491147abca9d7d4bb7105af628b223e",
         "GUID:80ecb87cae9c44d19824e70ea7229748",
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:febaf25a60dafbd44941357b21678606",
         "GUID:734d92eba21c94caba915361bd5ac177",
         "GUID:21b0c8d1703a94250bfac916590cea4f",
         "GUID:e0cd26848372d4e5c891c569017e11f1",
@@ -16,7 +15,8 @@
         "GUID:0c752da273b17c547ae705acf0f2adf2",
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:15fc0a57446b3144c949da3e2b9737a9",
-        "GUID:593a5b492d29ac6448b1ebf7f035ef33"
+        "GUID:593a5b492d29ac6448b1ebf7f035ef33",
+        "GUID:88be65f96b86746888c927a5c8ff3534"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -55,6 +55,11 @@
             "name": "com.unity.render-pipelines.universal",
             "expression": "17.5",
             "define": "URP"
+        },
+        {
+            "name": "com.annulusgames.alchemy",
+            "expression": "2.1.1",
+            "define": "ALCHEMY_INSPECTOR"
         }
     ],
     "noEngineReferences": false

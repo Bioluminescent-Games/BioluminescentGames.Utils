@@ -1,7 +1,8 @@
 using BioluminescentGames.Utils.Core;
 using BioluminescentGames.Utils.Utilities;
-#if EDITOR_ATTRIBUTES
-using EditorAttributes;
+#if ALCHEMY_INSPECTOR
+using Alchemy.Inspector;
+using BioluminescentGames.Utils.Runtime.StaticUtilities;
 #endif
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,7 +15,7 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
     {
         private const string k_PlayerPrefsPrefix = "keybind_guid_";
 
-        #if EDITOR_ATTRIBUTES
+        #if ALCHEMY_INSPECTOR
         [HelpBox("Do not edit the \"Default Value\" field. It is useless for KeybindSettings.")]
         private Void _;
         #endif

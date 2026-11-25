@@ -5,8 +5,9 @@ using System.Reflection;
 using BioluminescentGames.Utils.Core;
 using BioluminescentGames.Utils.MonoBehaviourExtensions;
 using BioluminescentGames.Utils.StaticUtilities;
-#if EDITOR_ATTRIBUTES
-using EditorAttributes;
+#if ALCHEMY_INSPECTOR
+using UnityEngine.UIElements;
+using Alchemy.Inspector;
 #endif
 using UnityEngine;
 using BioluminescentGames.Utils.Utilities;
@@ -18,6 +19,7 @@ using ZLinq;
 using System.Linq;
 #endif
 using Random = UnityEngine.Random;
+using Void = BioluminescentGames.Utils.Runtime.StaticUtilities.Void;
 
 namespace BioluminescentGames.Utils.Runtime
 {
@@ -40,7 +42,7 @@ namespace BioluminescentGames.Utils.Runtime
         }
         
         [Header("Light budget")]
-#if EDITOR_ATTRIBUTES
+#if ALCHEMY_INSPECTOR
         private bool ShouldShowWarning {
             get
             {
@@ -53,7 +55,10 @@ namespace BioluminescentGames.Utils.Runtime
                 return maxEnabledLights < amountOfShadowLights;
             }
         }
-        [MessageBox("There are fewer max enabled lights than the total amount of lights with shadows", nameof(ShouldShowWarning), MessageMode.Warning)]
+
+        [ShowIf(nameof(ShouldShowWarning))]
+        [HelpBox("There are fewer max enabled lights than the total amount of lights with shadows", HelpBoxMessageType.Warning)]
+        [SerializeField] private Void warning;
 #endif
         [SerializeField] private int maxEnabledLights = 64;
         [SerializeField] private ShadowTier[] shadowTiers = Array.Empty<ShadowTier>();
@@ -70,7 +75,7 @@ namespace BioluminescentGames.Utils.Runtime
         [SerializeField] private float lightWithinViewFrustumBonus = 10.0f;
         
 #if UNITY_EDITOR
-#if EDITOR_ATTRIBUTES
+#if ALCHEMY_INSPECTOR
         private bool ShowMessageBox => !Application.isPlaying && drawGizmos;
         [HelpBox("Gizmos legend:\n" +
                  "<color=black>Black</color> - disabled.\n" +
@@ -79,7 +84,10 @@ namespace BioluminescentGames.Utils.Runtime
                  "<color=orange>Orange</color> - low shadow resolution.\n" +
                  "<color=yellow>Yellow</color> - medium shadow resolution.\n" +
                  "<color=green>Green</color> - high shadow resolution.")]
-        [MessageBox("Gizmos only work during PlayMode.", nameof(ShowMessageBox), MessageMode.Warning)]
+        [SerializeField] private Void gizmosLegend;
+        [HelpBox("Gizmos only work during PlayMode.", HelpBoxMessageType.Warning)]
+        [ShowIf(nameof(ShowMessageBox))]
+        [SerializeField] private Void gizmosWarning;
 #endif
         [SerializeField] private bool drawGizmos = true;
 #endif

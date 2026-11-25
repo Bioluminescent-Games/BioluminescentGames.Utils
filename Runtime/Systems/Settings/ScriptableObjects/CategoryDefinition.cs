@@ -5,8 +5,8 @@ using UnityEngine;
 #if BG_ENABLE_LOCALIZATION
 using Unity.Localization;
 #endif
-#if EDITOR_ATTRIBUTES
-using EditorAttributes;
+#if ALCHEMY_INSPECTOR
+using Alchemy.Inspector;
 #endif
 
 #endregion
@@ -19,13 +19,13 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
 #if BG_ENABLE_LOCALIZATION
         [field: SerializeField] public bool LocalizeDisplayName { get; private set; } = true;
         
-#if EDITOR_ATTRIBUTES
-        [field: EnableField(nameof(LocalizeDisplayName))]
+#if ALCHEMY_INSPECTOR
+        [field: EnableIf(nameof(LocalizeDisplayName))]
 #endif
         [field: SerializeField] public LocalizedString LocalizedDisplayName { get; private set; }
         
-#if EDITOR_ATTRIBUTES
-        [field: DisableField(nameof(LocalizeDisplayName))]
+#if ALCHEMY_INSPECTOR
+        [field: DisableIf(nameof(LocalizeDisplayName))]
 #endif
 #endif
         [field: SerializeField] public string DisplayName { get; private set; }

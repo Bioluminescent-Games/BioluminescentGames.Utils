@@ -1,6 +1,4 @@
-﻿#if EDITOR_ATTRIBUTES
-using EditorAttributes;
-#endif
+﻿using BioluminescentGames.Utils.Runtime.StaticUtilities;
 
 #if PRIMETWEEN
 using PrimeTween;
@@ -33,11 +31,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine, useUnscaledTime: true);
         [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine, useUnscaledTime: true);
 
-#if EDITOR_ATTRIBUTES
         [Space(4)]
         [Header("Custom Fields")]
         [SerializeField] private Void _;
-#endif
 
         private Sequence _currentTween;
 
@@ -239,11 +235,9 @@ namespace BioluminescentGames.Utils.MonoBehaviourExtensions
         [SerializeField] protected TweenSettings<float> scaleInTweenSettings = new(0.0f, 1.0f, k_DefaultDuration, Ease.InSine, useUnscaledTime: true);
         [SerializeField] protected TweenSettings<float> scaleOutTweenSettings = new(1.0f, 0.0f, k_DefaultDuration, Ease.OutSine, useUnscaledTime: true);
 
-#if EDITOR_ATTRIBUTES
         [Space(4)]
         [Header("Custom Fields")]
         [SerializeField] private Void _;
-#endif
 
         private Sequence _currentTween;
 

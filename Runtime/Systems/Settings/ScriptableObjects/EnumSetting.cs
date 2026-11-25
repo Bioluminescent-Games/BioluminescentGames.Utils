@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using BioluminescentGames.Utils.StaticUtilities;
 using BioluminescentGames.Utils.Utilities;
-#if EDITOR_ATTRIBUTES
-using EditorAttributes;
+#if ALCHEMY_INSPECTOR
+using Alchemy.Inspector;
 #endif
 using UnityEngine;
 #if BG_ENABLE_LOCALIZATION
@@ -18,8 +18,8 @@ namespace BioluminescentGames.Utils.Systems.Settings.ScriptableObjects
         public enum DisplayStyle { Dropdown, Horizontal }
         
         [SerializeField, Tooltip("Will you use scripts to populate the options?")] private bool populateOptionsAtRuntime;
-#if EDITOR_ATTRIBUTES
-        [HideField(nameof(populateOptionsAtRuntime))]
+#if ALCHEMY_INSPECTOR
+        [HideIf(nameof(populateOptionsAtRuntime))]
 #endif
         [SerializeField] private EnumSettingOption[] options;
         [field: SerializeField] public DisplayStyle Style { get; private set; }
